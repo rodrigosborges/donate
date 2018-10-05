@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Bairro extends Model
 {
+    protected $table = 'bairros';
     /**
      * Indicates if the IDs are auto-incrementing.
      * 
