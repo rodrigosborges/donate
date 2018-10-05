@@ -29,3 +29,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/categorias/grid', 'CategoriasController@grid');
 Route::resource('/categorias', 'CategoriasController');
+Route::get('/doacoes/grid', 'DoacoesController@grid');
+Route::resource('/doacoes', 'DoacoesController');

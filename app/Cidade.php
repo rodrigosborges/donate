@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Cidade extends Model
 {
+    protected $table = 'cidades';
     /**
      * Indicates if the IDs are auto-incrementing.
      * 

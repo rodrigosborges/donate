@@ -24,6 +24,13 @@ use Illuminate\Database\Eloquent\Model;
 class Doacao extends Model
 {
     /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    protected $table = 'doacoes';
+
+    /**
      * @var array
      */
     protected $fillable = ['usuario_id', 'bairro_id', 'categoria_id', 'titulo', 'descricao', 'aprovado', 'doado', 'created_at', 'updated_at', 'deleted_at'];
@@ -59,4 +66,6 @@ class Doacao extends Model
     {
         return $this->hasMany('App\Imagen', 'doacao_id');
     }
+}    protected $table = 'doacoes';
+
 }
