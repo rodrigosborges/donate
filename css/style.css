@@ -27,7 +27,7 @@ footer{
 
 body {
     /*transition: background-color .5s;*/
-    transition: margin-left .5s;
+    /*transition: margin-left .5s;*/
     /*padding: 16px;*/
 }
 
@@ -58,22 +58,26 @@ body:before {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 1;
+    z-index: 9999;
     top: 0;
     right: 0;
     background-color: #111;
     overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
+    transition: 0.3s;
 }
 
 .sidenav a {
-    padding: 8px 8px 8px 32px;
+    padding: 5%;
     text-decoration: none;
-    font-size: 25px;
-    color: #818181;
+    font-size: 16px;
+    color: cyan;
     display: block;
     transition: 0.3s;
+}
+
+.sidenav .btn {
+    width: 50%;
+    margin-top: 5%; 
 }
 
 .sidenav a:hover {
@@ -81,11 +85,11 @@ body:before {
 }
 
 .sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+    /*position: absolute;
+    top: 0;*/
+    /*right: 25px;*/
+    font-size: 30px;
+    /*margin-left: 50px;*/
 }
 
 @media screen and (max-height: 450px) {
@@ -150,6 +154,10 @@ body:before {
 .link-limpo:visited{
 	color: white;
 	text-decoration: none;
+}
+
+#wrapper{
+	transition: margin-right .3s;
 }
 
 #mainNav {

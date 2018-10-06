@@ -3,19 +3,17 @@ $("#ano").html(data.getYear() + 1900);
 
 //menu lateral
 function openNav() {
-    $(".closebtn").fadeIn("fast");
+    $("#mySidenav").css({'width':'30%', 'padding':'1.5 3%'});
+    $("#wrapper").css('margin-right','30%');
+    $("#mainNav").css('padding-right', '30%');
 
-    $("#mySidenav").css({'width':'35%', 'padding':'5%'});
-    //$("body").css('overflow', 'hidden');
 }
 
 function closeNav() {
-    $(".closebtn").hide();
-
+    //$(".closebtn").hide();
     $("#mySidenav").css({'width':'0', 'padding':'0'});
-
-    //$("body").css('overflow', 'initial');
-
+    $("#wrapper").css('margin-right','0');
+    $("#mainNav").css('padding-right', '0');
 }
 
 //quando um link da sidenav é clicado
@@ -32,47 +30,47 @@ $(window).on('resize', function(){
       }
 });
 
-$(window).scroll(function() {
+// $(window).scroll(function() {
 
-    //Realiza as operações abaixo quando a rolagem passa do slider
-    if($(this).scrollTop() > 200){
+//     //Realiza as operações abaixo quando a rolagem passa do slider
+//     if($(this).scrollTop() > 200){
 
-       $('#subirTopo').fadeIn("fast");
+//        $('#subirTopo').fadeIn("fast");
 
-    }else{
+//     }else{
 
-       $('#subirTopo').fadeOut("fast");
+//        $('#subirTopo').fadeOut("fast");
 
-    }
-});
+//     }
+// });
 
-// Basice Code keep it 
-    $(document).ready(function () {
-    //     $(document).on("scroll", onScroll);
+// // Basice Code keep it 
+//     $(document).ready(function () {
+//     //     $(document).on("scroll", onScroll);
 
-       // smoothscroll
-        $('nav ul li a[href^="#"], #subirTopo, #logo-link').on('click', function (e) {
-            e.preventDefault();
-            $(document).off("scroll");
+//        // smoothscroll
+//         $('nav ul li a[href^="#"], #subirTopo, #logo-link').on('click', function (e) {
+//             e.preventDefault();
+//             $(document).off("scroll");
 
-            $('nav a').each(function () {
-                $(this).removeClass('active-custom');
-            })
-            if(this.hash != "#page-top"){
-                $(this).addClass('active-custom');
-            }
+//             $('nav a').each(function () {
+//                 $(this).removeClass('active-custom');
+//             })
+//             if(this.hash != "#page-top"){
+//                 $(this).addClass('active-custom');
+//             }
 
-            var target = this.hash,
-            menu = target;
-            $target = $(target);
-            $('html, body').stop().animate({
-                'scrollTop': $target.offset().top+2
-            }, 500, 'swing', function () {
-                window.location.hash = target;
-                //$(document).on("scroll", onScroll);
-            });
-        });
-    });
+//             var target = this.hash,
+//             menu = target;
+//             $target = $(target);
+//             $('html, body').stop().animate({
+//                 'scrollTop': $target.offset().top
+//             }, 500, 'swing', function () {
+//                 window.location.hash = target;
+//                 //$(document).on("scroll", onScroll);
+//             });
+//         });
+//     });
 
 // Use Your Class or ID For Selection 
 
