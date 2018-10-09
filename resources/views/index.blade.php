@@ -16,43 +16,45 @@
 		<body id="page-top">
 			<!-- MENU LATERAL RESPONSIVO -->
 	        <div id="mySidenav" class="sidenav text-center">
-				<a class="fonte-branca link-limpo closebtn" href="javascript:void(0)" onclick="closeNav()">&times;</a>
-				<hr class="linha-branca">
-				<br>
-	        	<form id="form-login" method="POST" action="{{ route('login') }}">
-	        	@csrf
-	        	{{Auth::user()}}
-				  <div class="form-group text-center">
-				    <label for="formGroupExampleInput" class="fonte-branca">{{ __('E-Mail') }}</label>
-				    <input type="text" class="form-control" name="email" id="formGroupExampleInput" placeholder="Informe o seu e-mail">
-				    @if ($errors->has('email'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
-				  </div>
-				  <div class="form-group text-center">
-				    <label for="formGroupExampleInput2" class="fonte-branca">{{ __('Senha') }}</label>
-				    <input type="password" class="form-control" name="password" id="formGroupExampleInput2" placeholder="Informe a sua senha">
-				    @if ($errors->has('password'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                    @endif
-				  </div>
-				  <div class="form-group row text-center">
-                        <div class="form-check text-center">
-                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label class="form-check-label fonte-branca" for="remember">
-                                {{ __('Lembrar') }}
-                            </label>
-                        </div>
-                   </div>
-				  <div class="form-group text-center">
-				    <input type="submit" class="form-control btn btn-success" value="Entrar">
-				    <a href="{{ route('password.request') }}"> {{ __('Esqueci minha senha') }}</a>
-				  </div>
-				</form>
+	        	<div id="sidenav-content" class="escondido">
+					<a class="fonte-branca link-limpo closebtn" href="javascript:void(0)" onclick="closeNav()">&times;</a>
+					<hr class="linha-branca">
+					<br>
+		        	<form id="form-login" method="POST" action="{{ route('login') }}">
+		        	@csrf
+		        	{{Auth::user()}}
+					  <div class="form-group text-center">
+					    <label for="formGroupExampleInput" class="fonte-branca">{{ __('E-Mail') }}</label>
+					    <input type="text" class="form-control form-control-sm" name="email" id="formGroupExampleInput" placeholder="Informe o seu e-mail">
+					    @if ($errors->has('email'))
+	                        <span class="invalid-feedback" role="alert">
+	                            <strong>{{ $errors->first('email') }}</strong>
+	                        </span>
+	                    @endif
+					  </div>
+					  <div class="form-group text-center">
+					    <label for="formGroupExampleInput2" class="fonte-branca">{{ __('Senha') }}</label>
+					    <input type="password" class="form-control form-control-sm" name="password" id="formGroupExampleInput2" placeholder="Informe a sua senha">
+					    @if ($errors->has('password'))
+	                        <span class="invalid-feedback" role="alert">
+	                            <strong>{{ $errors->first('password') }}</strong>
+	                        </span>
+	                    @endif
+					  </div>
+					  <div class="form-group text-center">
+	                        <div class="form-check text-center">
+	                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+	                            <label class="form-check-label fonte-branca" for="remember">
+	                                {{ __('Lembrar-me') }}
+	                            </label>
+	                        </div>
+	                   </div>
+					  <div class="form-group text-center">
+					    <input type="submit" class="form-control btn btn-success" value="Entrar">
+					    <a href="{{ route('password.request') }}"> {{ __('Esqueci minha senha') }}</a>
+					  </div>
+					</form>
+				</div>
 			</div>
 			<!-- ######################## -->
 			<div id="wrapper">
@@ -151,11 +153,12 @@
 							</div> -->
 				  		</div>
 					</div>
+					<hr class="linha-branca">
 			    </section>
 			    <!-- ######################### -->
 
 			    <!-- #### SOBRE #### -->
-			    <section id="galeria">
+			   <!--  <section id="galeria">
 			    	<hr class="linha-branca">
 	                <div class="row margem-padding-0">
 	                    <a href="img/galeria/01.jpg?image=01" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4 margem-padding-0"  data-max-width="900">
@@ -167,7 +170,7 @@
 	                    <a href="img/galeria/03.jpg?image=03" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4 margem-padding-0" data-max-width="900">
 	                        <img src="img/galeria/03.jpg?image=03" class="img-fluid">
 	                    </a>
-	                </div>
+	                </div> -->
 	                <!-- <div class="row margem-padding-0">
 	                    <a href="img/galeria/04.jpg?image=01" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4 margem-padding-0" data-max-width="900">
 	                        <img src="img/galeria/04.jpg?image=04" class="img-fluid">
@@ -179,7 +182,7 @@
 	                        <img src="img/galeria/06.jpg?image=06" class="img-fluid">
 	                    </a>
 	                </div>   --> 
-			    </section>
+			    <!-- </section> -->
 
 			      	
 			    <!-- ######################### -->

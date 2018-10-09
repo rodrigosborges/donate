@@ -67,7 +67,7 @@ body:before {
 }
 
 .sidenav a {
-    padding: 5%;
+    padding: 5% 0;
     text-decoration: none;
     font-size: 16px;
     color: cyan;
@@ -157,7 +157,7 @@ body:before {
 }
 
 #wrapper{
-	transition: margin-right .3s;
+	transition: margin-right 0.3s;
 }
 
 #mainNav {
@@ -233,9 +233,11 @@ body:before {
 }
 
 #botao-menu-mobile{
-	width: 15%;
+	width: 10%;
     -webkit-transition: all 0.2s ease;
 	transition: all 0.2s ease;
+	position: absolute;
+	right: 4%;
 }
 
 #galeria{
