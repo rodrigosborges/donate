@@ -8,7 +8,7 @@
 
     	<!-- <link rel="shortcut icon" href="#" /> -->
 
-		<link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
+		<link rel="stylesheet" type="text/css" href="{{asset('css/style_index.css')}}">
     	<link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
 
     	<link rel="stylesheet" type="text/css" href="{{asset('css/ekko-lightbox.css')}}">
@@ -22,7 +22,6 @@
 					<br>
 		        	<form id="form-login" method="POST" action="{{ route('login') }}">
 		        	@csrf
-		        	{{Auth::user()}}
 					  <div class="form-group text-center">
 					    <label for="formGroupExampleInput" class="fonte-branca">{{ __('E-Mail') }}</label>
 					    <input type="text" class="form-control form-control-sm" name="email" id="formGroupExampleInput" placeholder="Informe o seu e-mail">

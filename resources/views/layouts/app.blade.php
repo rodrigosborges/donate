@@ -19,6 +19,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
     <div id="app">
@@ -51,6 +53,14 @@
                                 @endif
                             </li>
                         @else
+                            <li class="nav-item espacamento-icon">
+                                <i class="fas fa-envelope"></i>
+                            </li>
+                            <span class="nav-item">|</span>
+                            <li class="nav-item espacamento-icon">
+                                <i class="fas fa-bell"></i>
+                            </li>
+                            
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->nome }} <span class="caret"></span>
@@ -67,6 +77,12 @@
                                         @csrf
                                     </form>
                                 </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-primary text-white" href="#">Doar</a>
+                            </li>
+                             <li class="nav-item">
+                                <a class="nav-link btn btn-success text-white" href="#">Meus Anúncios</a>
                             </li>
                         @endguest
                     </ul>
