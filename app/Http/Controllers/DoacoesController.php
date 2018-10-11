@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-
+use App\Categoria;
+use App\Bairro;
 use App\Doacao;
+use App\Imagem;
 
 use DB;
 
@@ -25,11 +28,12 @@ class DoacoesController extends Controller
 	    return view('doacoes.index', []);
 	}
 
-	public function create(Request $request)
-	{
-	    return view('doacoes.add', [
-	        []
-	    ]);
+	public function create(Request $request){
+
+		$bairros = Bairro::all();
+		$categorias = Categoria::all();
+
+	    return view('doacoes.create', compact("bairros", "categorias"));
 	}
 
 	public function edit(Request $request, $id)
@@ -85,6 +89,22 @@ class DoacoesController extends Controller
 
 		echo json_encode($ret);
 
+	}
+
+	public function insert(Request $request){
+
+		$doacao = new Doacao();
+
+		$upload = $request->imagem->store('img/anuncios');
+
+		$request['usuario_id'] = Auth::user()->id;
+
+		$doacao = $doacao->create($request->all());
+
+		$doacaoImagem['nome'] = explode('/', $upload)[2];
+		$doacaoImagem['doacao_id'] = $doacao->id;
+
+		$doacao->imagens()->create($doacaoImagem);
 	}
 
 

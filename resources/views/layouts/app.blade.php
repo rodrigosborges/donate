@@ -79,7 +79,7 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-primary text-white" href="#">Doar</a>
+                                <a class="nav-link btn btn-primary text-white" href="{{url('/doacoes/create')}}">Doar</a>
                             </li>
                              <li class="nav-item">
                                 <a class="nav-link btn btn-success text-white" href="#">Meus Anúncios</a>

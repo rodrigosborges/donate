@@ -21,8 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Usuario $usuario
  * @property Imagen[] $imagens
  */
-class Doacao extends Model
-{
+class Doacao extends Model{
     /**
      * The table associated with the model.
      * 
@@ -64,8 +63,6 @@ class Doacao extends Model
      */
     public function imagens()
     {
-        return $this->hasMany('App\Imagen', 'doacao_id');
+        return $this->hasMany('App\Imagem', 'doacao_id');
     }
-}    protected $table = 'doacoes';
-
-}
+}   

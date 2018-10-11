@@ -15,9 +15,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/doacoes/insert', 'DoacoesController@insert');
 
 Auth::routes();
 
@@ -27,7 +25,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/categorias/grid', 'CategoriasController@grid');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+// Route::get('/categorias/grid', 'CategoriasController@grid');
 Route::resource('/categorias', 'CategoriasController');
-Route::get('/doacoes/grid', 'DoacoesController@grid');
+// Route::get('/doacoes/grid', 'DoacoesController@grid');
 Route::resource('/doacoes', 'DoacoesController');

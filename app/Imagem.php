@@ -23,6 +23,7 @@ class Imagem extends Model
      * @var array
      */
     protected $fillable = ['doacao_id', 'nome'];
+    public $timestamps = false;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
