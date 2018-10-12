@@ -32,7 +32,7 @@ class Doacao extends Model{
     /**
      * @var array
      */
-    protected $fillable = ['usuario_id', 'bairro_id', 'categoria_id', 'titulo', 'descricao', 'aprovado', 'doado', 'created_at', 'updated_at', 'deleted_at'];
+    protected $fillable = ['id', 'usuario_id', 'bairro_id', 'categoria_id', 'titulo', 'descricao', 'aprovado', 'doado', 'created_at', 'updated_at', 'deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -61,8 +61,8 @@ class Doacao extends Model{
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function imagens()
+    public function getImagens($id)
     {
-        return $this->hasMany('App\Imagem', 'doacao_id');
+        return glob(base_path()."/storage/app/img/anuncios/anuncio_$id/*");
     }
 }   

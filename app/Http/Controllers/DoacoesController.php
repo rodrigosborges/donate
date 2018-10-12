@@ -36,6 +36,17 @@ class DoacoesController extends Controller
 	    return view('doacoes.create', compact("bairros", "categorias"));
 	}
 
+	public function meusAnuncios(Request $request){
+
+		$anuncios = Doacao::where('usuario_id', Auth::user()->id)->get();
+
+		//return $anuncios[0]->getImagens($anuncios[0]->id)[0];
+
+	    return view('doacoes.meus-anuncios', compact('anuncios'));
+	}
+
+
+
 	public function edit(Request $request, $id)
 	{
 		$doacao = Doacao::findOrFail($id);
@@ -95,16 +106,17 @@ class DoacoesController extends Controller
 
 		$doacao = new Doacao();
 
-		$upload = $request->imagem->store('img/anuncios');
-
 		$request['usuario_id'] = Auth::user()->id;
 
 		$doacao = $doacao->create($request->all());
 
-		$doacaoImagem['nome'] = explode('/', $upload)[2];
-		$doacaoImagem['doacao_id'] = $doacao->id;
+		foreach ($request->imagem as $key => $imagem) {
+			$upload = $imagem->storeAs("img/anuncios/anuncio_$doacao->id", "DonateImage_$key.png");
+		}
 
-		$doacao->imagens()->create($doacaoImagem);
+		return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
+
+		//return glob(base_path()."/storage/app/img/anuncios/anuncio_2_images/*");
 	}
 
 

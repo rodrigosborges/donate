@@ -43,7 +43,7 @@
                             <label for="categoria" class="col-md-4 col-form-label text-md-right">{{ __('Categoria') }}</label>
 
                             <div class="col-md-6">
-                                <select id="categoria" rows="8" class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria" value="{{ old('categoria') }}" required>
+                                <select id="categoria" rows="8" class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria_id" value="{{ old('categoria') }}" required>
                                     @foreach($categorias as $categoria)
                                         <option value="{{$categoria->id}}">{{$categoria->nome}}</option>
                                     @endforeach
@@ -61,7 +61,7 @@
                             <label for="bairro" class="col-md-4 col-form-label text-md-right">{{ __('Bairro') }}</label>
 
                             <div class="col-md-6">
-                                <select id="bairro" rows="8" class="form-control{{ $errors->has('bairro') ? ' is-invalid' : '' }}" name="bairro" value="{{ old('bairro') }}" required>
+                                <select id="bairro" rows="8" class="form-control{{ $errors->has('bairro') ? ' is-invalid' : '' }}" name="bairro_id" value="{{ old('bairro') }}" required>
                                     @foreach($bairros as $bairro)
                                         <option value="{{$bairro->id}}">{{$bairro->nome}}</option>
                                     @endforeach
@@ -79,7 +79,7 @@
                             <label for="imagem" class="col-md-4 col-form-label text-md-right">{{ __('Imagem') }}</label>
 
                             <div class="col-md-6">
-                                <input id="imagem" type="file" class="form-control{{ $errors->has('imagem') ? ' is-invalid' : '' }}" name="imagem" required>
+                                <input id="imagem" type="file" class="form-control{{ $errors->has('imagem') ? ' is-invalid' : '' }}" name="imagem[]" required multiple>
 
                                 @if ($errors->has('imagem'))
                                     <span class="invalid-feedback" role="alert">

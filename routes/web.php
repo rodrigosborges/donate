@@ -15,19 +15,17 @@ Route::get('/', function () {
     return view('index');
 });
 
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+//#### DOACOES #####
 Route::post('/doacoes/insert', 'DoacoesController@insert');
+Route::get('/doacoes/meus-anuncios', 'DoacoesController@meusAnuncios');
+//##################
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::get('/categorias/grid', 'CategoriasController@grid');
 Route::resource('/categorias', 'CategoriasController');
