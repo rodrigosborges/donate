@@ -111,7 +111,7 @@ class DoacoesController extends Controller
 		$doacao = $doacao->create($request->all());
 
 		foreach ($request->imagem as $key => $imagem) {
-			$upload = $imagem->storeAs("storage/app/anuncio_$doacao->id", "DonateImage_$key.png");
+			$upload = $imagem->storeAs("anuncio_$doacao->id", "DonateImage_$key.png");
 		}
 
 		return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
