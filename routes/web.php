@@ -31,3 +31,10 @@ Route::get('/doacoes/meus-anuncios', 'DoacoesController@meusAnuncios');
 Route::resource('/categorias', 'CategoriasController');
 // Route::get('/doacoes/grid', 'DoacoesController@grid');
 Route::resource('/doacoes', 'DoacoesController');
+
+
+//Rotas do app
+
+Route::prefix('app')->group(function () {
+    Route::get('anuncios', 'AppController@anuncios');
+});
