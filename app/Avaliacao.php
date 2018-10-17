@@ -29,16 +29,7 @@ class Avaliacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function usuario()
-    {
+    public function usuario(){
         return $this->belongsTo('App\Usuario', 'avaliador_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function usuario()
-    {
-        return $this->belongsTo('App\Usuario', 'avaliado_id');
     }
 }

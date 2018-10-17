@@ -34,12 +34,4 @@ class Mensagem extends Model
     {
         return $this->belongsTo('App\Usuario', 'remetente_id');
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function usuario()
-    {
-        return $this->belongsTo('App\Usuario', 'destinatario_id');
-    }
 }
