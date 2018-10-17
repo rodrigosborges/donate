@@ -63,6 +63,6 @@ class Doacao extends Model{
      */
     public function getImagens($id)
     {
-        return glob(base_path()."/storage/app/img/anuncios/anuncio_$id/*");
+        return glob(base_path()."/storage/app/anuncio_$id/*");
     }
 }   

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Doacao;
+use App\Categoria;
 
 class HomeController extends Controller
 {
@@ -21,9 +23,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('home');
+    public function index(){
+
+        $anuncios = Doacao::all();
+        $categorias = Categoria::all();
+
+        return view('home', compact("anuncios", "categorias"));
+
     }
 
 }
