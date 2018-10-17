@@ -1,5 +1,7 @@
 <?php
 
+use App\Doacao;
+use App\Categoria;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +14,12 @@
 */
 
 Route::get('/', function () {
-    return view('index');
+
+	$anuncios = Doacao::all();
+    $categorias = Categoria::all();
+
+    return view('home', compact("anuncios", "categorias"));
+
 });
 
 

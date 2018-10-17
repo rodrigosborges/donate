@@ -8,14 +8,46 @@
 	cursor: pointer;
 }
 
+.card{
+	margin: 0 0 3% 0!important;
+}
+
+.categoria{
+	float: left;
+	text-align: center;
+	width: 22%;
+	box-shadow: 0px 0px 10px;
+    padding: 1% 1.5% 1% 1.5%;
+    margin: 1% 1.5%;
+}
+
+.categoria span{
+	font-size: 30px;
+	padding-top: 4%;
+}
+
+.categoria:hover{
+	color: #3490dc;
+	transition: 0.2s ease;
+	cursor: pointer;
+}
+
 .espacamento-icon{
 	margin: auto 10px;
 }
 
 .anuncio{
 	float: left;
-    border: 1px solid black;
-    padding: 3%;
-    margin: 1%;
-    width: 31%;
+    box-shadow: 0px 0px 10px;
+    padding: 1% 1.5% 1% 1.5%;
+    margin: 0.5% 1.5%;
+}
+
+.anuncio img{
+	width: 200px;
+	margin-bottom: 3%;
+}
+
+.anuncio span{
+	font-size: 0.85em;
 }
