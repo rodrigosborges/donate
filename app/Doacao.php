@@ -61,8 +61,7 @@ class Doacao extends Model{
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getImagens($id)
-    {
-        return glob(base_path()."/storage/app/anuncio_$id/*");
+    public function getImagens(){
+        return glob(base_path()."/storage/app/anuncio_".$this->attributes['id']."/*");
     }
 }   
