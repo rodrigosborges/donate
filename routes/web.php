@@ -44,5 +44,4 @@ Route::resource('/doacoes', 'DoacoesController');
 
 Route::prefix('app')->group(function () {
     Route::get('anuncios', 'AppController@anuncios');
-    Route::get('anuncio/{id}', 'AppController@anuncio');
 });
