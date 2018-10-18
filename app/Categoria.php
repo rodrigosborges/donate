@@ -21,7 +21,7 @@ class Categoria extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function doacoes(){
-        return $this->hasMany('App\Doacoes');
+        return $this->hasMany('App\Doacao');
     }
 
 }

@@ -39,6 +39,6 @@ class Bairro extends Model
      */
     public function doacoes()
     {
-        return $this->hasMany('App\Doaco');
+        return $this->hasMany('App\Doacao');
     }
 }
