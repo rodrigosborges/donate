@@ -11,9 +11,29 @@
             {{ session('status') }}
         </div>
     @endif
+
+    <div class="row text-center">
+        <div class="col-md-12">
+            <div class="frases"><p style='font-size:3em'>Bem vindo ao Donate!</p></div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-12 espacamento-bloco">
+            <form method="POST">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text"><span class="fa fa-search"></span></div>
+                    </div>
+                   <input class="form-control form-control-lg" type="text" placeholder="O que você está procurando?">
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card espacamento-bloco">
                 <div class="card-header" >Categorias</div>
                 <div class="card-body categorias">
                     <div class="categoria">
@@ -60,13 +80,14 @@
                 <div class="card-body">
                     @foreach($anuncios as $anuncio)
                         <div class="anuncio">
-                            <h6><strong>{{$anuncio->titulo}}</strong></h6>
+                            <h5 class="card-title">{{$anuncio->titulo}}</h5>
                             <img src={{asset("/storage/app/anuncio_".$anuncio->id."/DonateImage_0.png") }}/><br>
                             <span class="fa fa-map-marker-alt"></span>
                             <span>{{$anuncio->bairro->nome}}, 
                             {{$anuncio->bairro->cidade->nome}}</span><br>
                             <span class="fa fa-clock"></span>
-                            <span>{{$anuncio->created_at}}</span>
+                            <span>{{$anuncio->created_at}}</span><br>
+                            <a href="#" class="btn btn-primary">Ver mais</a>
                         </div>
                     @endforeach
                 </div>
@@ -77,5 +98,28 @@
 @endsection
 
 @section('js')
+<script type="text/javascript">
+    $(document).ready(function(){
+        var frases = [
+            'Texto 1',
+            'Texto 2',
+            'Texto 3',
+            'Texto 4',
+        ];
 
+        var i = 0;
+        setInterval(function(){
+            $(".frases").fadeIn(2000).delay(5000);
+            $(".frases").fadeOut(2000, function(){
+                $(".frases").html("<p style='font-size:3em'>"+frases[i]+"</p>");
+                i++;
+                if(i == frases.length){
+                    i = 0;
+                }
+            });
+        }, 2000);
+
+    })
+ 
+</script>
 @endsection
