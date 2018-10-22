@@ -45,7 +45,12 @@ class DoacoesController extends Controller
 	    return view('doacoes.meus-anuncios', compact('anuncios'));
 	}
 
+	public function anuncio($id){
 
+		$anuncio = Doacao::find($id);
+
+		return view('doacoes.anuncio', compact("anuncio"));
+	}
 
 	public function edit(Request $request, $id)
 	{
