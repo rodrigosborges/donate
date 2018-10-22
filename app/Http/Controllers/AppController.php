@@ -31,4 +31,19 @@ class AppController extends Controller{
 		}
 		return json_encode($anuncios);
 	}
+
+	public function checkarAuth(Request $request){
+		$dados = $request->only('email','password');
+		return json_encode(Auth::attempt($dados));
+	}
+
+	public function logarUsuario(Request $request){
+		$dados = $request->only('email','password');
+		if(Auth::attempt($dados)){
+			return json_encode([
+				"nome" => Auth::user()->nome, 
+			]);
+		}else
+			return json_encode(false);
+	}
 }
