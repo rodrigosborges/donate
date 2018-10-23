@@ -8,15 +8,36 @@
         </div>
     @endif
     <div class="row justify-content-center">
-        <div class="col-md-7">
+        <div class="col-md-5">
             <div class="card anuncio-detalhado">
                 <div class="card-header">Imagens</div>
                 <div class="card-body text-center">
-                    <img src={{asset("/storage/app/anuncio_".$anuncio->id."/DonateImage_0.png") }}/>
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                      <ol class="carousel-indicators">
+                        @foreach($anuncio->getImagens() as $key => $imagem)
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{$key}}" class="active"></li>
+                        @endforeach
+                      </ol>
+                      <div class="carousel-inner">
+                        @foreach($anuncio->getImagens() as $key => $imagem)
+                        <div class="carousel-item {{($key == 0 ? 'active' : '')}}">
+                            <img class="d-block w-100" src={{asset("/storage/app/anuncio_".$anuncio->id."/DonateImage_$key.png") }}/>
+                        </div>
+                        @endforeach
+                      </div>
+                      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-7">
             <div class="card anuncio-detalhado">
                 <div class="card-header">Anúncio</div>
                 <div class="card-body">

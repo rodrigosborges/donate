@@ -14,7 +14,7 @@
                         <div class="form-group row">
                             <label for="titulo" class="col-md-4 col-form-label text-md-right">{{ __('Título') }}</label>
                             <div class="col-md-6">
-                                <input id="titulo" type="text" class="form-control{{ $errors->has('titulo') ? ' is-invalid' : '' }}" name="titulo" value="{{isset($anuncio->titulo) ? $anuncio->titulo : old('titulo') }}" required autofocus >
+                                <input id="titulo" type="text" class="form-control{{ $errors->has('titulo') ? ' is-invalid' : '' }}" name="titulo" value="{{isset($anuncio) ? $anuncio->titulo : old('titulo') }}" required autofocus >
 
                                 @if ($errors->has('titulo'))
                                     <span class="invalid-feedback" role="alert">
@@ -28,7 +28,7 @@
                             <label for="descricao" class="col-md-4 col-form-label text-md-right">{{ __('Descrição') }}</label>
 
                             <div class="col-md-6">
-                                <textarea id="descricao" rows="8" class="form-control{{ $errors->has('descricao') ? ' is-invalid' : '' }}" name="descricao" required>{{isset($anuncio->descricao) ? $anuncio->descricao : old('descricao') }}
+                                <textarea id="descricao" rows="8" class="form-control{{ $errors->has('descricao') ? ' is-invalid' : '' }}" name="descricao" required>{{isset($anuncio) ? $anuncio->descricao : old('descricao') }}
                                 </textarea> 
 
                                 @if ($errors->has('descricao'))
@@ -45,7 +45,7 @@
                             <div class="col-md-6">
                                 <select id="categoria" rows="8" class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria_id" value="{{ old('categoria') }}" required>
                                     @foreach($categorias as $categoria)
-                                        <option {{($anuncio->categoria->id == $categoria->id) ? 'selected' : ''}} value="{{$categoria->id}}">{{$categoria->nome}}</option>
+                                        <option {{(isset($anuncio) && $anuncio->categoria->id == $categoria->id) ? 'selected' : ''}} value="{{$categoria->id}}">{{$categoria->nome}}</option>
                                     @endforeach
                                 </select>
 
@@ -63,7 +63,7 @@
                             <div class="col-md-6">
                                 <select id="bairro" rows="8" class="form-control{{ $errors->has('bairro') ? ' is-invalid' : '' }}" name="bairro_id" value="{{ old('bairro') }}" required>
                                     @foreach($bairros as $bairro)
-                                        <option {{($anuncio->bairro->id == $bairro->id) ? 'selected' : ''}} value="{{$bairro->id}}">{{$bairro->nome}}</option>
+                                        <option {{(isset($anuncio) && $anuncio->bairro->id == $bairro->id) ? 'selected' : ''}} value="{{$bairro->id}}">{{$bairro->nome}}</option>
                                     @endforeach
                                 </select>
 
