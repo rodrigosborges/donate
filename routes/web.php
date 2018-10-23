@@ -32,6 +32,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/doacoes/insert', 'DoacoesController@insert');
 Route::get('/doacoes/meus-anuncios', 'DoacoesController@meusAnuncios');
 Route::get('/doacoes/anuncio/{id}', 'DoacoesController@anuncio');
+Route::get('/doacoes/editar/{id}', 'DoacoesController@editar');
 //##################
 
 
