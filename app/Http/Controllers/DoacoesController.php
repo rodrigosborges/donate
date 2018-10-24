@@ -61,6 +61,26 @@ class DoacoesController extends Controller
 		return view('doacoes.create', compact("anuncio", "bairros", "categorias"));
 	}
 
+	public function update(Request $request){
+
+		$doacao = Doacao::find($request->usuario_id);
+
+		$doacao->titulo = $request->titulo;
+		$doacao->descricao = $request->descricao;
+		$doacao->bairro_id = $request->bairro_id;
+		$doacao->categoria_id = $request->categoria_id;
+		$doacao->usuario_id = $request->usuario_id;
+		$doacao->aprovado = 0;
+
+		$doacao->save();
+
+		foreach ($request->imagem as $key => $imagem) {
+			$upload = $imagem->storeAs("anuncio_$doacao->id", "DonateImage_$key.png");
+		}
+
+		return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
+	}
+
 
 
 	public function edit(Request $request, $id)
@@ -136,57 +156,57 @@ class DoacoesController extends Controller
 	}
 
 
-	public function update(Request $request) {
-	    //
-	    /*$this->validate($request, [
-	        'name' => 'required|max:255',
-	    ]);*/
-		$doacao = null;
-		if($request->id > 0) { $doacao = Doacao::findOrFail($request->id); }
-		else { 
-			$doacao = new Doacao;
-		}
+	// public function update(Request $request) {
+	//     //
+	//     /*$this->validate($request, [
+	//         'name' => 'required|max:255',
+	//     ]);*/
+	// 	$doacao = null;
+	// 	if($request->id > 0) { $doacao = Doacao::findOrFail($request->id); }
+	// 	else { 
+	// 		$doacao = new Doacao;
+	// 	}
 	    
 
 	    		
-			    $doacao->id = $request->id?:0;
+	// 		    $doacao->id = $request->id?:0;
 				
 	    		
-					    $doacao->titulo = $request->titulo;
+	// 				    $doacao->titulo = $request->titulo;
 		
 	    		
-					    $doacao->usuario_id = $request->usuario_id;
+	// 				    $doacao->usuario_id = $request->usuario_id;
 		
 	    		
-					    $doacao->descricao = $request->descricao;
+	// 				    $doacao->descricao = $request->descricao;
 		
 	    		
-					    $doacao->bairro_id = $request->bairro_id;
+	// 				    $doacao->bairro_id = $request->bairro_id;
 		
 	    		
-					    $doacao->categoria_id = $request->categoria_id;
+	// 				    $doacao->categoria_id = $request->categoria_id;
 		
 	    		
-					    $doacao->aprovado = $request->aprovado;
+	// 				    $doacao->aprovado = $request->aprovado;
 		
 	    		
-					    $doacao->doado = $request->doado;
+	// 				    $doacao->doado = $request->doado;
 		
 	    		
-					    $doacao->created_at = $request->created_at;
+	// 				    $doacao->created_at = $request->created_at;
 		
 	    		
-					    $doacao->updated_at = $request->updated_at;
+	// 				    $doacao->updated_at = $request->updated_at;
 		
 	    		
-					    $doacao->deleted_at = $request->deleted_at;
+	// 				    $doacao->deleted_at = $request->deleted_at;
 		
-	    	    //$doacao->user_id = $request->user()->id;
-	    $doacao->save();
+	//     	    //$doacao->user_id = $request->user()->id;
+	//     $doacao->save();
 
-	    return redirect('/doacoes');
+	//     return redirect('/doacoes');
 
-	}
+	// }
 
 	public function store(Request $request)
 	{

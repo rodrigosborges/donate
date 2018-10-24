@@ -8,8 +8,10 @@
                 <div class="card-header">Anúncio</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ url('/doacoes/insert') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{isset($anuncio) ? url('/doacoes/update/') : url('/doacoes/insert')}}" enctype="multipart/form-data">
                         @csrf
+
+                        <input type="text" name="usuario_id" value="{{isset($anuncio) ? $anuncio->id : '' }}" hidden>
 
                         <div class="form-group row">
                             <label for="titulo" class="col-md-4 col-form-label text-md-right">{{ __('Título') }}</label>
