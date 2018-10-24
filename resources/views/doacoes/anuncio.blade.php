@@ -21,7 +21,7 @@
                       <div class="carousel-inner">
                         @foreach($anuncio->getImagens() as $key => $imagem)
                         <div class="carousel-item {{($key == 0 ? 'active' : '')}}">
-                            <img class="d-block w-100" src={{asset("/storage/app/anuncio_".$anuncio->id."/DonateImage_$key.png") }}/>
+                            <img class="d-block w-100" src={{asset(explode('donate/', $imagem)[1])}}/>
                         </div>
                         @endforeach
                       </div>

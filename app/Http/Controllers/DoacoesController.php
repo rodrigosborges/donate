@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Helpers\DoacoesHelper;
 use App\Categoria;
 use App\Bairro;
 use App\Doacao;
@@ -63,24 +64,30 @@ class DoacoesController extends Controller
 
 	public function update(Request $request){
 
-		$doacao = Doacao::find($request->usuario_id);
+		if(!empty($request->imagens_deletadas)){
+			foreach ($request->imagens_deletadas as $imagem) {
+				unlink(base_path().'/'.$imagem);
+			}
+		}
+
+		$doacao = Doacao::find($request->id);
 
 		$doacao->titulo = $request->titulo;
 		$doacao->descricao = $request->descricao;
 		$doacao->bairro_id = $request->bairro_id;
 		$doacao->categoria_id = $request->categoria_id;
-		$doacao->usuario_id = $request->usuario_id;
 		$doacao->aprovado = 0;
+		$doacao->doado = 0;
 
 		$doacao->save();
 
-		foreach ($request->imagem as $key => $imagem) {
-			$upload = $imagem->storeAs("anuncio_$doacao->id", "DonateImage_$key.png");
+		foreach ($request->imagem as $imagem) {
+			$numero = DoacoesHelper::proximoNumeroImagem($doacao);
+			$upload = $imagem->storeAs("anuncio_$doacao->id", "DonateImage_$numero.png");
 		}
 
 		return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
 	}
-
 
 
 	public function edit(Request $request, $id)

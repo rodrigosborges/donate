@@ -15,7 +15,7 @@ use App\Categoria;
 
 Route::get('/', function () {
 
-	$anuncios = Doacao::all();
+	$anuncios = Doacao::where('aprovado',1)->limit(4)->orderBy('created_at', 'desc')->get();
     $categorias = Categoria::all();
 
     return view('home', compact("anuncios", "categorias"));

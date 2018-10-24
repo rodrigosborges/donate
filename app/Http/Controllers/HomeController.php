@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index(){
 
-        $anuncios = Doacao::all();
+        $anuncios = Doacao::limit(4)->orderBy('created_at', 'desc')->get();
         $categorias = Categoria::all();
 
         return view('home', compact("anuncios", "categorias"));
