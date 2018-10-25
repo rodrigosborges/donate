@@ -87,7 +87,7 @@
                             {{$anuncio->bairro->cidade->nome}}</span><br>
                             <span class="fa fa-clock"></span>
                             <span>{{$anuncio->created_at}}</span><br>
-                            <a href="#" class="btn btn-primary">Ver mais</a>
+                            <a href="{{url('doacoes/anuncio/'.$anuncio->id)}}" class="btn btn-primary">Ver mais</a>
                         </div>
                     @endforeach
                 </div>
