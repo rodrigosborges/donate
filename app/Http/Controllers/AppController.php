@@ -15,12 +15,17 @@ class AppController extends Controller{
 
 	public function anuncios(Request $request){
 		$dados = $request->all();
-		$anuncios = Doacao::where('aprovado',1)->where('doado',0)->join('bairros','bairros.id','=','doacoes.bairro_id')->join('cidades','cidades.id','=','bairros.cidade_id')->join('usuarios','usuarios.id','=','doacoes.usuario_id')
+		$anuncios = Doacao::where('aprovado',1)->where('doado',0)
+			->join('bairros','bairros.id','=','doacoes.bairro_id')
+			->join('cidades','cidades.id','=','bairros.cidade_id')
+			->join('usuarios','usuarios.id','=','doacoes.usuario_id')
 		->join('categorias','categorias.id','=','doacoes.categoria_id');
 		if(isset($dados['categoria_id']))
 			$anuncios = $anuncios->where('categoria_id',$dados['categoria_id']);
 		if(isset($dados['cidade_id']))
 			$anuncios = $anuncios->where('cidade_id',$dados['cidade_id']);
+		if(isset($dados['email']))
+			$anuncios = $anuncios->where('usuarios.email',$dados['email']);
 		$anuncios = $anuncios->select('doacoes.titulo as titulo','descricao','categorias.nome as categoriaNome','bairros.nome as bairroNome', 'cidades.nome as cidadeNome','doacoes.created_at as data', 'doacoes.id as id','usuarios.nome as usuarioNome')->orderBy('doacoes.created_at','desc')->paginate(10);
 		foreach($anuncios as $key => $anuncio){
 			$imagens = [];
@@ -41,7 +46,7 @@ class AppController extends Controller{
 		$dados = $request->only('email','password');
 		if(Auth::attempt($dados)){
 			return json_encode([
-				"nome" => Auth::user()->nome, 
+				"nome" => Auth::user()->nome,
 			]);
 		}else
 			return json_encode(false);
