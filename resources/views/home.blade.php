@@ -6,9 +6,15 @@
 @section('content')
 
 <div class="container">
-     @if (session('status'))
+    @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
+        </div>
+    @endif
+
+    @if (session('warning'))
+        <div class="alert alert-warning" role="alert">
+            {{ session('warning') }}
         </div>
     @endif
 
@@ -87,7 +93,7 @@
                             {{$anuncio->bairro->cidade->nome}}</span><br>
                             <span class="fa fa-clock"></span>
                             <span>{{$anuncio->created_at}}</span><br>
-                            <a href="{{url('doacoes/anuncio/'.$anuncio->id)}}" class="btn btn-primary">Ver mais</a>
+                            <a href="{{url('doacoes/anuncio/'.$anuncio->id)}}" class="btn btn-danger">Ver mais</a>
                         </div>
                     @endforeach
                 </div>

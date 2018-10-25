@@ -30,15 +30,15 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="logo text-white" href="{{ url('/') }}">
                    <!--  {{ config('app.name', 'Donate') }} -->
                    Donate
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button> -->
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
 
@@ -49,28 +49,29 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             <li class="nav-item">
                                 @if (Route::has('register'))
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registrar') }}</a>
+                                    <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Registrar') }}</a>
                                 @endif
                             </li>
                         @else
                             <li class="nav-item espacamento-icon">
-                                <i class="fas fa-envelope"></i>
+                                <i id="msg-icon" class="text-white fas fa-envelope"></i>
                             </li>
-                            <span class="nav-item">|</span>
-                            <li class="nav-item espacamento-icon">
-                                <i class="fas fa-bell"></i>
-                            </li>
-                            
+                           <!--  <span class="text-white nav-item">|</span> -->
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" class="text-white nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->nome }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item" href="{{url('/doacoes/meus-anuncios')}}">Meus Anúncios</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="{{url('/doacoes/create')}}" class="dropdown-item">Doar</a>
+                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -80,17 +81,13 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+
+
                                 </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link btn btn-primary text-white" href="{{url('/doacoes/create')}}">Doar</a>
-                            </li>
-                             <li class="nav-item">
-                                <a class="nav-link btn btn-success text-white" href="{{url('/doacoes/meus-anuncios')}}">Meus Anúncios</a>
                             </li>
                         @endguest
                     </ul>
-                </div>
+                <!-- </div> -->
             </div>
         </nav>
 

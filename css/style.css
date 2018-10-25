@@ -1,12 +1,33 @@
+/*MODIFICAÇÕES EM CLASSES DO LARAVEL E BOOTSTRAP*/
+
+.card{
+	box-shadow: 0 0 6px;
+}
+
+.card-header{
+	background-color: #800;
+	color: white;
+}
+
 .nav-item{
 	margin: auto 5px;
 }
 
-.nav-item i:hover{
-	color: #3490dc;
-	transition: 0.2s ease;
-	cursor: pointer;
+.navbar-laravel{
+	background-color: #800;
 }
+
+.navbar-laravel a{
+	text-decoration: none;
+}
+
+.dropdown-menu{
+	position: absolute!important;
+}
+
+/*################################################*/
+
+/*CLASSES*/
 
 .espacamento-bloco{
 	margin: 0 0 3% 0!important;
@@ -27,7 +48,7 @@
 }
 
 .categoria:hover{
-	color: #3490dc;
+	color: #800;
 	transition: 0.2s ease;
 	cursor: pointer;
 }
@@ -75,6 +96,29 @@
     height: 350px;
 }
 
+.imagem-edicao{
+	float: left;
+	border: 1px solid black;
+	margin: 1% 0.5%;
+}
+
+.imagem-edicao img{
+	width: 100px;
+	height: 100px;
+}
+
+.imagem-edicao i{
+	position: absolute;
+	font-size: 20px;
+}
+
+.imagem-edicao i:hover{
+	cursor: pointer;
+	color: #CD5C5C;
+	transition: 0.2s;
+	z-index: 9999999;
+}
+
 .informacoes{
 	text-align: center;
 	padding: 0 2%;
@@ -85,12 +129,30 @@
     pointer-events: none;
 }
 
+.logo{
+	font-size: 1.2em;
+}
+/*################################################*/
+
+/*IDs*/
+
+#msg-icon{
+	display: block;
+	font-size: 1.1em
+}
+
+/*################################################*/
+
 /*BREAKPOINTS*/
 
 @media (max-width: 980px){
 	.categoria{
-		width: 42%;
+		width: 92%;
 		margin: 4% 4%;
+	}
+
+	#msg-icon{
+		display: none;
 	}
 
 	.anuncio{
@@ -100,4 +162,4 @@
 	}
 }
 
-/*###########*/
+/*################################################*/

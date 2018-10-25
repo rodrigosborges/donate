@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Helpers\DoacoesHelper;
 use App\Categoria;
 use App\Bairro;
 use App\Doacao;
@@ -49,6 +50,10 @@ class DoacoesController extends Controller
 
 		$anuncio = Doacao::find($id);
 
+		if($anuncio->aprovado == 0 && Auth::user()->nivel != 1){
+			return redirect('/')->with('warning', 'Este anúncio não está disponível!');
+		}
+
 		return view('doacoes.anuncio', compact("anuncio"));
 	}
 
@@ -63,80 +68,37 @@ class DoacoesController extends Controller
 
 	public function update(Request $request){
 
-		$doacao = Doacao::find($request->usuario_id);
+		if(!empty($request->imagens_deletadas)){
+			foreach ($request->imagens_deletadas as $imagem) {
+				unlink(base_path().'/'.$imagem);
+			}
+		}
+
+		$doacao = Doacao::find($request->id);
 
 		$doacao->titulo = $request->titulo;
 		$doacao->descricao = $request->descricao;
 		$doacao->bairro_id = $request->bairro_id;
 		$doacao->categoria_id = $request->categoria_id;
-		$doacao->usuario_id = $request->usuario_id;
-		$doacao->aprovado = 0;
+		if(Auth::user()->nivel == 1){
+			$doacao->aprovado = 1;
+		}else{
+			$doacao->aprovado = 0;
+		}
+		$doacao->doado = 0;
 
 		$doacao->save();
 
-		foreach ($request->imagem as $key => $imagem) {
-			$upload = $imagem->storeAs("anuncio_$doacao->id", "DonateImage_$key.png");
+		if(!empty($request->imagem)){
+			foreach ($request->imagem as $imagem) {
+				$numero = DoacoesHelper::proximoNumeroImagem($doacao);
+				$upload = $imagem->storeAs("anuncio_$doacao->id", "DonateImage_$numero.png");
+			}
 		}
 
 		return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
 	}
 
-
-
-	public function edit(Request $request, $id)
-	{
-		$doacao = Doacao::findOrFail($id);
-	    return view('doacoes.add', [
-	        'model' => $doacao	    ]);
-	}
-
-	public function show(Request $request, $id)
-	{
-		$doacao = Doacao::findOrFail($id);
-	    return view('doacoes.show', [
-	        'model' => $doacao	    ]);
-	}
-
-	public function grid(Request $request)
-	{
-		$len = $_GET['length'];
-		$start = $_GET['start'];
-
-		$select = "SELECT *,1,2 ";
-		$presql = " FROM doacoes a ";
-		if($_GET['search']['value']) {	
-			$presql .= " WHERE titulo LIKE '%".$_GET['search']['value']."%' ";
-		}
-		
-		$presql .= "  ";
-
-		$sql = $select.$presql." LIMIT ".$start.",".$len;
-
-
-		$qcount = DB::select("SELECT COUNT(a.id) c".$presql);
-		//print_r($qcount);
-		$count = $qcount[0]->c;
-
-		$results = DB::select($sql);
-		$ret = [];
-		foreach ($results as $row) {
-			$r = [];
-			foreach ($row as $value) {
-				$r[] = $value;
-			}
-			$ret[] = $r;
-		}
-
-		$ret['data'] = $ret;
-		$ret['recordsTotal'] = $count;
-		$ret['iTotalDisplayRecords'] = $count;
-
-		$ret['recordsFiltered'] = count($ret);
-		$ret['draw'] = $_GET['draw'];
-
-		echo json_encode($ret);
-
-	}
 
 	public function insert(Request $request){
 
@@ -151,9 +113,90 @@ class DoacoesController extends Controller
 		}
 
 		return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
-
-		//return glob(base_path()."/storage/app/img/anuncios/anuncio_2_images/*");
 	}
+
+	public function mudarStatus(Request $request){
+
+		$anuncio = Doacao::find($request->id);
+
+		if($anuncio->usuario_id != Auth::id() || Auth::user()->nivel != 1){
+			return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
+		}
+
+		if($request->tipo == 'aprovado' && Auth::user()->nivel != 1){
+			return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
+		}
+
+		$tipo = $request->tipo;
+
+		$anuncio->$tipo = $request->valor;
+
+		$anuncio->save();
+
+		return back();
+	}
+
+	public function anuncios(){
+
+		$anuncios = Doacao::where('aprovado', 1)->where('doado', 0);
+
+		return redirect('/doacoes/anuncios', compact("anuncios"));
+	}
+
+	// public function edit(Request $request, $id)
+	// {
+	// 	$doacao = Doacao::findOrFail($id);
+	//     return view('doacoes.add', [
+	//         'model' => $doacao	    ]);
+	// }
+
+	// public function show(Request $request, $id)
+	// {
+	// 	$doacao = Doacao::findOrFail($id);
+	//     return view('doacoes.show', [
+	//         'model' => $doacao	    ]);
+	// }
+
+	// public function grid(Request $request)
+	// {
+	// 	$len = $_GET['length'];
+	// 	$start = $_GET['start'];
+
+	// 	$select = "SELECT *,1,2 ";
+	// 	$presql = " FROM doacoes a ";
+	// 	if($_GET['search']['value']) {	
+	// 		$presql .= " WHERE titulo LIKE '%".$_GET['search']['value']."%' ";
+	// 	}
+		
+	// 	$presql .= "  ";
+
+	// 	$sql = $select.$presql." LIMIT ".$start.",".$len;
+
+
+	// 	$qcount = DB::select("SELECT COUNT(a.id) c".$presql);
+	// 	//print_r($qcount);
+	// 	$count = $qcount[0]->c;
+
+	// 	$results = DB::select($sql);
+	// 	$ret = [];
+	// 	foreach ($results as $row) {
+	// 		$r = [];
+	// 		foreach ($row as $value) {
+	// 			$r[] = $value;
+	// 		}
+	// 		$ret[] = $r;
+	// 	}
+
+	// 	$ret['data'] = $ret;
+	// 	$ret['recordsTotal'] = $count;
+	// 	$ret['iTotalDisplayRecords'] = $count;
+
+	// 	$ret['recordsFiltered'] = count($ret);
+	// 	$ret['draw'] = $_GET['draw'];
+
+	// 	echo json_encode($ret);
+
+	// }
 
 
 	// public function update(Request $request) {
@@ -208,19 +251,19 @@ class DoacoesController extends Controller
 
 	// }
 
-	public function store(Request $request)
-	{
-		return $this->update($request);
-	}
+	// public function store(Request $request)
+	// {
+	// 	return $this->update($request);
+	// }
 
-	public function destroy(Request $request, $id) {
+	// public function destroy(Request $request, $id) {
 		
-		$doacao = Doacao::findOrFail($id);
+	// 	$doacao = Doacao::findOrFail($id);
 
-		$doacao->delete();
-		return "OK";
+	// 	$doacao->delete();
+	// 	return "OK";
 	    
-	}
+	// }
 
 	
 }
