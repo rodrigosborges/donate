@@ -31,7 +31,7 @@
                             }
                             ?>
                             <br>
-                            <a href="{{url('doacoes/anuncio/'.$anuncio->id)}}" class="btn btn-primary">Ver/Editar</a>
+                            <a href="{{url('doacoes/anuncio/'.$anuncio->id)}}" class="btn btn-danger">Ver mais</a>
                         </div>
                     @endforeach
                 </div>

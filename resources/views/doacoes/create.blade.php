@@ -96,7 +96,7 @@
                             <label for="imagem" class="col-md-4 col-form-label text-md-right">{{ __('Imagem') }}</label>
 
                             <div class="col-md-6">
-                                <input id="imagem" type="file" class="form-control{{ $errors->has('imagem') ? ' is-invalid' : '' }}" name="imagem[]" required multiple>
+                                <input id="imagem" type="file" class="form-control{{ $errors->has('imagem') ? ' is-invalid' : '' }}" name="imagem[]" multiple>
 
                                 @if ($errors->has('imagem'))
                                     <span class="invalid-feedback" role="alert">

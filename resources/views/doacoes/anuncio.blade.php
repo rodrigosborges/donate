@@ -48,10 +48,13 @@
                         <p><strong>Doador: </strong>{{$anuncio->usuario->nome}}</p>
                         <p><span class="fa fa-map-marker-alt"></span> {{$anuncio->bairro->cidade->nome}}, {{$anuncio->bairro->nome}}</p>
                         <?php
-                        if($anuncio->doado == 0){
+                        if($anuncio->aprovado == 0){
+                            echo "<p><strong>Status: </strong><span style='color:red'>Em análise para aprovação</span></p>";
+                        }
+                        else if($anuncio->doado == 0){
                             echo "<p><strong>Status: </strong><span style='color:green'>Disponível</span></p>";
                         }else{
-                            echo "<p><strong>Status: </strong><span style='color:red'>Indisponível</span></p>";
+                            echo "<p><strong>Status: </strong><span style='color:red'>Este ítem já foi doado</span></p>";
                         }
                         ?>
                         </p>
@@ -61,7 +64,22 @@
                             @if($anuncio->usuario_id != Auth::user()->id)
                                 <a class="btn btn-primary" href="#">Enviar mensagem ao doador</a>
                             @else
-                                <a class="btn btn-primary" href="{{url('doacoes/editar/'.$anuncio->id)}}">Editar</a>
+                                @if($anuncio->aprovado == 1)
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <form method="POST" action="{{url('doacoes/mudarStatus')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$anuncio->id}}">
+                                                <input type="hidden" name="tipo" value="doado">
+                                                <input type="hidden" name="valor" value="{{($anuncio->doado == 0) ? 1 : 0}}">
+                                                <input class="btn btn-danger" type="submit" value="{{($anuncio->doado == 0) ? 'Marcar como doado' : 'Marcar como disponível'}}"/>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a class="btn btn-primary" href="{{url('doacoes/editar/'.$anuncio->id)}}">Editar</a>
+                                        </div>
+                                    </div>
+                                @endif
                             @endif
                         @else
                             <p>Faça <a href="{{url('/login')}}">login</a> para entrar em contato com o doador.</p>
