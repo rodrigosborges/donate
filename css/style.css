@@ -87,6 +87,37 @@
 	height: 100%;
 }
 
+.anuncio-grande img{
+	width: 300px;
+    border: 1px solid black;
+    border-radius: 2%;
+    box-shadow: 0 0 5px;
+    padding: 2%;
+}
+
+.anuncio-grande .btn{
+    position: absolute;
+    right: 10px;
+    bottom: 0px;
+}
+
+.anuncio-grande .dados{
+	position: absolute;
+	bottom: 0;
+    left: 10px;
+}
+
+.anuncio-grande .descricao{
+	overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+}
+
+.espacamento-linha{
+	margin: 4% 0;
+}
+
 .espacamento{
 	margin: 2% 0;
 }
@@ -159,6 +190,22 @@
 		width: 100%;
 		margin: 4% 0;
 		padding: 5%;
+	}
+
+	.anuncio-grande .dados{
+		position: initial;
+	}
+
+	.anuncio-grande img{
+		width: 100%;
+	}
+
+	.anuncio-grande h2{
+		margin-top: 2%;
+	}
+
+	.espacamento-linha{
+		margin: 15% 0;
 	}
 }
 

@@ -25,6 +25,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/doacoes/anuncio/{id}', 'DoacoesController@anuncio');
+Route::get('/doacoes/anuncios', 'DoacoesController@anuncios');
 
 //Para usuários logados
 Route::middleware('auth')->group(function () {

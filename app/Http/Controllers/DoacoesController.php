@@ -102,14 +102,18 @@ class DoacoesController extends Controller
 
 	public function insert(Request $request){
 
-		$doacao = new Doacao();
+		$anuncio = new Doacao();
 
 		$request['usuario_id'] = Auth::user()->id;
 
-		$doacao = $doacao->create($request->all());
+		if(Auth::user()->nivel == 1){
+			$request['aprovado'] = 1;
+		}
+
+		$anuncio = $anuncio->create($request->all());
 
 		foreach ($request->imagem as $key => $imagem) {
-			$upload = $imagem->storeAs("anuncio_$doacao->id", "DonateImage_$key.png");
+			$upload = $imagem->storeAs("anuncio_$anuncio->id", "DonateImage_$key.png");
 		}
 
 		return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
@@ -138,9 +142,9 @@ class DoacoesController extends Controller
 
 	public function anuncios(){
 
-		$anuncios = Doacao::where('aprovado', 1)->where('doado', 0);
+		$anuncios = Doacao::where('aprovado', 1)->where('doado', 0)->paginate(10);
 
-		return redirect('/doacoes/anuncios', compact("anuncios"));
+		return view('/doacoes/anuncios', compact("anuncios"));
 	}
 
 	// public function edit(Request $request, $id)
