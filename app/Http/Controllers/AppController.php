@@ -8,6 +8,8 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Doacao;
+use App\Bairro;
+use App\Usuario;
 
 use DB;
 
@@ -50,5 +52,34 @@ class AppController extends Controller{
 			]);
 		}else
 			return json_encode(false);
+	}
+
+	public function bairros($cidade_id){
+		return Bairro::where('cidade_id',$cidade_id)->select("id as key","nome as label")->get();
+	}
+
+	public function anuncioInsert(Request $request){
+		file_put_contents(base_path()."/request.txt", json_encode($request->all()));
+		DB::beginTransaction();
+		try{
+
+			$usuario = Usuario::where('email',$request->email)->first();
+			$request['usuario_id'] = $usuario->id;
+
+			if($usuario->nivel == 1)
+				$request['aprovado'] = 1;
+
+			$anuncio = Doacao::create($request->all());
+
+			foreach ($request->anexos as $key => $imagem) {
+				$upload = $imagem->storeAs("anuncio_$anuncio->id", "DonateImage_$key.png");
+			}
+
+			DB::commit();
+			return json_encode([true, ["Anúncio cadastrado"]]);
+		}catch(Exception $e){
+			DB::rollback();
+			return json_encode([false,$e->getMessage()]);
+		}
 	}
 }

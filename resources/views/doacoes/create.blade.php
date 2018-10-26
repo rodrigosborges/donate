@@ -106,6 +106,8 @@
                             </div>
                         </div>
 
+                        <div id="imagesPreview"></div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -128,5 +130,30 @@
         $(this).parent().remove();
         });
     });
+
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            for(var i=0; i < $(input)[0].files.length; i++){
+                $("#imagesPreview").append("<img width=120px height=120px src='#' id='imagem"+i+"' />")
+                setTimeout(() => {
+                    reader.onload = function(e) {
+                        $("#imagem"+i).attr('src', e.target.result);
+                    }
+                    var file = $(input)[0].files[i]
+                    reader.readAsDataURL(file);
+                },1)
+            }
+            
+        }
+    }
+
+    $(document).ready(function() {
+        $("#imagem").change(function() {
+            readURL(this);
+        });
+    })
 </script>
 @stop

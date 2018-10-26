@@ -53,4 +53,6 @@ Route::prefix('app')->group(function () {
     Route::get('anuncios', 'AppController@anuncios');
     Route::get('checkarAuth', 'AppController@checkarAuth');
     Route::get('logarUsuario', 'AppController@logarUsuario');
+    Route::get('bairros/{id}', 'AppController@bairros');
+    Route::post('doacoes/insert', 'AppController@anuncioInsert');
 });
