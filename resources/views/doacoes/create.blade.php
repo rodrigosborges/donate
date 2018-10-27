@@ -105,8 +105,12 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6 offset-md-3">
+                                <output id="result" class="form-inline"/>
+                            </div>
+                        </div>
 
-                        <div id="imagesPreview"></div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -132,28 +136,34 @@
     });
 
 
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            
-            for(var i=0; i < $(input)[0].files.length; i++){
-                $("#imagesPreview").append("<img width=120px height=120px src='#' id='imagem"+i+"' />")
-                setTimeout(() => {
-                    reader.onload = function(e) {
-                        $("#imagem"+i).attr('src', e.target.result);
-                    }
-                    var file = $(input)[0].files[i]
-                    reader.readAsDataURL(file);
-                },1)
+window.onload = function(){
+    //Check File API support
+    if(window.File && window.FileList && window.FileReader){
+        var filesInput = document.getElementById("imagem");
+        filesInput.addEventListener("change", function(event){
+            var files = event.target.files; //FileList object
+            var output = document.getElementById("result");
+            $("#result").empty()
+            for(var i = 0; i< files.length; i++){
+                var file = files[i];
+                //Only pics
+                if(!file.type.match('image'))
+                    continue;
+                var picReader = new FileReader();
+                picReader.addEventListener("load",function(event){
+                    var picFile = event.target;
+                    var div = document.createElement("div");
+                    div.innerHTML = "<img class='thumbnail' height=120px width=120px src='" + picFile.result + "'" +
+                    "title='" + picFile.name + "'/>";
+                    output.insertBefore(div,null);
+                });
+                //Read the image
+                picReader.readAsDataURL(file);
             }
-            
-        }
-    }
-
-    $(document).ready(function() {
-        $("#imagem").change(function() {
-            readURL(this);
         });
-    })
+    }else
+        console.log("Your browser does not support File API");
+    
+}
 </script>
 @stop
