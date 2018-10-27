@@ -140,11 +140,35 @@ class DoacoesController extends Controller
 		return back();
 	}
 
-	public function anuncios(){
+	public function anuncios($categoria){
 
-		$anuncios = Doacao::where('aprovado', 1)->where('doado', 0)->paginate(10);
+		if($categoria == 'all'){
+			$anuncios = Doacao::where('aprovado', 1)->where('doado', 0)->paginate(10);
+		}else{
+			$anuncios = Doacao::where('categoria_id', $categoria)->where('aprovado', 1)->where('doado', 0)->paginate(10);
+		}
+
+		if(is_numeric($categoria)){
+			$nomeCategoria = Categoria::find($categoria)->nome;
+			
+			return view('/doacoes/anuncios', compact("anuncios", "nomeCategoria"));
+		}
 
 		return view('/doacoes/anuncios', compact("anuncios"));
+	}
+
+	public function pesquisa(Request $request){
+
+		$termos = $request['termos'];
+
+		$anuncios = Doacao::where('aprovado', 1)
+			->where('doado', 0)
+			->when($termos, function ($query, $termos){	
+	            return $query->where('titulo', 'like', '%'.$termos.'%')
+	            ->orWhere('descricao', 'like', '%'.$termos.'%');
+	        })->get();
+
+		return view('/doacoes/anuncios', compact("anuncios", "termos"));
 	}
 
 	// public function edit(Request $request, $id)

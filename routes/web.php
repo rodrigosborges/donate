@@ -25,7 +25,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/doacoes/anuncio/{id}', 'DoacoesController@anuncio');
-Route::get('/doacoes/anuncios', 'DoacoesController@anuncios');
+Route::get('/doacoes/anuncios/{categoria}', 'DoacoesController@anuncios');
 
 //Para usuários logados
 Route::middleware('auth')->group(function () {
@@ -35,7 +35,8 @@ Route::middleware('auth')->group(function () {
 	Route::get('/doacoes/meus-anuncios', 'DoacoesController@meusAnuncios');
 	Route::get('/doacoes/editar/{id}', 'DoacoesController@editar');
 	Route::post('/doacoes/update', 'DoacoesController@update');
-	Route::post('/doacoes/mudarStatus', 'DoacoesController@mudarStatus');
+    Route::post('/doacoes/pesquisa', 'DoacoesController@pesquisa');
+    Route::post('/doacoes/mudarStatus', 'DoacoesController@mudarStatus');
 	//##################
 });
 //#####################

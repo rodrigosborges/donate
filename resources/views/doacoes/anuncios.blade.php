@@ -9,8 +9,17 @@
     <div class="row justify-content-center">
     	<div class="col-md-12">
 			<div class="card">
-	            <div class="card-header">Anúncios</div>
+	            <div class="card-header">{{isset($termos) ? 'Resultados da pesquisa por: '.$termos : "Anúncios"}} {{isset($nomeCategoria) ? ' | Categoria: '.$nomeCategoria : ''}}</div>
 	                <div class="card-body">
+	                	@if(count($anuncios) == 0)
+	                		<div class="col-md-12 text-center">
+	                			@if(isset($termos))
+	                				<span style="font-size: 1.7em">Sua pesquisa não retornou resultados.<br><i class="far fa-frown"></i></span>
+	                			@elseif(isset($nomeCategoria))
+	                				<span style="font-size:1.7em">Nenhum anúncio cadastrado na categoria <i><span style="color:red">{{$nomeCategoria}}</span></i>.<br><i class="far fa-frown"></i></span>
+	                			@endif
+	                		</div>
+	                	@endif
 	                	@foreach($anuncios as $key => $anuncio)
 	                		<div class="anuncio-grande">
 	                			<div class="row">

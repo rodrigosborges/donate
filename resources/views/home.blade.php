@@ -26,12 +26,18 @@
 
     <div class="row justify-content-center">
         <div class="col-md-12 espacamento-bloco">
-            <form method="POST">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                      <div class="input-group-text"><span class="fa fa-search"></span></div>
+            <form method="POST" action="{{url('doacoes/pesquisa/')}}">
+                @csrf
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                          <div class="input-group-text"><span class="fa fa-search"></span></div>
+                        </div>
+                       <input name="termos" class="form-control form-control-lg" type="text" placeholder="O que você está procurando?">
                     </div>
-                   <input class="form-control form-control-lg" type="text" placeholder="O que você está procurando?">
+                </div>
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-dark" type="submit">Pesquisar</button>
                 </div>
             </form>
         </div>
@@ -42,42 +48,48 @@
             <div class="card espacamento-bloco">
                 <div class="card-header" >Categorias</div>
                 <div class="card-body categorias">
-                    <div class="categoria">
+                    <a href="{{url('doacoes/anuncios/1')}}" class="categoria rounded">
                         <h6>Animal</h6>
                         <span class="fa fa-paw"></span>
-                    </div>
-                    <div class="categoria">
+                    </a>
+                    <a href="{{url('doacoes/anuncios/2')}}" class="categoria rounded">
                         <h6>Doméstico</h6>
                         <span class="fa fa-home"></span>
-                    </div>
-                    <div class="categoria">
+                    </a>
+                    <a href="{{url('doacoes/anuncios/3')}}" class="categoria rounded">
                         <h6>Educação</h6>
                         <span class="fa fa-graduation-cap"></span>
-                    </div>
-                    <div class="categoria">
+                    </a>
+                    <a href="{{url('doacoes/anuncios/4')}}" class="categoria rounded">
                         <h6>Eletrônico</h6>
                         <span class="fa fa-mobile-alt"></span>
-                    </div>
-                    <div class="categoria">
+                    </a>
+                    <a href="{{url('doacoes/anuncios/5')}}" class="categoria rounded">
                         <h6>Esporte e Lazer</h6>
                         <span class="fa fa-bicycle"></span>
-                    </div>
-                    <div class="categoria">
+                    </a>
+                    <a href="{{url('doacoes/anuncios/6')}}" class="categoria rounded">
                         <h6>Infantil</h6>
                         <span class="fa fa-child"></span>
-                    </div>
-                    <div class="categoria">
+                    </a>
+                    <a href="{{url('doacoes/anuncios/7')}}" class="categoria rounded">
                         <h6>Música</h6>
                         <span class="fa fa-music"></span>
-                    </div>
-                    <div class="categoria">
+                    </a>
+                    <a href="{{url('doacoes/anuncios/8')}}" class="categoria rounded">
                         <h6>Vestuário</h6>
                         <span class="fa fa-tshirt"></span>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
     </div> 
+
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center espacamento-bloco">
+            <a class="btn btn-lg btn-secondary" href="{{url('doacoes/anuncios/all')}}">Ver todos os anúncios</a>
+        </div>
+    </div>
 
     <div class="row justify-content-center">
         <div class="col-md-12">
