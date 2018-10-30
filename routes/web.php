@@ -38,6 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/doacoes/pesquisa', 'DoacoesController@pesquisa');
     Route::post('/doacoes/mudarStatus', 'DoacoesController@mudarStatus');
 	//##################
+
+    //#### USUARIOS #####
+    Route::get('/usuarios/perfil/{id}', 'UsuariosController@perfil');
+    //###################
 });
 //#####################
 
