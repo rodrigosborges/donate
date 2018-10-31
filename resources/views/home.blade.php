@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
-                    <button class="btn btn-dark" type="submit">Pesquisar</button>
+                    <button class="btn btn-danger" type="submit">Pesquisar</button>
                 </div>
             </form>
         </div>
@@ -87,7 +87,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-12 text-center espacamento-bloco">
-            <a class="btn btn-lg btn-secondary" href="{{url('doacoes/anuncios/all')}}">Ver todos os anúncios</a>
+            <a class="btn btn-lg btn-red" href="{{url('doacoes/anuncios/all')}}">Ver todos os anúncios</a>
         </div>
     </div>
 

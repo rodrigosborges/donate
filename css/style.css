@@ -25,12 +25,25 @@
 	position: absolute!important;
 }
 
+.btn-danger{
+	background-color: #800!important;
+}
+
 /*################################################*/
 
 /*CLASSES*/
 
 .espacamento-bloco{
 	margin: 0 0 3% 0!important;
+}
+
+.btn-red{
+	background-color: #660000;
+	color: white;
+}
+
+.btn-red:hover{
+	color: white;
 }
 
 .categoria{
@@ -70,7 +83,7 @@
     overflow: hidden;
 }
 
-.anuncio img{
+.anuncio img, .anuncio-slider img{
 	width: 100%;
     height: 150px;
 	margin-bottom: 3%;
@@ -83,6 +96,15 @@
 
 .anuncio .btn{
 	float: right;
+}
+
+.anuncio-slider{
+    box-shadow: 0px 0px 10px;
+    padding: 3% 3.5% 3% 3.5%;
+    margin: 1.5% 1.5%;
+    border-radius: 2%;
+    font-family: roboto;
+    overflow: hidden;
 }
 
 .anuncio-detalhado{
@@ -130,6 +152,14 @@
     height: 350px;
 }
 
+footer{
+	height: auto;
+	padding: 3% 0;
+	background-color: #660000;
+	color: white;
+	clear: both;
+}
+
 .imagem-edicao{
 	float: left;
 	border: 1px solid black;
@@ -156,6 +186,10 @@
 .informacoes{
 	text-align: center;
 	padding: 0 2%;
+}
+
+.item img{
+	height: 150px!important;
 }
 
 .bloqueado{

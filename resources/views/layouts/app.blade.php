@@ -11,10 +11,10 @@
    <title>Donate</title>
 
     <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
-    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -67,11 +67,12 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-
+                                    <a href="{{url('/doacoes/create')}}" class="dropdown-item">Anunciar</a>
+                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{url('/usuarios/perfil/'.Auth::id())}}">Meu Perfil</a>
+                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{url('/doacoes/meus-anuncios')}}">Meus Anúncios</a>
                                     <div class="dropdown-divider"></div>
-                                    <a href="{{url('/doacoes/create')}}" class="dropdown-item">Doar</a>
-                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -94,6 +95,12 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <footer>
+            <div class="col-md-12 text-center">
+                <span>2018 - Donate © - Todos os Direitos Reservados</span>
+            </div>
+        </footer>
     </div>
     @yield('js')
 </body>
