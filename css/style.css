@@ -152,6 +152,10 @@
     height: 350px;
 }
 
+.fa-star{
+	font-size: 30px;
+}
+
 footer{
 	height: auto;
 	padding: 3% 0;

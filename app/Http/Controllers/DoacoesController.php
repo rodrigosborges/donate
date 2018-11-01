@@ -11,6 +11,7 @@ use App\Categoria;
 use App\Bairro;
 use App\Doacao;
 use App\Imagem;
+use App\Avaliacao;
 
 use DB;
 
@@ -49,11 +50,16 @@ class DoacoesController extends Controller
 
 		$anuncio = Doacao::find($id);
 
+		$avaliacoes = Avaliacao::all();
+
+		$avaliacaoExistente = Avaliacao::where('avaliador_id', Auth::id())->where('avaliado_id', $anuncio->usuario_id)->first();
+
+
 		if($anuncio->aprovado == 0 && Auth::user()->nivel != 1){
 			return redirect('/')->with('warning', 'Este anúncio não está disponível!');
 		}
 
-		return view('doacoes.anuncio', compact("anuncio"));
+		return view('doacoes.anuncio', compact("anuncio", "avaliacoes", "avaliacaoExistente"));
 	}
 
 	public function editar($id){

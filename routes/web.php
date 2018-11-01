@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
     //#### USUARIOS #####
     Route::get('/usuarios/perfil/{id}', 'UsuariosController@perfil');
     //###################
+
+    //#### AVALIAÇÕES ####
+    Route::get('/avaliacoes/avaliar', 'AvaliacoesController@avaliar');
+    //####################
 });
 //#####################
 

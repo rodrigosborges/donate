@@ -102,8 +102,21 @@
             </div>
             <div class="card espacamento">
                 <div class="card-header">Avaliações</div>
-                <div class="card-body text-left">
-                    
+                <div class="card-body">
+                    <div class="col-md-12 text-center">
+                        <div id="avaliacao">
+                            @if($avaliacaoExistente !== null)
+                                <p>Você avaliou este doador com {{$avaliacaoExistente->nivel}} estrelas!
+                                <p>Clique <span style="color:blue; cursor:pointer" id="mudar-avaliacao">aqui</span> para mudar a sua avaliação.</p>
+                            @endif
+                            <p>Avalie este doador!</p>
+                            <i id="star-1" class="far fa-star"></i>
+                            <i id="star-2" class="far fa-star"></i>
+                            <i id="star-3" class="far fa-star"></i>
+                            <i id="star-4" class="far fa-star"></i>
+                            <i id="star-5" class="far fa-star"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,5 +125,39 @@
 @endsection
 
 @section('js')
-<script type="text/javascript" src="{{asset('js/anuncios/anuncios.js')}}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".fa-star").mouseenter(function(){
+            var id = this.id;
+            var posicao = id.split("-")[1]
+            $(".fa-star:lt("+posicao+")").css({'color':'gold', 'transition':'0.2s', 'cursor':'pointer'})
+        }).mouseleave(function(){
+            $(".fa-star").css('color', 'black')
+        }).click(function(){
+            var id = this.id;
+            var level = id.split("-")[1];
+            
+            var request = $.ajax({
+              method: "GET",
+              url: '/donate/avaliacoes/avaliar',
+              data: { nivel: level, avaliador_id: <?php echo Auth::id(); ?>, avaliado_id: <?php echo $anuncio->usuario_id; ?>},
+              dataType: "json"
+              });
+
+            request.done(function(data) {
+                $("#avaliacao .fa-star").hide();
+                $("#avaliacao p").hide();
+                $("#avaliacao").append('<p>Você avaliou este doador com '+data.nivel+' estrelas!<p>Clique <span style="color:blue; cursor:pointer" id="mudar-avaliacao">aqui</span> para mudar a sua avaliação.</p>');
+            });
+
+        });
+
+        $(document).on('click', '#mudar-avaliacao', function(){
+            $("#avaliacao p").hide();
+            $("#avaliacao").prepend("<p>Avalie este doador!</p>");
+            $("#avaliacao .fa-star").show();
+        });
+
+    });
+</script>
 @endsection
