@@ -104,19 +104,28 @@
                 <div class="card-header">Avaliações</div>
                 <div class="card-body">
                     <div class="col-md-12 text-center">
-                        <div id="avaliacao">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <canvas id="grafico-avaliacoes"></canvas>
+                            </div>
+                            <div class="col-md-6">
                             @if($avaliacaoExistente !== null)
-                                <p>Você avaliou este doador com {{$avaliacaoExistente->nivel}} estrelas!
-                                <p>Clique <span style="color:blue; cursor:pointer" id="mudar-avaliacao">aqui</span> para mudar a sua avaliação.</p>
+                                <div id="ja-avaliado">
+                                    <p style="font-size:1.4em">Você avaliou este doador com {{$avaliacaoExistente->nivel}} estrelas!</p>
+                                </div>
                             @endif
-                            <p>Avalie este doador!</p>
-                            <i id="star-1" class="far fa-star"></i>
-                            <i id="star-2" class="far fa-star"></i>
-                            <i id="star-3" class="far fa-star"></i>
-                            <i id="star-4" class="far fa-star"></i>
-                            <i id="star-5" class="far fa-star"></i>
+                            <div id="avaliacao" style={{($avaliacaoExistente !== null) ? "display:none" : ""}}>
+                                <p>Avalie este doador!</p>
+                                <i id="star-1" class="far fa-star"></i>
+                                <i id="star-2" class="far fa-star"></i>
+                                <i id="star-3" class="far fa-star"></i>
+                                <i id="star-4" class="far fa-star"></i>
+                                <i id="star-5" class="far fa-star"></i>
+                            </div>
+                             <p id="p-mudar-avaliacao" style={{($avaliacaoExistente !== null) ? "" : "display:none"}}>Clique <span id="btn-mudar-avaliacao">aqui</span> para mudar a sua avaliação!</p> 
+                            </div>
                         </div>
-                    </div>
+                    </div>    
                 </div>
             </div>
         </div>
@@ -125,6 +134,7 @@
 @endsection
 
 @section('js')
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $(".fa-star").mouseenter(function(){
@@ -145,17 +155,60 @@
               });
 
             request.done(function(data) {
-                $("#avaliacao .fa-star").hide();
                 $("#avaliacao p").hide();
-                $("#avaliacao").append('<p>Você avaliou este doador com '+data.nivel+' estrelas!<p>Clique <span style="color:blue; cursor:pointer" id="mudar-avaliacao">aqui</span> para mudar a sua avaliação.</p>');
+                $("#avaliacao .fa-star").hide();
+                $("#p-mudar-avaliacao").show();
+                $("#avaliacao").prepend('<p style="font-size:1.4em">Você avaliou este doador com '+data.nivel+' estrelas!');
+
             });
 
         });
 
-        $(document).on('click', '#mudar-avaliacao', function(){
+        $(document).on('click', '#btn-mudar-avaliacao', function(){
+            $("#ja-avaliado").hide();
+            $("#p-mudar-avaliacao").hide();
             $("#avaliacao p").hide();
             $("#avaliacao").prepend("<p>Avalie este doador!</p>");
+            $("#avaliacao").show();
             $("#avaliacao .fa-star").show();
+        });
+
+        var ctx = document.getElementById('grafico-avaliacoes').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'horizontalBar',
+            // The data for our dataset
+            data: {
+                labels: ["1 Estrela", "2 Estrelas", "3 Estrelas", "4 Estrelas", "5 Estrelas"],
+                datasets: [{
+                    label: "Avaliações",
+                    backgroundColor: 'gold',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [
+                    <?php echo $qtdAvaliacoes['1-star']; ?>,
+                    <?php echo $qtdAvaliacoes['2-star']; ?>,
+                    <?php echo $qtdAvaliacoes['3-star']; ?>,
+                    <?php echo $qtdAvaliacoes['4-star']; ?>,
+                    <?php echo $qtdAvaliacoes['5-star']; ?>
+                    ],
+                }]
+            },
+
+            
+
+            // Configuration options go here
+            options: {
+                legend: {
+                display: false
+                },
+                tooltips: {
+                    callbacks: {
+                       label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                       }
+                    }
+                }
+            }
         });
 
     });

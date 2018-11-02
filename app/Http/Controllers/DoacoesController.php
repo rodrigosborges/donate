@@ -54,12 +54,19 @@ class DoacoesController extends Controller
 
 		$avaliacaoExistente = Avaliacao::where('avaliador_id', Auth::id())->where('avaliado_id', $anuncio->usuario_id)->first();
 
+		$qtdAvaliacoes = [
+			'1-star' => Avaliacao::where('avaliado_id', $anuncio->usuario_id)->where('nivel', 1)->count(),
+			'2-star' => Avaliacao::where('avaliado_id', $anuncio->usuario_id)->where('nivel', 2)->count(),
+			'3-star' => Avaliacao::where('avaliado_id', $anuncio->usuario_id)->where('nivel', 3)->count(),
+			'4-star' => Avaliacao::where('avaliado_id', $anuncio->usuario_id)->where('nivel', 4)->count(),
+			'5-star' => Avaliacao::where('avaliado_id', $anuncio->usuario_id)->where('nivel', 5)->count()
+		];
 
 		if($anuncio->aprovado == 0 && Auth::user()->nivel != 1){
 			return redirect('/')->with('warning', 'Este anúncio não está disponível!');
 		}
 
-		return view('doacoes.anuncio', compact("anuncio", "avaliacoes", "avaliacaoExistente"));
+		return view('doacoes.anuncio', compact("anuncio", "avaliacoes", "avaliacaoExistente", "qtdAvaliacoes"));
 	}
 
 	public function editar($id){

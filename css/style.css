@@ -46,6 +46,12 @@
 	color: white;
 }
 
+#btn-mudar-avaliacao{
+	color: #800;
+	cursor: pointer;
+	font-weight: bold;
+}
+
 .categoria{
 	float: left;
 	text-align: center;
