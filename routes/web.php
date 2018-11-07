@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
 
     //#### USUARIOS #####
     Route::get('/usuarios/perfil/{id}', 'UsuariosController@perfil');
+    Route::get('/usuarios/mensagens', 'MensagensController@index');
     //###################
 
     //#### AVALIAÇÕES ####

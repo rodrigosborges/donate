@@ -109,20 +109,25 @@
                                 <canvas id="grafico-avaliacoes"></canvas>
                             </div>
                             <div class="col-md-6">
-                            @if($avaliacaoExistente !== null)
-                                <div id="ja-avaliado">
-                                    <p style="font-size:1.4em">Você avaliou este doador com {{$avaliacaoExistente->nivel}} estrelas!</p>
+                            @auth
+                                @if($avaliacaoExistente !== null)
+                                    <div id="ja-avaliado">
+                                        <p style="font-size:1.4em">Você avaliou este doador com {{$avaliacaoExistente->nivel}} estrelas!</p>
+                                    </div>
+                                @endif
+                                <div id="avaliacao" style={{($avaliacaoExistente !== null) ? "display:none" : ""}}>
+                                    <p>Avalie este doador!</p>
+                                    <i id="star-1" class="far fa-star"></i>
+                                    <i id="star-2" class="far fa-star"></i>
+                                    <i id="star-3" class="far fa-star"></i>
+                                    <i id="star-4" class="far fa-star"></i>
+                                    <i id="star-5" class="far fa-star"></i>
                                 </div>
-                            @endif
-                            <div id="avaliacao" style={{($avaliacaoExistente !== null) ? "display:none" : ""}}>
-                                <p>Avalie este doador!</p>
-                                <i id="star-1" class="far fa-star"></i>
-                                <i id="star-2" class="far fa-star"></i>
-                                <i id="star-3" class="far fa-star"></i>
-                                <i id="star-4" class="far fa-star"></i>
-                                <i id="star-5" class="far fa-star"></i>
-                            </div>
-                             <p id="p-mudar-avaliacao" style={{($avaliacaoExistente !== null) ? "" : "display:none"}}>Clique <span id="btn-mudar-avaliacao">aqui</span> para mudar a sua avaliação!</p> 
+                                <p id="p-mudar-avaliacao" style={{($avaliacaoExistente !== null) ? "" : "display:none"}}>Clique <span id="btn-mudar-avaliacao">aqui</span> para mudar a sua avaliação!</p>
+                            @else
+                                <p>Faça <a href="{{url('/login')}}">login</a> para avaliar o doador.</p>
+                                <p>Ainda não tem uma conta? <a href="{{url('/register')}}">Cadastre-se</a></p>
+                            @endauth
                             </div>
                         </div>
                     </div>    
@@ -137,6 +142,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+        <?php if(Auth::user()){ ?>
+
         $(".fa-star").mouseenter(function(){
             var id = this.id;
             var posicao = id.split("-")[1]
@@ -172,6 +179,9 @@
             $("#avaliacao").show();
             $("#avaliacao .fa-star").show();
         });
+
+        <?php } ?>
+
 
         var ctx = document.getElementById('grafico-avaliacoes').getContext('2d');
         var chart = new Chart(ctx, {
