@@ -62,7 +62,7 @@
                             </li>
                         @else
                             <li class="nav-item espacamento-icon">
-                                <i id="msg-icon" class="text-white fas fa-envelope"></i>
+                                <a href="{{url('/usuarios/mensagens')}}"><i id="msg-icon" class="text-white fas fa-envelope"></i>
                             </li>
                            <!--  <span class="text-white nav-item">|</span> -->
                             <li class="nav-item dropdown">

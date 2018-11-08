@@ -62,7 +62,17 @@
                         <div class="col-md-12 text-center">
                         @auth
                             @if($anuncio->usuario_id != Auth::user()->id)
-                                <a class="btn btn-primary" href="#">Enviar mensagem ao doador</a>
+                                <button id="btn-enviar-msg" class="btn btn-primary" href="#">Enviar mensagem ao doador</button>
+                                <div id="mensagem" style="display:none; margin-top:4%">
+                                    <form method="POST" action="{{url('/usuarios/mensagens/enviar')}}">
+                                        @csrf
+                                        <div class="form-group">
+                                            <input type="hidden" name="destinatario_id" value="{{$anuncio->usuario_id}}">
+                                            <input class="form-control form-lg" type="text" name="texto" placeholder="Escreva aqui a sua mensagem...">
+                                        </div>
+                                            <input class="btn btn-danger class="form-control" type="submit" value="Enviar">
+                                    </form>
+                                </div>
                             @else
                                 @if($anuncio->aprovado == 1)
                                     <div class="row">
@@ -142,6 +152,17 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
+
+        $("#btn-enviar-msg").click(function(){
+            if($("#mensagem").is(":hidden")){
+                $(this).html("Esconder");
+                $("#mensagem").slideDown();
+            }else{
+                $(this).html("Enviar mensagem ao vendedor");
+                $("#mensagem").slideUp();
+            }
+        })
+
         <?php if(Auth::user()){ ?>
 
         $(".fa-star").mouseenter(function(){

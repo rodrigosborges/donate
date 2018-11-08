@@ -18,4 +18,9 @@ class Usuario extends Authenticatable{
     protected $hidden = [
         'password', 'remember_token','created_at','updated_at','deleted_at','nivel','email', 'id'
     ];
+
+    public function mensagens()
+    {
+        return $this->hasMany('App\Mensagem');
+    }
 }

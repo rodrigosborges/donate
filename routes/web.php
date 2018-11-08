@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
     //#### USUARIOS #####
     Route::get('/usuarios/perfil/{id}', 'UsuariosController@perfil');
     Route::get('/usuarios/mensagens', 'MensagensController@index');
+    Route::get('/usuarios/mensagens/buscarMensagens', 'MensagensController@buscarMensagens');
+    Route::post('/usuarios/mensagens/enviar', 'MensagensController@enviar');
     //###################
 
     //#### AVALIAÇÕES ####

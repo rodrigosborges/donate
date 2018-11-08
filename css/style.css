@@ -31,6 +31,15 @@
 
 /*################################################*/
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin: 0 0 100px;
+}
+
 /*CLASSES*/
 
 .espacamento-bloco{
@@ -163,11 +172,15 @@
 }
 
 footer{
-	height: auto;
-	padding: 3% 0;
+	padding: 2% 0;
 	background-color: #660000;
 	color: white;
-	clear: both;
+	position: absolute;
+  	left: 0;
+  	bottom: 0;
+  	width: 100%;
+  	overflow:hidden;
+  	z-index: 9999;
 }
 
 .imagem-edicao{
@@ -210,9 +223,27 @@ footer{
 .logo{
 	font-size: 1.2em;
 }
+
+.msg-box{
+	width: 35%;
+	border: 1px solid black;
+	padding: 2%;
+    border-radius: 10%;
+    box-shadow: 0 0 3px;
+}
+
+.usuario-conversa{
+	cursor: pointer;
+}
 /*################################################*/
 
 /*IDs*/
+
+#mensagens{
+	height: 350px;
+	overflow: scroll;
+	overflow-x: hidden;
+}
 
 #msg-icon{
 	display: block;
