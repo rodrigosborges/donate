@@ -34,7 +34,7 @@
                 @csrf
                 <div class="form-group">
                     <input id="destinatario-selecionado" type="hidden" name="destinatario_id">
-                    <input class="form-control form-lg" type="text" name="texto" placeholder="Escreva aqui a sua mensagem...">
+                    <input class="form-control form-lg" type="text" name="texto" placeholder="Escreva aqui a sua mensagem..." required>
                 </div>
                     <input class="btn btn-danger class="form-control" type="submit" value="Enviar">
                 </div>

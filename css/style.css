@@ -17,6 +17,9 @@
 .frases{
 	font-family: admiration;
 	font-size: 4em;
+	position: absolute;
+	right: 0;
+	left: 0;
 }
 
 .nav-item{
@@ -89,7 +92,7 @@ body {
 
 .categoria:hover{
 	color: #800;
-	transition: 0.2s ease;
+	transition: .1s;
 	cursor: pointer;
 }
 
@@ -254,10 +257,20 @@ footer{
 
 /*IDs*/
 
+#frases-div{
+	height: 120px;
+}
+
 #mensagens{
 	height: 350px;
 	overflow: scroll;
 	overflow-x: hidden;
+}
+
+#result{
+	border-radius: 10%;
+	padding: 3%;
+    margin: 2% 0;
 }
 
 /*################################################*/

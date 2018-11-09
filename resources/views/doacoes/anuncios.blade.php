@@ -50,7 +50,9 @@
 	    </div>
 	    <div class="row">
 	        <div class="col-md-12 link-paginacao">
-	        	{{$anuncios->links()}}
+	        	@if(count($anuncios) != 0)
+	        		{{$anuncios->links()}}
+	        	@endif
 	    	</div>
 		</div>
 	</div>

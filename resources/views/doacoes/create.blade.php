@@ -144,6 +144,7 @@ window.onload = function(){
             var files = event.target.files; //FileList object
             var output = document.getElementById("result");
             $("#result").empty()
+            $("#result").show()
             for(var i = 0; i< files.length; i++){
                 var file = files[i];
                 //Only pics
@@ -153,7 +154,7 @@ window.onload = function(){
                 picReader.addEventListener("load",function(event){
                     var picFile = event.target;
                     var div = document.createElement("div");
-                    div.innerHTML = "<img class='thumbnail' height=120px width=120px src='" + picFile.result + "'" +
+                    div.innerHTML = "<img style='padding:4% 4%' class='thumbnail' height=120px width=120px src='" + picFile.result + "'" +
                     "title='" + picFile.name + "'/>";
                     output.insertBefore(div,null);
                 });

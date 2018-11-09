@@ -13,6 +13,8 @@ class MensagensController extends Controller{
 
     	$mensagens = Mensagem::select('destinatario_id')->where('remetente_id', Auth::id())->orWhere('destinatario_id', Auth::id())->groupBy("destinatario_id")->get();
 
+        $usuarios = [];
+
     	foreach ($mensagens as $key => $mensagem) {
     		if($mensagem->destinatario['id'] !== Auth::id()){
     			$usuarios[$key]['id'] = $mensagem->destinatario['id'];

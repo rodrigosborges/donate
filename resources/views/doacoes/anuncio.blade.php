@@ -139,15 +139,17 @@
                                         <p style="font-size:1.4em">Você avaliou este doador com {{$avaliacaoExistente->nivel}} estrelas!</p>
                                     </div>
                                 @endif
-                                <div id="avaliacao" style={{($avaliacaoExistente !== null) ? "display:none" : ""}}>
-                                    <p>Avalie este doador!</p>
-                                    <i id="star-1" class="far fa-star"></i>
-                                    <i id="star-2" class="far fa-star"></i>
-                                    <i id="star-3" class="far fa-star"></i>
-                                    <i id="star-4" class="far fa-star"></i>
-                                    <i id="star-5" class="far fa-star"></i>
-                                </div>
-                                <p id="p-mudar-avaliacao" style={{($avaliacaoExistente !== null) ? "" : "display:none"}}>Clique <span id="btn-mudar-avaliacao">aqui</span> para mudar a sua avaliação!</p>
+                                @if(Auth::id() != $anuncio->usuario_id)
+                                    <div id="avaliacao" style={{($avaliacaoExistente !== null) ? "display:none" : ""}}>
+                                        <p>Avalie este doador!</p>
+                                        <i id="star-1" class="far fa-star"></i>
+                                        <i id="star-2" class="far fa-star"></i>
+                                        <i id="star-3" class="far fa-star"></i>
+                                        <i id="star-4" class="far fa-star"></i>
+                                        <i id="star-5" class="far fa-star"></i>
+                                    </div>
+                                    <p id="p-mudar-avaliacao" style={{($avaliacaoExistente !== null) ? "" : "display:none"}}>Clique <span id="btn-mudar-avaliacao">aqui</span> para mudar a sua avaliação!</p>
+                                @endif
                             @else
                                 <p>Faça <a href="{{url('/login')}}">login</a> para avaliar o doador.</p>
                                 <p>Ainda não tem uma conta? <a href="{{url('/register')}}">Cadastre-se</a></p>

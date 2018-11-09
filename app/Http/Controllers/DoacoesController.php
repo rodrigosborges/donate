@@ -136,8 +136,11 @@ class DoacoesController extends Controller
 		foreach ($request->imagem as $key => $imagem) {
 			$upload = $imagem->storeAs("anuncio_$anuncio->id", "DonateImage_$key.png");
 		}
-
-		return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
+		if(Auth::user()->nivel == 1){
+			return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio cadastrado!');
+		}else{
+			return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
+		}
 	}
 
 	public function mudarStatus(Request $request){
@@ -194,7 +197,7 @@ class DoacoesController extends Controller
 			->when($termos, function ($query, $termos){	
 	            return $query->where('titulo', 'like', '%'.$termos.'%')
 	            ->orWhere('descricao', 'like', '%'.$termos.'%');
-	        })->get();
+	        })->paginate(10);
 
 		return view('/doacoes/anuncios', compact("anuncios", "termos"));
 	}

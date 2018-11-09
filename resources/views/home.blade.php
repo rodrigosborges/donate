@@ -19,7 +19,7 @@
     @endif
 
     <div class="row text-center">
-        <div class="col-md-12">
+        <div id="frases-div" class="col-md-12">
             <div class="frases"><p>Donate</p></div>
         </div>
     </div>
@@ -118,20 +118,30 @@
 @section('js')
 <script type="text/javascript">
 
+    function typeWriter(frases) {
+        const textoArray = frases.innerHTML.split('');
+        frases.innerHTML = '';
+        for(let i = 0; i < textoArray.length; i++) {
+          setTimeout(() => frases.innerHTML += textoArray[i], 110 * i);
+        }
+    }
+
     const elemento = document.querySelector('p');
     typeWriter(elemento);
 
     $(document).ready(function(){
 
         var frases = [
-            'Doar',
-            'Receber'
+            'Doe',
+            'Encontre',
+            'Receba',
+            'Donate'
         ];
 
         var i = 0;
         setInterval(function(){
             $(".frases").fadeIn();
-            $(".frases").fadeOut(2000, function(){
+            //$(".frases").fadeOut(5000, function(){
                 $(".frases").html("<p>"+frases[i]+"</p>");
                 i++;
                 const elemento = document.querySelector('p');
@@ -139,22 +149,20 @@
                 if(i == frases.length){
                     i = 0;
                 }
-            });
-        }, 2000);
+                // setTimeout(function(){
+                //     $(".frases").fadeOut()
+                // },5000)
+            //});
+        }, 5000);
+
+        $(".categoria").mouseenter(function(){
+            $(this).find("span").css({"transform":"rotate(10deg)","transition":".2s"})
+        }).mouseleave(function(){
+            $(this).find("span").css({"transform":"rotate(0deg)","transition":".2s"})
+        })
+
     });
    
-
-  function typeWriter(frases) {
-    const textoArray = frases.innerHTML.split('');
-    frases.innerHTML = '';
-    for(let i = 0; i < textoArray.length; i++) {
-      setTimeout(() => frases.innerHTML += textoArray[i], 110 * i);
-    }
-  }
-
-   
-
-    //})
  
 </script>
 @endsection
