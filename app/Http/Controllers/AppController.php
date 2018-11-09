@@ -25,12 +25,23 @@ class AppController extends Controller{
 			->join('cidades','cidades.id','=','bairros.cidade_id')
 			->join('usuarios','usuarios.id','=','doacoes.usuario_id')
 		->join('categorias','categorias.id','=','doacoes.categoria_id');
+
 		if(isset($dados['categoria_id']))
 			$anuncios = $anuncios->where('categoria_id',$dados['categoria_id']);
+
 		if(isset($dados['cidade_id']))
 			$anuncios = $anuncios->where('cidade_id',$dados['cidade_id']);
-		if(isset($dados['email']))
-			$anuncios = $anuncios->where('usuarios.email',$dados['email']);
+
+		if(isset($dados['id']))
+			$anuncios = $anuncios->where('usuarios.id',$dados['id']);
+
+		if(isset($dados['pesquisa'])){
+			$anuncios = $anuncios->where(function ($query) use($dados){
+				return $query->where('titulo', 'like', '%'.$dados['pesquisa'].'%')
+				->orWhere('descricao', 'like', '%'.$dados['pesquisa'].'%');
+			})->get();
+		}
+
 		$anuncios = $anuncios->select('doacoes.titulo as titulo','descricao','categorias.nome as categoriaNome','bairros.nome as bairroNome', 'cidades.nome as cidadeNome','doacoes.created_at as data', 'doacoes.id as id','usuarios.nome as usuarioNome', 'usuarios.id as doador_id')->orderBy('doacoes.created_at','desc')->paginate(10);
 		foreach($anuncios as $key => $anuncio){
 			$imagens = [];
@@ -76,7 +87,7 @@ class AppController extends Controller{
 		DB::beginTransaction();
 		try{
 
-			$usuario = Usuario::where('email',$request->email)->first();
+			$usuario = Usuario::find($request->id);
 			$request['usuario_id'] = $usuario->id;
 
 			if($usuario->nivel == 1)
