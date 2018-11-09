@@ -89,6 +89,20 @@
                                             <a class="btn btn-primary" href="{{url('doacoes/editar/'.$anuncio->id)}}">Editar</a>
                                         </div>
                                     </div>
+                                @elseif(Auth::user()->nivel == 1)
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form method="POST" action="{{url('doacoes/mudarStatus')}}">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$anuncio->id}}">
+                                                <input type="hidden" name="tipo" value="aprovado">
+                                                <input type="hidden" name="valor" value="1">
+                                                <input class="btn btn-danger" type="submit" value="Aprovar"/>
+                                            </form>
+                                        </div>
+                                    </div>
+
                                 @endif
                             @endif
                         @else

@@ -20,7 +20,7 @@
 
     <div class="row text-center">
         <div class="col-md-12">
-            <div class="frases"><p style='font-size:3em'>Bem vindo ao Donate!</p></div>
+            <div class="frases"><p>Donate</p></div>
         </div>
     </div>
 
@@ -33,7 +33,7 @@
                         <div class="input-group-prepend">
                           <div class="input-group-text"><span class="fa fa-search"></span></div>
                         </div>
-                       <input name="termos" class="form-control form-control-lg" type="text" placeholder="O que você está procurando?">
+                       <input name="termos" class="form-control form-control-lg" type="text" placeholder="O que você está procurando?" required>
                     </div>
                 </div>
                 <div class="col-md-12 text-center">
@@ -117,27 +117,44 @@
 
 @section('js')
 <script type="text/javascript">
+
+    const elemento = document.querySelector('p');
+    typeWriter(elemento);
+
     $(document).ready(function(){
+
         var frases = [
-            'Texto 1',
-            'Texto 2',
-            'Texto 3',
-            'Texto 4',
+            'Doar',
+            'Receber'
         ];
 
         var i = 0;
         setInterval(function(){
-            $(".frases").fadeIn(2000).delay(5000);
+            $(".frases").fadeIn();
             $(".frases").fadeOut(2000, function(){
-                $(".frases").html("<p style='font-size:3em'>"+frases[i]+"</p>");
+                $(".frases").html("<p>"+frases[i]+"</p>");
                 i++;
+                const elemento = document.querySelector('p');
+                typeWriter(elemento);
                 if(i == frases.length){
                     i = 0;
                 }
             });
         }, 2000);
+    });
+   
 
-    })
+  function typeWriter(frases) {
+    const textoArray = frases.innerHTML.split('');
+    frases.innerHTML = '';
+    for(let i = 0; i < textoArray.length; i++) {
+      setTimeout(() => frases.innerHTML += textoArray[i], 110 * i);
+    }
+  }
+
+   
+
+    //})
  
 </script>
 @endsection

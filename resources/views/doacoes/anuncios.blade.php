@@ -48,6 +48,10 @@
 	            </div>
 	        </div>
 	    </div>
-    </div>
-
+	    <div class="row">
+	        <div class="col-md-12 link-paginacao">
+	        	{{$anuncios->links()}}
+	    	</div>
+		</div>
+	</div>
 @endsection

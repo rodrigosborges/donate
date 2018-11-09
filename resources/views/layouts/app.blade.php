@@ -61,9 +61,9 @@
                                 @endif
                             </li>
                         @else
-                            <li class="nav-item espacamento-icon">
+                           <!--  <li class="nav-item espacamento-icon">
                                 <a href="{{url('/usuarios/mensagens')}}"><i id="msg-icon" class="text-white fas fa-envelope"></i>
-                            </li>
+                            </li> -->
                            <!--  <span class="text-white nav-item">|</span> -->
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="text-white nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -77,6 +77,12 @@
                                      <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{url('/doacoes/meus-anuncios')}}">Meus Anúncios</a>
                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{url('/usuarios/mensagens')}}">Mensagens</a>
+                                    <div class="dropdown-divider"></div>
+                                    @if(Auth::user()->nivel == 1)
+                                    <a class="dropdown-item" href="{{url('/doacoes/aguardando-aprovacao')}}">Aguardando Aprovação</a>
+                                    <div class="dropdown-divider"></div>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

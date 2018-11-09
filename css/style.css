@@ -1,3 +1,8 @@
+@font-face {
+     font-family: admiration;
+     src: url('fonts/admiration.ttf');
+}
+
 /*MODIFICAÇÕES EM CLASSES DO LARAVEL E BOOTSTRAP*/
 
 .card{
@@ -7,6 +12,11 @@
 .card-header{
 	background-color: #800;
 	color: white;
+}
+
+.frases{
+	font-family: admiration;
+	font-size: 4em;
 }
 
 .nav-item{
@@ -220,6 +230,11 @@ footer{
     pointer-events: none;
 }
 
+.link-paginacao{
+	margin: 3% 0;
+    height: 0;
+}
+
 .logo{
 	font-size: 1.2em;
 }
@@ -245,11 +260,6 @@ footer{
 	overflow-x: hidden;
 }
 
-#msg-icon{
-	display: block;
-	font-size: 1.1em
-}
-
 /*################################################*/
 
 /*BREAKPOINTS*/
@@ -258,10 +268,6 @@ footer{
 	.categoria{
 		width: 92%;
 		margin: 4% 4%;
-	}
-
-	#msg-icon{
-		display: none;
 	}
 
 	.anuncio{
@@ -284,6 +290,10 @@ footer{
 
 	.espacamento-linha{
 		margin: 15% 0;
+	}
+
+	.navbar-nav{
+		flex-direction: row
 	}
 }
 

@@ -10,12 +10,11 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Meus Anúncios</div>
+                <div class="card-header">Aguardando Aprovação</div>
                 <div class="card-body">
                     @if(count($anuncios) == 0)
                     <div class="col-md-12 text-center">
-                        <span style="font-size:1.7em">Você ainda não possui nenhum anúncio.<br><i class="far fa-frown"></i></span><br>
-                        <span style="font-size:1.7em">Anuncie clicando <a href="{{url('/doacoes/create')}}">aqui</a></span>
+                        <span style="font-size:1.7em">Nenhum anúncio aguardando aprovação no momento.<br><i class="far fa-frown"></i></span>
                     </div>
                     @endif
                     @foreach($anuncios as $anuncio)
@@ -27,15 +26,6 @@
                             {{$anuncio->bairro->cidade->nome}}</span><br>
                             <span class="fa fa-clock"></span>
                             <span>{{$anuncio->created_at}}</span><br>
-                            <span>Situação:</span>
-                            <span hidden class="situacao">{{$anuncio->aprovado}}</span>
-                            <?php
-                            if($anuncio->aprovado == 1){
-                                echo '<span>Aprovado</span>';
-                            }else{
-                                echo '<span>Em análise</span>';
-                            }
-                            ?>
                             <br>
                             <a href="{{url('doacoes/anuncio/'.$anuncio->id)}}" class="btn btn-danger">Ver mais</a>
                         </div>
@@ -48,5 +38,5 @@
 @endsection
 
 @section('js')
-<script type="text/javascript" src="{{asset('js/anuncios/anuncios.js')}}"></script>
+
 @endsection

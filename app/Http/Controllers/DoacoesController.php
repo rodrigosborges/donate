@@ -37,13 +37,22 @@ class DoacoesController extends Controller
 	    return view('doacoes.create', compact("bairros", "categorias"));
 	}
 
-	public function meusAnuncios(Request $request){
+	public function meusAnuncios(){
 
 		$anuncios = Doacao::where('usuario_id', Auth::user()->id)->get();
 
-		//return $anuncios[0]->getImagens($anuncios[0]->id)[0];
-
 	    return view('doacoes.meus-anuncios', compact('anuncios'));
+	}
+
+	public function aguardandoAprovacao(){
+
+		if(Auth::user()->nivel != 1){
+			return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
+		}
+
+		$anuncios = Doacao::where('aprovado', 0)->get();
+
+	    return view('doacoes.aguardando-aprovacao', compact('anuncios'));
 	}
 
 	public function anuncio($id){
@@ -149,7 +158,14 @@ class DoacoesController extends Controller
 
 		$anuncio->save();
 
+		if($request->valor == 0){
+			return back()->with("status", "Anúncio marcado como não ".$tipo);
+		}else{
+			return back()->with("status", "Anúncio marcado como ".$tipo);
+		}
+
 		return back();
+	
 	}
 
 	public function anuncios($categoria){
