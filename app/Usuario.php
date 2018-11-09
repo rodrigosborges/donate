@@ -12,15 +12,22 @@ class Usuario extends Authenticatable{
     protected $table = 'usuarios';
 
     protected $fillable = [
-        'nome', 'email', 'password', 'remember_token',
+        'nome', 'email', 'password', 'remember_token','nivel',
     ];
 
     protected $hidden = [
         'password', 'remember_token','created_at','updated_at','deleted_at','nivel','email', 'id'
     ];
 
-    public function mensagens()
-    {
+    public function doacoes(){
+        return $this->hasMany('App\Doacao');
+    }
+
+    public function avaliacoes(){
+        return $this->hasMany('App\Avaliacao','avaliado_id');
+    }
+
+    public function mensagens(){
         return $this->hasMany('App\Mensagem');
     }
 }

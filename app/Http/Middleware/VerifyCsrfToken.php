@@ -20,5 +20,9 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/app/doacoes/insert',
+        '/app/checkarAuth',
+        '/app/logarUsuario',
+        '/app/usuario/insert',
+        '/app/usuario/update',
     ];
 }
