@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Helpers\FormatterHelper;
 use App\Doacao;
 use App\Bairro;
 use App\Usuario;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 use DB;
 
@@ -28,7 +31,7 @@ class AppController extends Controller{
 			$anuncios = $anuncios->where('cidade_id',$dados['cidade_id']);
 		if(isset($dados['email']))
 			$anuncios = $anuncios->where('usuarios.email',$dados['email']);
-		$anuncios = $anuncios->select('doacoes.titulo as titulo','descricao','categorias.nome as categoriaNome','bairros.nome as bairroNome', 'cidades.nome as cidadeNome','doacoes.created_at as data', 'doacoes.id as id','usuarios.nome as usuarioNome')->orderBy('doacoes.created_at','desc')->paginate(10);
+		$anuncios = $anuncios->select('doacoes.titulo as titulo','descricao','categorias.nome as categoriaNome','bairros.nome as bairroNome', 'cidades.nome as cidadeNome','doacoes.created_at as data', 'doacoes.id as id','usuarios.nome as usuarioNome', 'usuarios.id as doador_id')->orderBy('doacoes.created_at','desc')->paginate(10);
 		foreach($anuncios as $key => $anuncio){
 			$imagens = [];
 			foreach($anuncio->getImagens() as $imagem){
@@ -49,6 +52,7 @@ class AppController extends Controller{
 		if(Auth::attempt($dados)){
 			return json_encode([
 				"nome" => Auth::user()->nome,
+				"id" => Auth::id(),
 			]);
 		}else
 			return json_encode(false);
@@ -58,8 +62,17 @@ class AppController extends Controller{
 		return Bairro::where('cidade_id',$cidade_id)->select("id as key","nome as label")->get();
 	}
 
+	public function dadosUsuario($id){
+		$usuario = Usuario::find($id);
+		return json_encode([
+			"cadastro" => FormatterHelper::formatarDataParaBr($usuario->created_at),
+			"anunciados" => $usuario->doacoes()->where('aprovado',1)->count(),
+			"doados" => $usuario->doacoes()->where('aprovado',1)->where('doado','1')->count(),
+            "avaliacao" => round($usuario->avaliacoes()->avg('nivel'),1),
+		]);
+	}
+
 	public function anuncioInsert(Request $request){
-		file_put_contents(base_path()."/request.txt", json_encode($request->all()));
 		DB::beginTransaction();
 		try{
 
@@ -80,6 +93,44 @@ class AppController extends Controller{
 		}catch(Exception $e){
 			DB::rollback();
 			return json_encode([false,$e->getMessage()]);
+		}
+	}
+
+	public function usuarioInsert(Request $request){
+		DB::beginTransaction();
+		try{
+			Usuario::create([			
+				'nome' 		=> $request->nome,
+				'email' 	=> $request->email,
+				'password' 	=> Hash::make($request->password),
+				'nivel'		=> 1
+			]);
+			DB::commit();
+			return json_encode(true);
+		}catch(Exception $e){
+			DB::rollback();
+			return json_encode(false);
+		}
+	}
+
+	public function usuarioUpdate(Request $request){
+		file_put_contents(base_path()."/request.txt", json_encode(123));
+		DB::beginTransaction();
+		$cadastro = [
+			'nome' 		=> $request->nome,
+			'email' 	=> $request->email,
+		];
+		if($request->password != "")
+			$cadastro['password'] = Hash::make($dados['password']);
+		try{
+			$usuario = Usuario::find($request->id);
+			$usuario->update($cadastro);
+			DB::commit();
+			return json_encode(true);
+		}catch(Exception $e){
+			return $e->getMessage();
+			DB::rollback();
+			return json_encode(false);
 		}
 	}
 }

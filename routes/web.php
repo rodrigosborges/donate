@@ -63,8 +63,11 @@ Route::resource('/categorias', 'CategoriasController');
 
 Route::prefix('app')->group(function () {
     Route::get('anuncios', 'AppController@anuncios');
-    Route::get('checkarAuth', 'AppController@checkarAuth');
-    Route::get('logarUsuario', 'AppController@logarUsuario');
+    Route::post('checkarAuth', 'AppController@checkarAuth');
+    Route::post('logarUsuario', 'AppController@logarUsuario');
     Route::get('bairros/{id}', 'AppController@bairros');
+    Route::get('dadosUsuario/{id}', 'AppController@dadosUsuario');
     Route::post('doacoes/insert', 'AppController@anuncioInsert');
+    Route::post('usuario/insert', 'AppController@usuarioInsert');
+    Route::post('usuario/update', 'AppController@usuarioUpdate');
 });
