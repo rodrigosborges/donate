@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Http\Requests\DoacoesRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Helpers\DoacoesHelper;
@@ -23,13 +24,12 @@ class DoacoesController extends Controller
         //$this->middleware('auth');
     }
 
-
-    public function index(Request $request)
+    public function index()
 	{
 	    return view('doacoes.index', []);
 	}
 
-	public function create(Request $request){
+	public function create(){
 
 		$bairros = Bairro::all();
 		$categorias = Categoria::all();
@@ -87,7 +87,7 @@ class DoacoesController extends Controller
 		return view('doacoes.create', compact("anuncio", "bairros", "categorias"));
 	}
 
-	public function update(Request $request){
+	public function update(DoacoesRequest $request){
 
 		if(!empty($request->imagens_deletadas)){
 			foreach ($request->imagens_deletadas as $imagem) {
@@ -121,7 +121,7 @@ class DoacoesController extends Controller
 	}
 
 
-	public function insert(Request $request){
+	public function insert(DoacoesRequest $request){
 
 		$anuncio = new Doacao();
 
@@ -198,6 +198,7 @@ class DoacoesController extends Controller
 	            return $query->where('titulo', 'like', '%'.$termos.'%')
 	            ->orWhere('descricao', 'like', '%'.$termos.'%');
 	        })->paginate(10);
+
 
 		return view('/doacoes/anuncios', compact("anuncios", "termos"));
 	}

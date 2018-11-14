@@ -20,9 +20,9 @@
                     <hr>
             		<p><strong>Anúncios publicados: </strong>{{(count($anuncios))}}</p>
             		<hr>
-            		<p><strong>Doações efetuadas: </strong>{{(count($anuncios->where('doado', 1)))}}</p>
+            		<p><strong>Anúncios ativos: </strong>{{(count($anuncios->where('doado', 0)))}}</p>
                     <hr>
-                    <p><strong>Avaliação: </strong></p>
+                    <p><strong>Doações efetuadas: </strong>{{(count($anuncios->where('doado', 1)))}}</p>
                 </div>    
             </div>
         </div>
@@ -43,7 +43,7 @@
                 <div class="card-body owl-carousel owl-theme">
         		@foreach($anuncios as $anuncio)
                     <div class="anuncio-slider">
-                        <h5 class="card-title">{{$anuncio->titulo}}</h5>
+                        <h5 class="card-title titulo-inline">{{$anuncio->titulo}}</h5>
                         <img src={{asset("/storage/app/anuncio_".$anuncio->id."/DonateImage_0.png") }}/><br>
                         <span class="fa fa-map-marker-alt"></span>
                         <span>{{$anuncio->bairro->nome}}, 

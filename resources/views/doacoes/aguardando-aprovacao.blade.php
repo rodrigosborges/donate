@@ -19,7 +19,7 @@
                     @endif
                     @foreach($anuncios as $anuncio)
                         <div class="anuncio">
-                            <h5 class="card-title">{{$anuncio->titulo}}</h5>
+                            <h5 class="card-title titulo-inline">{{$anuncio->titulo}}</h5>
                             <img src={{asset("/storage/app/anuncio_".$anuncio->id."/DonateImage_0.png") }}/><br>
                             <span class="fa fa-map-marker-alt"></span>
                             <span>{{$anuncio->bairro->nome}}, 

@@ -35,6 +35,7 @@
                         </div>
                        <input name="termos" class="form-control form-control-lg" type="text" placeholder="O que você está procurando?" required>
                     </div>
+                  
                 </div>
                 <div class="col-md-12 text-center">
                     <button class="btn btn-danger" type="submit">Pesquisar</button>
@@ -98,7 +99,7 @@
                 <div class="card-body">
                     @foreach($anuncios as $anuncio)
                         <div class="anuncio">
-                            <h5 class="card-title">{{$anuncio->titulo}}</h5>
+                            <h5 class="card-title titulo-inline">{{$anuncio->titulo}}</h5>
                             <img src={{asset("/storage/app/anuncio_".$anuncio->id."/DonateImage_0.png") }}/><br>
                             <span class="fa fa-map-marker-alt"></span>
                             <span>{{$anuncio->bairro->nome}}, 
@@ -157,8 +158,10 @@
 
         $(".categoria").mouseenter(function(){
             $(this).find("span").css({"transform":"rotate(10deg)","transition":".2s"})
+            $(this).find("h6").css({"text-shadow":"0 0 1px #800","transition":".2s"})
         }).mouseleave(function(){
             $(this).find("span").css({"transform":"rotate(0deg)","transition":".2s"})
+            $(this).find("h6").css({"text-shadow":"none","transition":".2s"})
         })
 
     });
