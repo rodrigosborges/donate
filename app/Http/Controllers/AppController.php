@@ -63,7 +63,8 @@ class AppController extends Controller{
 			Auth::user()->save();
 			return json_encode([
 				"token" => Auth::user()->remember_token,
- 				"nome" => Auth::user()->nome,
+				"nome" => Auth::user()->nome,
+				"id" => Auth::id(),
 			]);
 		}else
 			return json_encode(false);
