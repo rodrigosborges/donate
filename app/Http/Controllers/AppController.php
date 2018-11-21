@@ -11,8 +11,11 @@ use App\Helpers\FormatterHelper;
 use App\Doacao;
 use App\Bairro;
 use App\Usuario;
+use App\Mensagem;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Helpers\DoacoesHelper;
+
 
 use DB;
 
@@ -39,10 +42,10 @@ class AppController extends Controller{
 			$anuncios = $anuncios->where(function ($query) use($dados){
 				return $query->where('titulo', 'like', '%'.$dados['pesquisa'].'%')
 				->orWhere('descricao', 'like', '%'.$dados['pesquisa'].'%');
-			})->get();
+			});
 		}
 
-		$anuncios = $anuncios->select('doacoes.titulo as titulo','descricao','categorias.nome as categoriaNome','bairros.nome as bairroNome', 'cidades.nome as cidadeNome','doacoes.created_at as data', 'doacoes.id as id','usuarios.nome as usuarioNome', 'usuarios.id as doador_id')->orderBy('doacoes.created_at','desc')->paginate(10);
+		$anuncios = $anuncios->select('doacoes.titulo as titulo','descricao','categorias.nome as categoriaNome','bairros.nome as bairroNome', 'cidades.nome as cidadeNome','doacoes.created_at as data', 'doacoes.id as id','usuarios.nome as usuarioNome', 'usuarios.id as doador_id', 'categorias.id as categoria','bairros.id as bairro', 'cidades.id as cidade')->orderBy('doacoes.created_at','desc')->paginate(10);
 		foreach($anuncios as $key => $anuncio){
 			$imagens = [];
 			foreach($anuncio->getImagens() as $imagem){
@@ -55,15 +58,26 @@ class AppController extends Controller{
 
 	public function checkarAuth(Request $request){
 		$dados = $request->only('email','password');
-		return json_encode(Auth::attempt($dados));
+		if(Auth::attempt($dados)){
+			Auth::user()->remember_token = Hash::make('remember_token');
+			Auth::user()->save();
+			return json_encode([
+				"token" => Auth::user()->remember_token,
+ 				"nome" => Auth::user()->nome,
+			]);
+		}else
+			return json_encode(false);
 	}
 
 	public function logarUsuario(Request $request){
 		$dados = $request->only('email','password');
 		if(Auth::attempt($dados)){
+			Auth::user()->remember_token = Hash::make('remember_token');
+			Auth::user()->save();
 			return json_encode([
 				"nome" => Auth::user()->nome,
 				"id" => Auth::id(),
+				"token" => Auth::user()->remember_token,
 			]);
 		}else
 			return json_encode(false);
@@ -73,22 +87,25 @@ class AppController extends Controller{
 		return Bairro::where('cidade_id',$cidade_id)->select("id as key","nome as label")->get();
 	}
 
-	public function dadosUsuario($id){
-		$usuario = Usuario::find($id);
+	public function dadosUsuario(Request $request){
+		$usuario = Usuario::find($request->id);
+		if($usuario->remember_token != $request->token)
+			return false;
 		return json_encode([
 			"cadastro" => FormatterHelper::formatarDataParaBr($usuario->created_at),
 			"anunciados" => $usuario->doacoes()->where('aprovado',1)->count(),
 			"doados" => $usuario->doacoes()->where('aprovado',1)->where('doado','1')->count(),
-            "avaliacao" => round($usuario->avaliacoes()->avg('nivel'),1),
+			"avaliacao" => round($usuario->avaliacoes()->avg('nivel'),1),
 		]);
 	}
 
 	public function anuncioInsert(Request $request){
 		DB::beginTransaction();
 		try{
-
-			$usuario = Usuario::find($request->id);
-			$request['usuario_id'] = $usuario->id;
+			file_put_contents("results.txt",json_encode($request->all()));
+			$usuario = Usuario::find($request->usuario_id);
+			if($usuario->remember_token != $request->token)
+				return json_encode([false, ["Cadastro não permitido"]]);
 
 			if($usuario->nivel == 1)
 				$request['aprovado'] = 1;
@@ -101,6 +118,43 @@ class AppController extends Controller{
 
 			DB::commit();
 			return json_encode([true, ["Anúncio cadastrado"]]);
+		}catch(Exception $e){
+			DB::rollback();
+			return json_encode([false,$e->getMessage()]);
+		}
+	}
+
+	public function anuncioUpdate(Request $request){
+		DB::beginTransaction();
+		try{
+			$usuario = Usuario::find($request->usuario_id);
+			$anuncio = Doacao::find($request->id);
+			if($usuario->remember_token != $request->token || $request->usuario_id != $anuncio->usuario_id)
+			return json_encode([false, ["Edição não permitida"]]);
+			
+			if($usuario->nivel == 1)
+				$request['aprovado'] = 1;
+			else
+				$request['aprovado'] = 0;
+			
+			$anuncio->update($request->all());
+			
+			if($request->arquivoExcluir){
+				foreach($request->arquivoExcluir as $arquivo){
+					$arquivo = explode("?",explode("/",$arquivo)[count(explode("/",$arquivo))-1])[0];
+					unlink(base_path()."/storage/app/anuncio_$anuncio->id/$arquivo");
+				}
+			}
+
+			if($request->anexos){
+				foreach ($request->anexos as $imagem) {
+					$numero = DoacoesHelper::proximoNumeroImagem($anuncio);
+					$upload = $imagem->storeAs("anuncio_$anuncio->id", "DonateImage_$numero.png");
+				}
+			}
+
+			DB::commit();
+			return json_encode([true, ["Anúncio atualizado"]]);
 		}catch(Exception $e){
 			DB::rollback();
 			return json_encode([false,$e->getMessage()]);
@@ -125,23 +179,34 @@ class AppController extends Controller{
 	}
 
 	public function usuarioUpdate(Request $request){
-		file_put_contents(base_path()."/request.txt", json_encode(123));
 		DB::beginTransaction();
-		$cadastro = [
-			'nome' 		=> $request->nome,
-			'email' 	=> $request->email,
-		];
-		if($request->password != "")
-			$cadastro['password'] = Hash::make($dados['password']);
 		try{
 			$usuario = Usuario::find($request->id);
+			if($usuario->remember_token != $request->token)
+				return false;
+			$cadastro = [
+				'nome' 		=> $request->nome,
+				'email' 	=> $request->email,
+			];
+			if($request->password != "")
+				$cadastro['password'] = Hash::make($request->password);
 			$usuario->update($cadastro);
 			DB::commit();
 			return json_encode(true);
 		}catch(Exception $e){
-			return $e->getMessage();
 			DB::rollback();
 			return json_encode(false);
 		}
+	}
+	public function conversas(Request $request){
+		// $usuario = Usuario::find($request->id);
+		// if($usuario->remember_token != $request->token)
+		// 	return false;
+
+		return Mensagem::where('remetente_id',$request->id)->orWhere('destinatario_id',$request->id)->orderBy('id','desc')->get();
+	}
+
+	public function mensagens(Request $request){
+
 	}
 }

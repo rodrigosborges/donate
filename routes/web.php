@@ -67,8 +67,11 @@ Route::prefix('app')->group(function () {
     Route::post('checkarAuth', 'AppController@checkarAuth');
     Route::post('logarUsuario', 'AppController@logarUsuario');
     Route::get('bairros/{id}', 'AppController@bairros');
-    Route::get('dadosUsuario/{id}', 'AppController@dadosUsuario');
+    Route::post('dadosUsuario', 'AppController@dadosUsuario');
     Route::post('doacoes/insert', 'AppController@anuncioInsert');
+    Route::post('doacoes/update', 'AppController@anuncioUpdate');
     Route::post('usuario/insert', 'AppController@usuarioInsert');
     Route::post('usuario/update', 'AppController@usuarioUpdate');
+    Route::get('conversas','AppController@conversas');
+    Route::get('mensagens','AppController@mensagens');
 });
