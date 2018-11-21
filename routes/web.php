@@ -26,7 +26,7 @@ Auth::routes();
 
 Route::get('/doacoes/anuncio/{id}', 'DoacoesController@anuncio');
 Route::get('/doacoes/anuncios/{categoria}', 'DoacoesController@anuncios');
-Route::post('/doacoes/pesquisa', 'DoacoesController@pesquisa');
+Route::get('/doacoes/pesquisa', 'DoacoesController@pesquisa');
 
 //Para usuários logados
 Route::middleware('auth')->group(function () {

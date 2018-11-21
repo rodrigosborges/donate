@@ -274,6 +274,12 @@ footer{
 	height: 120px;
 }
 
+#lista-usuarios{
+	height: 350px;
+	overflow: scroll;
+	overflow-x: hidden;
+}
+
 #mensagens{
 	height: 350px;
 	overflow: scroll;

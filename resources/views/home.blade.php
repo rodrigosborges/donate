@@ -26,8 +26,7 @@
 
     <div class="row justify-content-center">
         <div class="col-md-12 espacamento-bloco">
-            <form method="POST" action="{{url('doacoes/pesquisa/')}}">
-                @csrf
+            <form method="GET" action="{{url('doacoes/pesquisa/')}}">
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-prepend">
@@ -47,7 +46,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card espacamento-bloco">
-                <div class="card-header" >Categorias</div>
+                <div class="card-header">Categorias</div>
                 <div class="card-body categorias">
                     <a href="{{url('doacoes/anuncios/1')}}" class="categoria rounded">
                         <h6>Animal</h6>
@@ -87,14 +86,8 @@
     </div> 
 
     <div class="row justify-content-center">
-        <div class="col-md-12 text-center espacamento-bloco">
-            <a class="btn btn-lg btn-red" href="{{url('doacoes/anuncios/all')}}">Ver todos os anúncios</a>
-        </div>
-    </div>
-
-    <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card espacamento-bloco">
                 <div class="card-header">Últimos Anúncios</div>
                 <div class="card-body">
                     @foreach($anuncios as $anuncio)
@@ -113,6 +106,13 @@
             </div>
         </div>
     </div> 
+
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+            <a class="btn btn-lg btn-red" href="{{url('doacoes/anuncios/all')}}">Ver todos os anúncios</a>
+        </div>
+    </div>
+
 </div>
 @endsection
 
@@ -133,9 +133,8 @@
     $(document).ready(function(){
 
         var frases = [
-            'Doe',
-            'Encontre',
-            'Receba',
+            'Incentive',
+            'Inspire',
             'Donate'
         ];
 

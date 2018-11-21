@@ -13,10 +13,12 @@
 			<div class="card">
 	            <div id="conversas" class="card-header">Conversas</div>
                 <div class="card-body">
+                    <div id="lista-usuarios">
                     @foreach($usuarios as $usuario)
-                        <p class="usuario-conversa" id="{{$usuario['id']}}"><strong>{{$usuario['nome']}}</strong></span>
+                        <p class="usuario-conversa" id="{{$usuario->outra_pessoa}}"><strong>{{$usuario->nome}}</strong></span>
                         <hr>
                     @endforeach
+                    </div>
                 </div>    
             </div>
         </div>
@@ -71,7 +73,8 @@ $(document).ready(function(){
                 }else{
                     alinhamento = "";
                 }
-                $("#mensagens").append("<div class='msg-box' style='"+alinhamento+"'><p><strong>"+dado['remetente']['nome']+"</strong></p><p>"+dado['texto']+"</p><p style='font-size:0.8em'>"+dado['created_at']+"</p></div><hr>");
+                $("#mensagens").append("<div class='msg-box' style='"+alinhamento+"'><p><strong>"+dado['remetente']+"</strong></p><p>"+dado['texto']+"</p><p style='font-size:0.8em'>"+dado['created_at']+"</p></div><hr>");
+                $('#mensagens').scrollTop($('#mensagens')[0].scrollHeight);
             });
         });
 

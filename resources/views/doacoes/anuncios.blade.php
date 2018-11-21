@@ -51,7 +51,7 @@
 	    <div class="row">
 	        <div class="col-md-12 link-paginacao">
 	        	@if(count($anuncios) != 0)
-	        		{{$anuncios->links()}}
+	        		{{$anuncios->appends(request()->except('page'))->links()}}
 	        	@endif
 	    	</div>
 		</div>
