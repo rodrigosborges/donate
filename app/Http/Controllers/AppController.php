@@ -204,10 +204,26 @@ class AppController extends Controller{
 		// if($usuario->remember_token != $request->token)
 		// 	return false;
 
-		return Mensagem::where('remetente_id',$request->id)->orWhere('destinatario_id',$request->id)->orderBy('id','desc')->get();
+		return Mensagem::where('remetente_id',$request->id)
+			->orWhere('destinatario_id',$request->id)
+			->orderBy('id','desc')
+			->get();
 	}
 
 	public function mensagens(Request $request){
-
+		// $usuario = Usuario::find($request->id);
+		// if($usuario->remember_token != $request->token)
+		// 	return false;
+		
+		return Mensagem::where(function ($query) use ($request){
+			$query->where('remetente_id',$request->id)
+				->orWhere('destinatario_id',$request->destinatario_id);
+			})
+			->where(function ($query) use ($request){
+				$query->where('remetente_id',$request->destinatario_id)
+					->orWhere('destinatario_id',$request->id);
+			})
+			->orderBy('created_at','desc')
+			->get();
 	}
 }
