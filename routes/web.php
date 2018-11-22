@@ -74,4 +74,5 @@ Route::prefix('app')->group(function () {
     Route::post('usuario/update', 'AppController@usuarioUpdate');
     Route::post('conversas','AppController@conversas');
     Route::post('mensagens','AppController@mensagens');
+    Route::post('enviarMensagem','AppController@enviarMensagem');
 });

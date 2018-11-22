@@ -225,5 +225,26 @@ class AppController extends Controller{
 			->get();
 
     	return json_encode($mensagens);
+	}
+	
+    public function enviarMensagem(Request $request){
+		DB::beginTransaction();
+		try{
+			$usuario = Usuario::find($request->id);
+			if($usuario->remember_token != $request->token)
+				return false;
+
+			$mensagem = new Mensagem;
+			$mensagem->remetente_id = $request->id;
+			$mensagem->destinatario_id = $request->destinatario_id;
+			$mensagem->texto = $request->texto;
+			$mensagem->save();
+
+			DB::commit();
+			return json_encode(true);
+		}catch(Exception $e){
+			DB::rollback();
+			return json_encode(false);
+		}
     }
 }
