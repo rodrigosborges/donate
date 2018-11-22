@@ -200,30 +200,30 @@ class AppController extends Controller{
 		}
 	}
 	public function conversas(Request $request){
-		// $usuario = Usuario::find($request->id);
-		// if($usuario->remember_token != $request->token)
-		// 	return false;
-
-		return Mensagem::where('remetente_id',$request->id)
-			->orWhere('destinatario_id',$request->id)
-			->orderBy('id','desc')
-			->get();
+		$usuario = Usuario::find($request->id);
+		if($usuario->remember_token != $request->token)
+			return false;
+        $usuarios = DB::select("SELECT IF(remetente_id = ".$request->id.", destinatario_id, remetente_id) AS outra_pessoa, MAX(mensagens.created_at) AS ultima_msg, nome FROM mensagens JOIN usuarios on usuarios.id = IF(remetente_id = ".$request->id.",destinatario_id, remetente_id) WHERE destinatario_id = ".$request->id." OR remetente_id = ".$request->id." GROUP BY outra_pessoa ORDER BY ultima_msg DESC;");
+		return json_encode($usuarios);
 	}
 
-	public function mensagens(Request $request){
-		// $usuario = Usuario::find($request->id);
-		// if($usuario->remember_token != $request->token)
-		// 	return false;
-		
-		return Mensagem::where(function ($query) use ($request){
+    public function mensagens(Request $request){
+		$usuario = Usuario::find($request->id);
+		if($usuario->remember_token != $request->token)
+			return false;
+    	$mensagens = Mensagem::where(function ($query) use ($request){
 			$query->where('remetente_id',$request->id)
-				->orWhere('destinatario_id',$request->destinatario_id);
+				->where('destinatario_id',$request->destinatario_id);
 			})
-			->where(function ($query) use ($request){
+			->orWhere(function ($query) use ($request){
 				$query->where('remetente_id',$request->destinatario_id)
-					->orWhere('destinatario_id',$request->id);
+					->where('destinatario_id',$request->id);
 			})
-			->orderBy('created_at','desc')
+			->join('usuarios as remetente', 'mensagens.remetente_id','=','remetente.id')
+			->join('usuarios as destinatario', 'mensagens.destinatario_id','=','destinatario.id')
+			->select('remetente.nome as remetente','destinatario.nome as destinatario','mensagens.texto', 'mensagens.created_at', 'remetente.id as remetente_id')
 			->get();
-	}
+
+    	return json_encode($mensagens);
+    }
 }

@@ -26,7 +26,7 @@ class VerifyCsrfToken extends Middleware
         '/app/usuario/insert',
         '/app/usuario/update',
         '/app/dadosUsuario',
-        // '/app/conversas',
-        // '/app/mensagem'
+        '/app/conversas',
+        '/app/mensagem'
     ];
 }

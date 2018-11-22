@@ -72,6 +72,6 @@ Route::prefix('app')->group(function () {
     Route::post('doacoes/update', 'AppController@anuncioUpdate');
     Route::post('usuario/insert', 'AppController@usuarioInsert');
     Route::post('usuario/update', 'AppController@usuarioUpdate');
-    Route::get('conversas','AppController@conversas');
-    Route::get('mensagens','AppController@mensagens');
+    Route::post('conversas','AppController@conversas');
+    Route::post('mensagens','AppController@mensagens');
 });
