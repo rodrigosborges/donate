@@ -22,21 +22,24 @@
 	left: 0;
 }
 
-.nav-item{
+/*.nav-item{
 	margin: auto 5px;
 }
 
 .navbar-laravel{
 	background-color: #800;
+	position: fixed;
+	width: 100%;
+	top: 0;
 }
 
 .navbar-laravel a{
 	text-decoration: none;
-}
+}*/
 
-.dropdown-menu{
+/*.dropdown-menu{
 	position: absolute!important;
-}
+}*/
 
 .btn-danger{
 	background-color: #800!important;
@@ -54,9 +57,9 @@ html {
   min-height: 100%;
 }
 
-body {
+/*body {
   margin: 0 0 100px;
-}
+}*/
 
 /*CLASSES*/
 
@@ -189,7 +192,7 @@ body {
 	font-size: 30px;
 }
 
-footer{
+/*footer{
 	padding: 2% 0;
 	background-color: #660000;
 	color: white;
@@ -199,7 +202,7 @@ footer{
   	width: 100%;
   	overflow:hidden;
   	z-index: 9999;
-}
+}*/
 
 .imagem-edicao{
 	float: left;
@@ -291,6 +294,12 @@ footer{
 	padding: 3%;
     margin: 2% 0;
 }
+
+/*#sidebar{
+	background-color: #800;
+	height: 100%;
+	position: fixed;
+}*/
 
 /*################################################*/
 

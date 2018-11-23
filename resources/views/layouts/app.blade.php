@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
+<html lang="en">
+
+  <head>
+
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>SB Admin - Dashboard</title>
 
-   <!--  <title>{{ config('app.name', 'Donate') }}</title> -->
-   <title>Donate</title>
+    <!-- Bootstrap core CSS-->
+    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    <!-- Custom fonts for this template-->
+    <link href="{{asset('css/all.min.css')}}" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="{{asset('css/dataTables.bootstrap4.css')}}" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{asset('css/sb-admin.css')}}" rel="stylesheet">
+
+     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
 
@@ -21,97 +32,180 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    
-    <!-- Icon -->
-    <link rel="icon" type="image/png" href="{{asset('img/icones/donate.ico')}}">
-    
+
     @yield('style')
-</head>
-<body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a class="logo text-white" href="{{ url('/') }}">
-                   <!--  {{ config('app.name', 'Donate') }} -->
-                   Donate
-                </a>
-                <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button> -->
 
-                <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+  </head>
 
-                    </ul>
+  <body id="page-top">
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                @if (Route::has('register'))
-                                    <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Registrar') }}</a>
-                                @endif
-                            </li>
-                        @else
-                           <!--  <li class="nav-item espacamento-icon">
-                                <a href="{{url('/usuarios/mensagens')}}"><i id="msg-icon" class="text-white fas fa-envelope"></i>
-                            </li> -->
-                           <!--  <span class="text-white nav-item">|</span> -->
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="text-white nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->nome }} <span class="caret"></span>
-                                </a>
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a href="{{url('/doacoes/create')}}" class="dropdown-item">Anunciar</a>
-                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{url('/usuarios/perfil/'.Auth::id())}}">Meu Perfil</a>
-                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{url('/doacoes/meus-anuncios')}}">Meus Anúncios</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{url('/usuarios/mensagens')}}">Mensagens</a>
-                                    <div class="dropdown-divider"></div>
-                                    @if(Auth::user()->nivel == 1)
-                                    <a class="dropdown-item" href="{{url('/doacoes/aguardando-aprovacao')}}">Aguardando Aprovação</a>
-                                    <div class="dropdown-divider"></div>
-                                    @endif
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+      <a class="navbar-brand mr-1" href="{{ url('/') }}">Donate</a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+      <!-- <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+      </button> -->
 
+      <!-- Navbar Search -->
+      <form method="GET" action="{{url('doacoes/pesquisa/')}}" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <div class="input-group">
+          <input name="termos" type="text" class="form-control" placeholder="Pesquisar..." aria-label="Search" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
 
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                <!-- </div> -->
+      <!-- Navbar -->
+      @auth
+      <ul class="navbar-nav ml-auto ml-md-0">
+        <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link" href="#" role="button">
+            <i class="fas fa-envelope fa-fw"></i>
+            <span class="badge badge-danger">7</span>
+          </a>
+        </li>
+        <li class="nav-item dropdown no-arrow">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle fa-fw"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="{{url('/usuarios/perfil/'.Auth::id())}}">Meu Perfil</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{url('/doacoes/meus-anuncios')}}">Meus Anúncios</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+  {{ __('Logout') }}</a>
+
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+            </form>
+
+          </div>
+        </li>
+      </ul>
+      @else
+        <ul class="navbar-nav ml-auto ml-md-0">
+          <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link" href="{{ route('login') }}" role="button">
+              Entrar
+            </a>
+          </li>
+      </ul>
+      @endauth
+
+    </nav>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="sidebar navbar-nav toggled">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{url('/doacoes/create')}}">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Anunciar</span>
+          </a>
+        </li>
+        @if(Auth::user()->nivel == 1)
+          <li class="nav-item active">
+            <a class="nav-link" href="{{url('/doacoes/aguardando-aprovacao')}}">
+              <i class="fas fa-fw fa-tachometer-alt"></i>
+              <span>Aguardando Aprovação</span>
+            </a>
+          </li>
+        @endif
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Pages</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <h6 class="dropdown-header">Login Screens:</h6>
+            <a class="dropdown-item" href="login.html">Login</a>
+            <a class="dropdown-item" href="register.html">Register</a>
+            <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Other Pages:</h6>
+            <a class="dropdown-item" href="404.html">404 Page</a>
+            <a class="dropdown-item" href="blank.html">Blank Page</a>
+          </div>
+        </li> -->
+      </ul>
+
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          @yield('content')
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2018</span>
             </div>
-        </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
-
-        <footer>
-            <div class="col-md-12 text-center">
-                <span>2018 - Donate © - Todos os Direitos Reservados</span>
-            </div>
+          </div>
         </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
     </div>
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+   <!--  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Bootstrap core JavaScript-->
+    <!-- <script src="{{asset('js/jquery.min.js')}}"></script> -->
+    <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{asset('js/jquery.easing.min.js')}}"></script>
+
+    <!-- Page level plugin JavaScript-->
+    <script src="{{asset('js/jquery.dataTables.js')}}"></script>
+    <script src="{{asset('js/dataTables.bootstrap4.js')}}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{asset('js/sb-admin.min.js')}}"></script>
+
     @yield('js')
-</body>
+  </body>
+
 </html>

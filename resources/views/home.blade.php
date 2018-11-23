@@ -5,7 +5,6 @@
 
 @section('content')
 
-<div class="container">
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
@@ -24,7 +23,7 @@
         </div>
     </div>
 
-    <div class="row justify-content-center">
+  <!--   <div class="row justify-content-center">
         <div class="col-md-12 espacamento-bloco">
             <form method="GET" action="{{url('doacoes/pesquisa/')}}">
                 <div class="form-group">
@@ -41,7 +40,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> -->
 
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -113,7 +112,6 @@
         </div>
     </div>
 
-</div>
 @endsection
 
 @section('js')
