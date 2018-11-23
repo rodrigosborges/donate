@@ -203,7 +203,7 @@ class AppController extends Controller{
 		$usuario = Usuario::find($request->id);
 		if($usuario->remember_token != $request->token)
 			return false;
-        $usuarios = DB::select("SELECT IF(remetente_id = ".$request->id.", destinatario_id, remetente_id) AS outra_pessoa, MAX(mensagens.created_at) AS ultima_msg, nome FROM mensagens JOIN usuarios on usuarios.id = IF(remetente_id = ".$request->id.",destinatario_id, remetente_id) WHERE destinatario_id = ".$request->id." OR remetente_id = ".$request->id." GROUP BY outra_pessoa ORDER BY ultima_msg DESC;");
+        $usuarios = DB::select("SELECT IF(remetente_id = ".$request->id.", destinatario_id, remetente_id) AS outra_pessoa,texto, MAX(mensagens.created_at) AS ultima_msg, nome FROM mensagens JOIN usuarios on usuarios.id = IF(remetente_id = ".$request->id.",destinatario_id, remetente_id) WHERE destinatario_id = ".$request->id." OR remetente_id = ".$request->id." GROUP BY outra_pessoa ORDER BY ultima_msg DESC;");
 		return json_encode($usuarios);
 	}
 
