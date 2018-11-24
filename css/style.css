@@ -14,14 +14,6 @@
 	color: white;
 }
 
-.frases{
-	font-family: admiration;
-	font-size: 4em;
-	position: absolute;
-	right: 0;
-	left: 0;
-}
-
 /*.nav-item{
 	margin: auto 5px;
 }
@@ -51,6 +43,14 @@
 }
 
 /*################################################*/
+
+.frases{
+	font-family: admiration;
+	font-size: 4em;
+	position: absolute;
+	right: 0;
+	left: 0;
+}
 
 html {
   position: relative;
@@ -102,6 +102,10 @@ html {
 	color: #800;
 	transition: .1s;
 	cursor: pointer;
+}
+
+.divisor{
+	border: 2px solid #800;
 }
 
 .espacamento-icon{
@@ -333,9 +337,7 @@ html {
 		margin: 15% 0;
 	}
 
-	.navbar-nav{
-		flex-direction: row
-	}
+	
 }
 
 /*################################################*/

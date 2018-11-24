@@ -80,8 +80,8 @@
                                 <a class="dropdown-item" href="{{url('/usuarios/mensagens')}}">Mensagens</a>
                                 <div class="dropdown-divider"></div>
                                 @if(Auth::user()->nivel == 1)
-                                <a class="dropdown-item" href="{{url('/doacoes/aguardando-aprovacao')}}">Aguardando Aprovação</a>
-                                <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{url('/doacoes/aguardando-aprovacao')}}">Aguardando Aprovação</a>
+                                    <div class="dropdown-divider"></div>
                                 @endif
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();

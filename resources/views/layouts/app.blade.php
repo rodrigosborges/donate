@@ -45,16 +45,18 @@
 
       <a class="navbar-brand mr-1" href="{{ url('/') }}">Donate</a>
 
-      <!-- <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+      @auth
+      <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
-      </button> -->
+      </button>
+      @endauth
 
       <!-- Navbar Search -->
       <form method="GET" action="{{url('doacoes/pesquisa/')}}" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
         <div class="input-group">
-          <input name="termos" type="text" class="form-control" placeholder="Pesquisar..." aria-label="Search" aria-describedby="basic-addon2">
+            <input style="width: 350px" name="termos" type="text" class="form-control" placeholder="Pesquisar..." aria-label="Search" aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button class="btn btn-primary" type="submit">
+            <button class="btn btn-block" type="submit">
               <i class="fas fa-search"></i>
             </button>
           </div>
@@ -64,21 +66,18 @@
       <!-- Navbar -->
       @auth
       <ul class="navbar-nav ml-auto ml-md-0">
-        <li class="nav-item dropdown no-arrow mx-1">
+       <!--  <li class="nav-item dropdown no-arrow mx-1">
           <a class="nav-link" href="#" role="button">
             <i class="fas fa-envelope fa-fw"></i>
             <span class="badge badge-danger">7</span>
           </a>
-        </li>
+        </li> -->
         <li class="nav-item dropdown no-arrow">
           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-user-circle fa-fw"></i>
+            <span>{{Auth::user()->nome}}</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="{{url('/usuarios/perfil/'.Auth::id())}}">Meu Perfil</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{url('/doacoes/meus-anuncios')}}">Meus Anúncios</a>
-            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
   {{ __('Logout') }}</a>
 
@@ -96,7 +95,7 @@
               Entrar
             </a>
           </li>
-      </ul>
+        </ul>
       @endauth
 
     </nav>
@@ -104,44 +103,65 @@
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="sidebar navbar-nav toggled">
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-          </a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="{{url('/doacoes/create')}}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Anunciar</span>
-          </a>
-        </li>
-        @if(Auth::user()->nivel == 1)
-          <li class="nav-item active">
-            <a class="nav-link" href="{{url('/doacoes/aguardando-aprovacao')}}">
+      @auth
+        <ul class="sidebar navbar-nav">
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="index.html">
               <i class="fas fa-fw fa-tachometer-alt"></i>
-              <span>Aguardando Aprovação</span>
+              <span>Dashboard</span>
+            </a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="{{url('/doacoes/create')}}">
+              <i class="fas fa-bullhorn"></i>
+              <span>Anunciar</span>
             </a>
           </li>
-        @endif
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">Login Screens:</h6>
-            <a class="dropdown-item" href="login.html">Login</a>
-            <a class="dropdown-item" href="register.html">Register</a>
-            <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
-            <div class="dropdown-divider"></div>
-            <h6 class="dropdown-header">Other Pages:</h6>
-            <a class="dropdown-item" href="404.html">404 Page</a>
-            <a class="dropdown-item" href="blank.html">Blank Page</a>
-          </div>
-        </li> -->
-      </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url('/usuarios/perfil/'.Auth::id())}}">
+              <i class="fas fa-user-alt"></i>
+              <span>Meu Perfil</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url('/doacoes/meus-anuncios')}}">
+              <i class="fas fa-hand-holding-heart"></i>
+              <span>Meus Anúncios</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url('/usuarios/mensagens')}}">
+              <i class="fas fa-envelope fa-fw"></i>
+              <span>Mensagens</span>
+            </a>
+          </li>
+  
+            @if(Auth::user()->nivel == 1)
+              <li class="nav-item">
+                <a class="nav-link" href="{{url('/doacoes/aguardando-aprovacao')}}">
+                  <i class="far fa-clock"></i>
+                  <span>Aguardando Aprovação</span>
+                </a>
+              </li>
+            @endif
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>Pages</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+              <h6 class="dropdown-header">Login Screens:</h6>
+              <a class="dropdown-item" href="login.html">Login</a>
+              <a class="dropdown-item" href="register.html">Register</a>
+              <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
+              <div class="dropdown-divider"></div>
+              <h6 class="dropdown-header">Other Pages:</h6>
+              <a class="dropdown-item" href="404.html">404 Page</a>
+              <a class="dropdown-item" href="blank.html">Blank Page</a>
+            </div>
+          </li> -->
+        </ul>
+      @endauth
 
       <div id="content-wrapper">
 
@@ -165,6 +185,7 @@
       <!-- /.content-wrapper -->
 
     </div>
+
     <!-- /#wrapper -->
 
     <!-- Scroll to Top Button-->

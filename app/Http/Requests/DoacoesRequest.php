@@ -25,14 +25,15 @@ class DoacoesRequest extends FormRequest
     {
         return [
             'titulo' => 'required|max:40|min:10',
-            'descricao' => 'required|max:1000|min:140',
-            'imagem' => 'required|min:2|max:6'
+            'descricao' => 'required|max:1000|min:50',
+            'imagem' => 'min:1|max:6'
         ];
     }
 
     public function messages()
     {
         return [
+            'image' => 'São aceitas apenas imagens!',
             'required' => 'Este campo é obrigatório!',
             'imagem.min' => "O anúncio deve conter pelo menos :min imagens",
             'imagem.max' => "O anúncio deve conter no máximo :max imagens",
