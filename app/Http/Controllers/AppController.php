@@ -254,13 +254,13 @@ class AppController extends Controller{
 		try{
 			$usuario = Usuario::find($request->id);
 			if($usuario->remember_token != $request->token)
-				return false;
-			$anuncio = Anuncio::find($request->anuncio_id)->withTrashed();
-			if($anuncio->deleted_at != null)
+				return json_encode(false);
+			$anuncio = Doacao::withTrashed()->where('id',$request->anuncio_id)->first();
+			if($anuncio->trashed() != null)
 				$anuncio->restore();
 			else
 				$anuncio->delete();
-			return true;
+			return json_encode(true);
 		}catch(Exception $e){
 			DB::rollback();
 			return json_encode(false);
