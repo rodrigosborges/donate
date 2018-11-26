@@ -78,4 +78,5 @@ Route::prefix('app')->group(function () {
     Route::post('conversas','AppController@conversas');
     Route::post('mensagens','AppController@mensagens');
     Route::post('enviarMensagem','AppController@enviarMensagem');
+    Route::post('deleteRestoreAnuncio','AppController@deleteRestoreAnuncio');
 });

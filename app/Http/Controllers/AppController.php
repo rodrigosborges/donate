@@ -23,11 +23,10 @@ class AppController extends Controller{
 
 	public function anuncios(Request $request){
 		$dados = $request->all();
-		$anuncios = Doacao::where('aprovado',1)->where('doado',0)
-			->join('bairros','bairros.id','=','doacoes.bairro_id')
+		$anuncios = Doacao::join('bairros','bairros.id','=','doacoes.bairro_id')
 			->join('cidades','cidades.id','=','bairros.cidade_id')
 			->join('usuarios','usuarios.id','=','doacoes.usuario_id')
-		->join('categorias','categorias.id','=','doacoes.categoria_id');
+			->join('categorias','categorias.id','=','doacoes.categoria_id');
 
 		if(isset($dados['categoria_id']))
 			$anuncios = $anuncios->where('categoria_id',$dados['categoria_id']);
@@ -35,8 +34,11 @@ class AppController extends Controller{
 		if(isset($dados['cidade_id']))
 			$anuncios = $anuncios->where('cidade_id',$dados['cidade_id']);
 
-		if(isset($dados['id']))
-			$anuncios = $anuncios->where('usuarios.id',$dados['id']);
+		if(isset($dados['id'])){
+			$anuncios = $anuncios->where('usuarios.id',$dados['id'])->withTrashed();
+		}else{
+			$anuncios = $anuncios->where('doado',0)->where('aprovado',1);
+		}
 
 		if(isset($dados['pesquisa'])){
 			$anuncios = $anuncios->where(function ($query) use($dados){
@@ -45,7 +47,7 @@ class AppController extends Controller{
 			});
 		}
 
-		$anuncios = $anuncios->select('doacoes.titulo as titulo','descricao','categorias.nome as categoriaNome','bairros.nome as bairroNome', 'cidades.nome as cidadeNome','doacoes.created_at as data', 'doacoes.id as id','usuarios.nome as usuarioNome', 'usuarios.id as doador_id', 'categorias.id as categoria','bairros.id as bairro', 'cidades.id as cidade')->orderBy('doacoes.created_at','desc')->paginate(10);
+		$anuncios = $anuncios->select('doado', 'aprovado', 'doacoes.deleted_at','doacoes.titulo as titulo','descricao','categorias.nome as categoriaNome','bairros.nome as bairroNome', 'cidades.nome as cidadeNome','doacoes.created_at as data', 'doacoes.id as id','usuarios.nome as usuarioNome', 'usuarios.id as doador_id', 'categorias.id as categoria','bairros.id as bairro', 'cidades.id as cidade')->orderBy('doacoes.created_at','desc')->paginate(10);
 		foreach($anuncios as $key => $anuncio){
 			$imagens = [];
 			foreach($anuncio->getImagens() as $imagem){
@@ -246,5 +248,22 @@ class AppController extends Controller{
 			DB::rollback();
 			return json_encode(false);
 		}
-    }
+	}
+	
+	public function deleteRestoreAnuncio(Request $request){
+		try{
+			$usuario = Usuario::find($request->id);
+			if($usuario->remember_token != $request->token)
+				return json_encode(false);
+			$anuncio = Doacao::withTrashed()->where('id',$request->anuncio_id)->first();
+			if($anuncio->trashed() != null)
+				$anuncio->restore();
+			else
+				$anuncio->delete();
+			return json_encode(true);
+		}catch(Exception $e){
+			DB::rollback();
+			return json_encode(false);
+		}
+	} 
 }
