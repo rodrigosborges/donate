@@ -18,15 +18,23 @@
             </div>
             <p class="ml-4"><strong>Nome: </strong>{{$usuario->nome}}</p>
             <hr>
+            <p class="ml-4"><strong>E-mail: </strong>{{$usuario->email}}</p>
+            <hr>
             <p class="ml-4"><strong>Cadastro: </strong>{{$usuario->data_criacao_formatada}}</p>
             <hr>
     		<p class="ml-4"><strong>Anúncios publicados: </strong>{{(count($anuncios))}}</p>
     		<hr>
     		<p class="ml-4"><strong>Anúncios ativos: </strong>{{(count($anuncios->where('doado', 0)))}}</p>
             <hr>
-            <p class="ml-4"><strong>Doações efetuadas: </strong>{{(count($anuncios->where('doado', 1)))}}</p>
-        </div>
 
+        </div>
+            <div class="col-md-12 espacamento-bloco">
+                <a class="ml-4 btn btn-danger" href="{{url('usuarios/editar/'.$usuario->id)}}">Editar informações</a>
+                <a class="ml-4 btn btn-danger" href="">Alterar senha</a>
+            </div>
+    </div>
+
+    <div class="row justify-content-center">
         <div class="col-md-12 espacamento-bloco">
             <div class="px-4 py-4">
                 <h2 class="">Avaliações</h2>
@@ -35,6 +43,7 @@
              <canvas id="grafico-avaliacoes"></canvas>
         </div>
     </div>
+
     <div class="row justify-content-center">
 		<div class="col-md-12 espacamento-bloco">
 			<div class="px-4 py-4">

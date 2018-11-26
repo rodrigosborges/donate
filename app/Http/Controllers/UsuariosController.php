@@ -32,5 +32,34 @@ class UsuariosController extends Controller{
 	    return view('usuarios.perfil', compact("usuario", "anuncios", "qtdAvaliacoes"));
 
 	}
+
+	public function editar($id){
+
+		$usuario = Usuario::find($id);
+
+		if($usuario->id != Auth::user()->id && Auth::user()->id != 1){
+			return redirect('/')->with('warning', 'Desculpe, você não tem permissão para realizar esta ação!');
+		}
+
+		return view('auth.register', compact("usuario"));
+
+	}
+
+	public function update(Request $request){
+
+		$usuario = Usuario::find($request['usuario_id']);
+
+		if($usuario->id != Auth::user()->id && Auth::user()->id != 1){
+			return redirect('/')->with('warning', 'Desculpe, você não tem permissão para realizar esta ação!');
+		}
+
+		$usuario->nome = $request['nome'];
+		$usuario->email = $request['email'];
+
+		$usuario->save();
+
+		return redirect('/usuarios/perfil/'.$usuario->id)->with('status', 'Perfil atualizado com sucesso!');
+
+	}
 	
 }

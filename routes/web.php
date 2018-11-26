@@ -32,6 +32,7 @@ Route::get('/doacoes/pesquisa', 'DoacoesController@pesquisa');
 Route::middleware('auth')->group(function () {
     //#### DOACOES #####
     Route::get('/doacoes/create', 'DoacoesController@create');
+    Route::post('/doacoes/buscarBairros', 'DoacoesController@buscarBairros');
 	Route::post('/doacoes/insert', 'DoacoesController@insert');
 	Route::get('/doacoes/meus-anuncios', 'DoacoesController@meusAnuncios');
 	Route::get('/doacoes/editar/{id}', 'DoacoesController@editar');
@@ -42,6 +43,8 @@ Route::middleware('auth')->group(function () {
 
     //#### USUARIOS #####
     Route::get('/usuarios/perfil/{id}', 'UsuariosController@perfil');
+    Route::get('/usuarios/editar/{id}', 'UsuariosController@editar');
+    Route::post('/usuarios/update', 'UsuariosController@update');
     Route::get('/usuarios/mensagens', 'MensagensController@index');
     Route::get('/usuarios/mensagens/buscarMensagens', 'MensagensController@buscarMensagens');
     Route::post('/usuarios/mensagens/enviar', 'MensagensController@enviar');

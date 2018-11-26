@@ -5,6 +5,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -95,6 +96,11 @@
               Entrar
             </a>
           </li>
+          <li class="nav-item dropdown no-arrow mx-1">
+            <a class="nav-link" href="{{ route('register') }}" role="button">
+              Cadastre-se
+            </a>
+          </li>
         </ul>
       @endauth
 
@@ -172,14 +178,24 @@
         </div>
         <!-- /.container-fluid -->
 
-        <!-- Sticky Footer -->
-        <footer class="sticky-footer">
+        @auth
+          <!-- Sticky Footer -->
+          <footer class="sticky-footer">
+            <div class="container my-auto">
+              <div class="copyright text-center my-auto">
+                <span>Copyright © Your Website 2018</span>
+              </div>
+            </div>
+          </footer>
+        @else
+          <footer class="not-auth-footer">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
               <span>Copyright © Your Website 2018</span>
             </div>
           </div>
         </footer>
+        @endauth
 
       </div>
       <!-- /.content-wrapper -->

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Helpers\DoacoesHelper;
 use App\Categoria;
+use App\Cidade;
 use App\Bairro;
 use App\Doacao;
 use App\Imagem;
@@ -31,10 +32,19 @@ class DoacoesController extends Controller
 
 	public function create(){
 
-		$bairros = Bairro::all();
+		//$bairros = Bairro::all();
+		$cidades = Cidade::all();
 		$categorias = Categoria::all();
 
-	    return view('doacoes.create', compact("bairros", "categorias"));
+	    return view('doacoes.create', compact("cidades", "categorias"));
+	}
+
+	public function buscarBairros(Request $request){
+		$cidade_id = $request['cidade_id'];
+
+		$bairros = Bairro::where('cidade_id', $cidade_id)->get();
+
+		return json_encode($bairros);
 	}
 
 	public function meusAnuncios(){
@@ -81,10 +91,17 @@ class DoacoesController extends Controller
 	public function editar($id){
 
 		$anuncio = Doacao::find($id);
-		$bairros = Bairro::all();
-		$categorias = Categoria::all();
 
-		return view('doacoes.create', compact("anuncio", "bairros", "categorias"));
+		if(Auth::user()->id != $anuncio->usuario_id && Auth::user()->nivel != 1){
+			return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
+		}
+
+		$categorias = Categoria::all();
+		$cidades = Cidade::all();
+
+		$bairros = Bairro::where("cidade_id", $anuncio->bairro->cidade_id)->get();
+
+		return view('doacoes.create', compact("anuncio", "bairros", "cidades", "categorias"));
 	}
 
 	public function update(DoacoesRequest $request){
@@ -147,7 +164,7 @@ class DoacoesController extends Controller
 
 		$anuncio = Doacao::find($request->id);
 
-		if($anuncio->usuario_id != Auth::id() || Auth::user()->nivel != 1){
+		if(Auth::user()->nivel != 1){
 			return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
 		}
 
