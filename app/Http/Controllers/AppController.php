@@ -251,13 +251,19 @@ class AppController extends Controller{
 	}
 	
 	public function deleteRestoreAnuncio(Request $request){
-		$usuario = Usuario::find($request->id);
-		if($usuario->remember_token != $request->token)
-			return false;
-		$anuncio = Anuncio::find($request->anuncio_id)->withTrashed();
-		if($anuncio->deleted_at != null)
-			$anuncio->restore();
-		else
-			$anuncio->delete();
+		try{
+			$usuario = Usuario::find($request->id);
+			if($usuario->remember_token != $request->token)
+				return false;
+			$anuncio = Anuncio::find($request->anuncio_id)->withTrashed();
+			if($anuncio->deleted_at != null)
+				$anuncio->restore();
+			else
+				$anuncio->delete();
+			return true;
+		}catch(Exception $e){
+			DB::rollback();
+			return json_encode(false);
+		}
 	} 
 }
