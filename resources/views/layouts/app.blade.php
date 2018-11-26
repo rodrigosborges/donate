@@ -110,7 +110,7 @@
 
       <!-- Sidebar -->
       @auth
-        <ul class="sidebar navbar-nav">
+        <ul class="sidebar navbar-nav toggled">
           <!-- <li class="nav-item">
             <a class="nav-link" href="index.html">
               <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -178,24 +178,24 @@
         </div>
         <!-- /.container-fluid -->
 
-        @auth
+        <!-- @auth -->
           <!-- Sticky Footer -->
-          <footer class="sticky-footer">
+          <!-- <footer class="sticky-footer">
             <div class="container my-auto">
               <div class="copyright text-center my-auto">
                 <span>Copyright © Your Website 2018</span>
               </div>
             </div>
-          </footer>
-        @else
-          <footer class="not-auth-footer">
+          </footer> -->
+        <!-- @else -->
+          <!-- <footer class="not-auth-footer">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
               <span>Copyright © Your Website 2018</span>
             </div>
           </div>
-        </footer>
-        @endauth
+        </footer> -->
+       <!--  @endauth -->
 
       </div>
       <!-- /.content-wrapper -->

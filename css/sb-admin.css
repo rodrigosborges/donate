@@ -125,6 +125,7 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 }
 
 @media (min-width: 768px) {
+
   .navbar-nav .form-inline .input-group {
     width: auto;
   }
@@ -182,6 +183,11 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
 }
 
 @media (min-width: 768px) {
+
+  #sidebarToggle{
+    display: none;
+  }
+
   .sidebar {
     width: 225px !important;
   }
