@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Imagen[] $imagens
  */
 class Doacao extends Model{
+    use SoftDeletes;
     /**
      * The table associated with the model.
      * 
