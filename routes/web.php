@@ -45,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/usuarios/perfil/{id}', 'UsuariosController@perfil');
     Route::get('/usuarios/editar/{id}', 'UsuariosController@editar');
     Route::post('/usuarios/update', 'UsuariosController@update');
+    Route::get('/usuarios/alterar-senha/{id}', 'UsuariosController@alterarSenha');
+    Route::post('/usuarios/updateSenha', 'UsuariosController@updateSenha');
     Route::get('/usuarios/mensagens', 'MensagensController@index');
     Route::get('/usuarios/mensagens/buscarMensagens', 'MensagensController@buscarMensagens');
     Route::post('/usuarios/mensagens/enviar', 'MensagensController@enviar');
@@ -53,6 +55,13 @@ Route::middleware('auth')->group(function () {
     //#### AVALIAÇÕES ####
     Route::get('/avaliacoes/avaliar', 'AvaliacoesController@avaliar');
     //####################
+
+    //#### OUTRAS ROTAS ####
+    // Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+    // Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+    // Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+    // Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+    //######################
 });
 //#####################
 

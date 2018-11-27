@@ -30,7 +30,7 @@
         </div>
             <div class="col-md-12 espacamento-bloco">
                 <a class="ml-4 btn btn-danger" href="{{url('usuarios/editar/'.$usuario->id)}}">Editar informações</a>
-                <a class="ml-4 btn btn-danger" href="">Alterar senha</a>
+                <a class="ml-4 btn btn-danger" href="{{url('usuarios/alterar-senha/'.$usuario->id)}}">Alterar senha</a>
             </div>
     </div>
 

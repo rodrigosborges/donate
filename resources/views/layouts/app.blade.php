@@ -242,6 +242,15 @@
     <!-- Custom scripts for all pages-->
     <script src="{{asset('js/sb-admin.min.js')}}"></script>
 
+    <script type="text/javascript">
+      $(document).ready(function(){
+        setTimeout(function(){
+          $(".alert").fadeOut("slow");
+        }, 5000);
+      });
+
+    </script>
+
     @yield('js')
   </body>
 

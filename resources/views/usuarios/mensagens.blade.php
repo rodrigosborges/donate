@@ -69,11 +69,11 @@ $(document).ready(function(){
             $.each(data, function(i, dado){
                 var alinhamento = "";
                 if(dado['remetente_id'] == <?php echo Auth::id() ?>){
-                    alinhamento = "margin-left:65%";
+                    alinhamento = "margin-left:62%";
                 }else{
                     alinhamento = "";
                 }
-                $("#mensagens").append("<div class='msg-box' style='"+alinhamento+"'><p><strong>"+dado['remetente']+"</strong></p><p>"+dado['texto']+"</p><p style='font-size:0.8em'>"+dado['created_at']+"</p></div><hr>");
+                $("#mensagens").append("<div class='msg-box' style='"+alinhamento+"'><p><strong>"+dado['remetente']+"</strong></p><p>"+dado['texto']+"</p><p style='font-size:0.8em'>"+dado['created_at']+"</p></div><br>");
                 $('#mensagens').scrollTop($('#mensagens')[0].scrollHeight);
             });
         });
