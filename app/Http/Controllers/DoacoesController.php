@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\DoacoesRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Helpers\DoacoesHelper;
+use App\Helpers\UsuariosHelper;
 use App\Categoria;
 use App\Cidade;
 use App\Bairro;
@@ -27,6 +29,7 @@ class DoacoesController extends Controller
 
     public function index()
 	{
+
 	    return view('doacoes.index', []);
 	}
 
@@ -73,19 +76,15 @@ class DoacoesController extends Controller
 
 		$avaliacaoExistente = Avaliacao::where('avaliador_id', Auth::id())->where('avaliado_id', $anuncio->usuario_id)->first();
 
-		$qtdAvaliacoes = [
-			'1-star' => Avaliacao::where('avaliado_id', $anuncio->usuario_id)->where('nivel', 1)->count(),
-			'2-star' => Avaliacao::where('avaliado_id', $anuncio->usuario_id)->where('nivel', 2)->count(),
-			'3-star' => Avaliacao::where('avaliado_id', $anuncio->usuario_id)->where('nivel', 3)->count(),
-			'4-star' => Avaliacao::where('avaliado_id', $anuncio->usuario_id)->where('nivel', 4)->count(),
-			'5-star' => Avaliacao::where('avaliado_id', $anuncio->usuario_id)->where('nivel', 5)->count()
-		];
+		$avaliacoes = Avaliacao::select('nivel')->where('avaliado_id', $anuncio->usuario_id)->get();
+
+		$avaliacaoMedia = UsuariosHelper::calcularAvaliacaoMedia($avaliacoes);
 
 		if($anuncio->aprovado == 0 && Auth::user()->nivel != 1){
 			return redirect('/')->with('warning', 'Este anúncio não está disponível!');
 		}
 
-		return view('doacoes.anuncio', compact("anuncio", "avaliacoes", "avaliacaoExistente", "qtdAvaliacoes"));
+		return view('doacoes.anuncio', compact("anuncio", "avaliacaoMedia", "avaliacaoExistente"));
 	}
 
 	public function editar($id){
@@ -105,58 +104,84 @@ class DoacoesController extends Controller
 	}
 
 	public function update(DoacoesRequest $request){
+		DB::beginTransaction();
+		try{
+			$doacao = Doacao::find($request->id);
 
-		if(!empty($request->imagens_deletadas)){
-			foreach ($request->imagens_deletadas as $imagem) {
-				unlink(base_path().'/'.$imagem);
+			if(isset($request->imagens_deletadas)){
+
+				if(count($doacao->getImagens()) == count($request->imagens_deletadas)){
+					return back()->with("status","O anúncio deve conter pelo menos 1 imagem!");
+				}
+
 			}
-		}
 
-		$doacao = Doacao::find($request->id);
-
-		$doacao->titulo = $request->titulo;
-		$doacao->descricao = $request->descricao;
-		$doacao->bairro_id = $request->bairro_id;
-		$doacao->categoria_id = $request->categoria_id;
-		if(Auth::user()->nivel == 1){
-			$doacao->aprovado = 1;
-		}else{
-			$doacao->aprovado = 0;
-		}
-		$doacao->doado = 0;
-
-		$doacao->save();
-
-		if(!empty($request->imagem)){
-			foreach ($request->imagem as $imagem) {
-				$numero = DoacoesHelper::proximoNumeroImagem($doacao);
-				$upload = $imagem->storeAs("anuncio_$doacao->id", "DonateImage_$numero.png");
+			if(!empty($request->imagens_deletadas)){
+				foreach ($request->imagens_deletadas as $imagem) {
+					unlink(base_path().'/'.$imagem);
+				}
 			}
-		}
 
-		return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
+			$doacao->titulo = $request->titulo;
+			$doacao->descricao = $request->descricao;
+			$doacao->bairro_id = $request->bairro_id;
+			$doacao->categoria_id = $request->categoria_id;
+			if(Auth::user()->nivel == 1){
+				$doacao->aprovado = 1;
+			}else{
+				$doacao->aprovado = 0;
+			}
+			$doacao->doado = 0;
+
+			$doacao->save();
+
+			if(!empty($request->imagem)){
+				foreach ($request->imagem as $imagem) {
+					$numero = DoacoesHelper::proximoNumeroImagem($doacao);
+					$upload = $imagem->storeAs("anuncio_$doacao->id", "DonateImage_$numero.png");
+				}
+			}
+
+			DB::commit();
+			if(Auth::user()->nivel == 1){
+				return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio atualizado com sucesso!');
+			}else{
+				return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
+			}
+
+		}catch(Exception $e){
+			DB::rollback();
+			return back()->with("status", $e->getMessage());
+		}
 	}
 
 
 	public function insert(DoacoesRequest $request){
+		DB::beginTransaction();
+		try{
+			$anuncio = new Doacao();
 
-		$anuncio = new Doacao();
+			$request['usuario_id'] = Auth::user()->id;
 
-		$request['usuario_id'] = Auth::user()->id;
+			if(Auth::user()->nivel == 1){
+				$request['aprovado'] = 1;
+			}
 
-		if(Auth::user()->nivel == 1){
-			$request['aprovado'] = 1;
-		}
+			$anuncio = $anuncio->create($request->all());
 
-		$anuncio = $anuncio->create($request->all());
+			foreach ($request->imagem as $key => $imagem) {
+				$upload = $imagem->storeAs("anuncio_$anuncio->id", "DonateImage_$key.png");
+			}
 
-		foreach ($request->imagem as $key => $imagem) {
-			$upload = $imagem->storeAs("anuncio_$anuncio->id", "DonateImage_$key.png");
-		}
-		if(Auth::user()->nivel == 1){
-			return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio cadastrado!');
-		}else{
-			return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
+			DB::commit();
+			if(Auth::user()->nivel == 1){
+				return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio cadastrado!');
+			}else{
+				return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio enviado para aprovação!');
+			}
+		}catch(Exception $e){
+			DB::rollback();
+			return back()->with("status", $e->getMessage());
 		}
 	}
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Usuario;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -61,12 +62,20 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
-    {
-        return Usuario::create([
-            'nome' => $data['nome'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+    protected function create(array $data){
+        DB::beginTransaction();
+        try{
+            DB::commit();
+            return Usuario::create([
+                'nome' => $data['nome'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
+
+        }catch(Exception $e){
+            DB::rollback();
+            return back()->with("status", $e->getMessage());
+        }
+
     }
 }

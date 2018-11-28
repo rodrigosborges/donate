@@ -23,15 +23,31 @@
         </div>
     </div> -->
 
-    <!-- <blockquote class="blockquote text-center my-5">
-      <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-      <footer class="blockquote-footer">Alguém famoso na <cite title="Título da fonte">Título da fonte</cite></footer>
-    </blockquote> -->
+    <div class="row text-center">
+        <div id="logo-div" style="height: 200px" class="col-md-12">
+            <img id="logo" style="display: none;" src="{{asset('img/icones/donate.ico')}}">
+        </div>
+    </div>
 
+
+     <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+            <blockquote class="blockquote text-center my-4">
+                <p style="font-size: 1.3em" class="mb-0">
+                    @guest
+                        Donate é o melhor lugar para encontrar alguém que precisa daquilo<br>que você não precisa mais
+                    @else
+                        Olá, {{explode(" ", Auth::user()->nome)[0]}}!
+                    @endguest
+                </p>
+            </blockquote>
+            <a class="btn btn-lg btn-red" href="{{url('doacoes/anuncios/all')}}">Explorar</a>
+        </div>
+    </div>
 
     <div class="row justify-content-center my-2">
         <div class="col-md-12">
-            <div class="px-4 py-4">
+            <div class="py-4">
                 <h2 class="">Categorias</h2>
                 <hr class="divisor">
             </div>
@@ -72,7 +88,7 @@
 
     <div class="row justify-content-center my-4">
         <div class="col-md-12">
-            <div class="px-4 py-4">
+            <div class="py-4">
                 <h2>Ultimos Anúncios</h2>
                 <hr class="divisor">
             </div>
@@ -90,12 +106,6 @@
             @endforeach
         </div>
     </div> 
-
-    <div class="row justify-content-center my-4">
-        <div class="col-md-12 text-center">
-            <a class="btn btn-lg btn-red" href="{{url('doacoes/anuncios/all')}}">Ver todos os anúncios</a>
-        </div>
-    </div>
 
 @endsection
 
@@ -137,6 +147,8 @@
         //         // },5000)
         //     //});
         // }, 5000);
+
+        $("#logo").fadeIn(500)
 
         $(".categoria").mouseenter(function(){
             $(this).find("span").css({"transform":"rotate(10deg)","transition":".2s"})

@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Dashboard</title>
+    <title>Donate</title>
 
     <!-- Bootstrap core CSS-->
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
@@ -36,13 +36,16 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
+    <!-- Icon -->
+    <link rel="icon" type="image/png" href="{{asset('img/icones/donate.ico')}}">
+
     @yield('style')
 
   </head>
 
   <body id="page-top">
 
-    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+    <nav class="navbar-personalizada navbar navbar-expand navbar-dark fixed-top">
 
       <a class="navbar-brand mr-1" href="{{ url('/') }}">Donate</a>
 
@@ -110,7 +113,7 @@
 
       <!-- Sidebar -->
       @auth
-        <ul class="sidebar navbar-nav toggled">
+        <ul class="sidebar navbar-nav toggled fixed-top">
           <!-- <li class="nav-item">
             <a class="nav-link" href="index.html">
               <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -170,7 +173,7 @@
       @endauth
 
       <div id="content-wrapper">
-
+        
         <div class="container-fluid">
 
           @yield('content')
