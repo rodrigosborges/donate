@@ -2,7 +2,6 @@
 @section('style')
 @endsection
 @section('content')
-<div class="container">
 @if (session('status'))
     <div class="alert alert-success" role="alert">
         {{ session('status') }}
@@ -43,8 +42,6 @@
             </form>
         </div>
     </div>
-
-</div>
 @endsection
 @section('js')
 <script>

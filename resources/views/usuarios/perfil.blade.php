@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{{asset('owl-carousel/owl.theme.default.min.css')}}">
 @endsection
 @section('content')
-<div class="container">
 @if (session('status'))
     <div class="alert alert-success" role="alert">
         {{ session('status') }}
@@ -66,7 +65,6 @@
             </div>
         </div>
     </div>
-</div>
 
 @endsection
 @section('js')

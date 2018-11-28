@@ -17,12 +17,26 @@
         </div>
     @endif
 
-    <div class="row text-center">
+    <!-- <div class="row text-center">
         <div id="frases-div" class="col-md-12">
             <div class="frases"><p>Donate</p></div>
         </div>
+    </div> -->
+
+    <div class="row text-center">
+        <div id="logo-div" style="height: 200px" class="col-md-12">
+            <img id="logo" style="display: none;" src="{{asset('img/icones/donate.ico')}}">
+        </div>
     </div>
 
+     <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+            <blockquote class="blockquote text-center my-4">
+              <p style="font-size: 1.3em" class="mb-0">Donate é o melhor lugar para encontrar alguém que precisa daquilo<br>de que você não precisa mais</p>
+            </blockquote>
+            <a class="btn btn-lg btn-red" href="{{url('doacoes/anuncios/all')}}">Explorar</a>
+        </div>
+    </div>
 
     <div class="row justify-content-center my-2">
         <div class="col-md-12">
@@ -86,52 +100,48 @@
         </div>
     </div> 
 
-    <div class="row justify-content-center my-4">
-        <div class="col-md-12 text-center">
-            <a class="btn btn-lg btn-red" href="{{url('doacoes/anuncios/all')}}">Ver todos os anúncios</a>
-        </div>
-    </div>
-
 @endsection
 
 @section('js')
 <script type="text/javascript">
 
-    function typeWriter(frases) {
-        const textoArray = frases.innerHTML.split('');
-        frases.innerHTML = '';
-        for(let i = 0; i < textoArray.length; i++) {
-          setTimeout(() => frases.innerHTML += textoArray[i], 110 * i);
-        }
-    }
+    // function typeWriter(frases) {
+    //     const textoArray = frases.innerHTML.split('');
+    //     frases.innerHTML = '';
+    //     for(let i = 0; i < textoArray.length; i++) {
+    //       setTimeout(() => frases.innerHTML += textoArray[i], 110 * i);
+    //     }
+    // }
 
-    const elemento = document.querySelector('p');
-    typeWriter(elemento);
+    // const elemento = document.querySelector('p');
+    // typeWriter(elemento);
 
     $(document).ready(function(){
 
-        var frases = [
-            'Incentive',
-            'Inspire',
-            'Donate'
-        ];
+        // var frases = [
+        //     'Incentive',
+        //     'Inspire',
+        //     'Donate'
+        // ];
 
-        var i = 0;
-        setInterval(function(){
-            $(".frases").fadeIn();
-            //$(".frases").fadeOut(5000, function(){
-                $(".frases").html("<p>"+frases[i]+"</p>");
-                i++;
-                const elemento = document.querySelector('p');
-                typeWriter(elemento);
-                if(i == frases.length){
-                    i = 0;
-                }
-                // setTimeout(function(){
-                //     $(".frases").fadeOut()
-                // },5000)
-            //});
-        }, 5000);
+        // var i = 0;
+        // setInterval(function(){
+        //     $(".frases").fadeIn();
+        //     //$(".frases").fadeOut(5000, function(){
+        //         $(".frases").html("<p>"+frases[i]+"</p>");
+        //         i++;
+        //         const elemento = document.querySelector('p');
+        //         typeWriter(elemento);
+        //         if(i == frases.length){
+        //             i = 0;
+        //         }
+        //         // setTimeout(function(){
+        //         //     $(".frases").fadeOut()
+        //         // },5000)
+        //     //});
+        // }, 5000);
+
+        $("#logo").fadeIn(500)
 
         $(".categoria").mouseenter(function(){
             $(this).find("span").css({"transform":"rotate(10deg)","transition":".2s"})
