@@ -54,6 +54,11 @@ class AppController extends Controller{
 				$imagens[] = url(explode('donate/', $imagem)[1]."?time=".Date("Y-m-d H:i:s"));
 			}
 			$anuncios[$key]->imagens = $imagens;
+			$usuario = Usuario::find($anuncio->doador_id);
+			if($usuario->avaliacoes()->count() == 0)
+				$anuncios[$key]->avaliacao = "Não avaliado";
+			else
+				$anuncios[$key]->avaliacao = round($usuario->avaliacoes()->avg('nivel'),2)+" de 5";
 		}
 		return json_encode($anuncios);
 	}
@@ -171,7 +176,7 @@ class AppController extends Controller{
 				'nome' 		=> $request->nome,
 				'email' 	=> $request->email,
 				'password' 	=> Hash::make($request->password),
-				'nivel'		=> 1
+				'nivel'		=> 2
 			]);
 			DB::commit();
 			return json_encode(true);

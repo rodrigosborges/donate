@@ -26,7 +26,7 @@ class Mensagem extends Model
      * @var array
      */
     protected $fillable = ['remetente_id', 'destinatario_id', 'texto', 'created_at'];
-    protected $timestamp = false;
+    public $timestamps = false;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
