@@ -14,6 +14,21 @@
 	color: white;
 }
 
+.container-fluid{
+	float: right!important;
+	width: 94%!important;
+	padding: 4% 4% 0 4%!important;
+}
+
+.navbar-dark .navbar-nav .nav-link{
+	color: white;
+}
+
+.navbar-dark .navbar-nav .nav-link:active{
+	color: white;
+}
+
+
 /*.nav-item{
 	margin: auto 5px;
 }
@@ -261,6 +276,11 @@ html {
     border: 1px solid black;
 }
 
+.navbar-personalizada{
+	background-color: #800000;
+	color: white!important;
+}
+
 .titulo-inline{
 	overflow: hidden;
     display: -webkit-box;
@@ -334,6 +354,11 @@ html {
 
 	.espacamento-linha{
 		margin: 15% 0;
+	}
+
+	.container-fluid{
+		width: 100%!important;
+		padding: 8% 4% 0 4%!important;
 	}
 
 	

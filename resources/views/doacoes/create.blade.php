@@ -1,9 +1,13 @@
 @extends('layouts.app')
-
 @section('content')
+@if (session('status'))
+    <div class="alert alert-success" role="alert">
+        {{ session('status') }}
+    </div>
+@endif
 <div class="row justify-content-center mb-4">
     <div class="col-md-12">
-        <div class="px-4 py-4">
+        <div class="py-4">
             <h2>{{isset($anuncio) ? 'Editar Anúncio' : 'Novo Anúncio'}}</h2>
             <hr class="divisor">
         </div>
@@ -11,6 +15,8 @@
                 @csrf
 
             <input type="text" name="id" value="{{isset($anuncio) ? $anuncio->id : '' }}" hidden>
+
+            <input id="cont_imagens" type="text" name="cont_imagens" hidden>
 
             <div class="form-group row">
                 <label for="titulo" class="col-md-4 col-form-label text-md-right">{{ __('Título') }}</label>
@@ -153,10 +159,10 @@
         $(this).parent().remove();
         });
 
-
     });
 
     $("#cidade").change(function(){
+
 
         var cidade = $(this).val();
 
@@ -188,6 +194,7 @@ window.onload = function(){
         var filesInput = document.getElementById("imagem");
         filesInput.addEventListener("change", function(event){
             var files = event.target.files; //FileList object
+            arquivos = files;
             var output = document.getElementById("result");
             $("#result").empty()
             $("#result").show()
@@ -207,10 +214,12 @@ window.onload = function(){
                 //Read the image
                 picReader.readAsDataURL(file);
             }
+
         });
     }else
-        console.log("Your browser does not support File API");
+        console.log("Seu navegador não possui suporte ao File API");
     
 }
+
 </script>
 @stop

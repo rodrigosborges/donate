@@ -29,10 +29,17 @@
         </div>
     </div>
 
+
      <div class="row justify-content-center">
         <div class="col-md-12 text-center">
             <blockquote class="blockquote text-center my-4">
-              <p style="font-size: 1.3em" class="mb-0">Donate é o melhor lugar para encontrar alguém que precisa daquilo<br>de que você não precisa mais</p>
+                <p style="font-size: 1.3em" class="mb-0">
+                    @guest
+                        Donate é o melhor lugar para encontrar alguém que precisa daquilo<br>que você não precisa mais
+                    @else
+                        Olá, {{explode(" ", Auth::user()->nome)[0]}}!
+                    @endguest
+                </p>
             </blockquote>
             <a class="btn btn-lg btn-red" href="{{url('doacoes/anuncios/all')}}">Explorar</a>
         </div>
@@ -40,7 +47,7 @@
 
     <div class="row justify-content-center my-2">
         <div class="col-md-12">
-            <div class="px-4 py-4">
+            <div class="py-4">
                 <h2 class="">Categorias</h2>
                 <hr class="divisor">
             </div>
@@ -81,7 +88,7 @@
 
     <div class="row justify-content-center my-4">
         <div class="col-md-12">
-            <div class="px-4 py-4">
+            <div class="py-4">
                 <h2>Ultimos Anúncios</h2>
                 <hr class="divisor">
             </div>

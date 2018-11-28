@@ -8,7 +8,7 @@
 @endif
 <div class="row justify-content-center">
     <div class="col-md-12">
-        <div class="px-4 py-4">
+        <div class="py-4">
             <h2 class="">Meus Anúncios</h2>
             <hr class="divisor">
         </div>

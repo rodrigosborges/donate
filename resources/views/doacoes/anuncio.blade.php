@@ -8,9 +8,8 @@
         </div>
     @endif
     <div class="row justify-content-center">
-        <div class="col-md-5">
+        <div class="col-md-5 my-4">
             <div class="card anuncio-detalhado">
-                <div class="card-header">Imagens</div>
                 <div class="card-body text-center">
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                       <ol class="carousel-indicators">
@@ -37,15 +36,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-7 my-4">
             <div class="card anuncio-detalhado">
-                <div class="card-header">Anúncio</div>
                 <div class="card-body">
                     <div class="informacoes">
                         <h1>{{$anuncio->titulo}}</h1>
                         <hr>
                         <p><strong>Categoria: </strong>{{$anuncio->categoria->nome}}</p>
-                        <p><strong>Doador: </strong>{{$anuncio->usuario->nome}}</p>
+                        <p><strong>Doador: </strong>{{explode(" ", $anuncio->usuario->nome)[0]}} (Avaliação: {{$avaliacaoMedia}})</p>
                         <p><span class="fa fa-map-marker-alt"></span> {{$anuncio->bairro->cidade->nome}}, {{$anuncio->bairro->nome}}</p>
                         <?php
                         if($anuncio->aprovado == 0){
@@ -87,7 +85,7 @@
                             @else
                                 @if($anuncio->aprovado == 1)
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 my-2">
                                             <form method="POST" action="{{url('doacoes/mudarStatus')}}">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{$anuncio->id}}">
@@ -96,7 +94,7 @@
                                                 <input class="btn btn-danger" type="submit" value="{{($anuncio->doado == 0) ? 'Marcar como doado' : 'Marcar como disponível'}}"/>
                                             </form>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 my-2">
                                             <a class="btn btn-primary" href="{{url('doacoes/editar/'.$anuncio->id)}}">Editar</a>
                                         </div>
                                     </div>
@@ -113,52 +111,44 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center">
+
+    <div class="row">
         <div class="col-md-12">
-            <div class="card espacamento">
-                <div class="card-header">Descrição</div>
-                <div class="card-body text-left">
-                    <p>{{$anuncio->descricao}}</p>
-                </div>
+            <div class="py-4">
+                <h2 class="">Descrição</h2>
+                <hr class="divisor">
             </div>
-            <div class="card espacamento">
-                <div class="card-header">Avaliações</div>
-                <div class="card-body">
-                    <div class="col-md-12 text-center">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <canvas id="grafico-avaliacoes"></canvas>
-                            </div>
-                            <div class="col-md-6">
-                            @auth
-                                @if($avaliacaoExistente !== null)
-                                    <div id="ja-avaliado">
-                                        <p style="font-size:1.4em">Você avaliou este doador com {{$avaliacaoExistente->nivel}} estrelas!</p>
-                                    </div>
-                                @endif
-                                @if(Auth::id() != $anuncio->usuario_id)
-                                    <div id="avaliacao" style={{($avaliacaoExistente !== null) ? "display:none" : ""}}>
-                                        <p>Avalie este doador!</p>
-                                        <i id="star-1" class="far fa-star"></i>
-                                        <i id="star-2" class="far fa-star"></i>
-                                        <i id="star-3" class="far fa-star"></i>
-                                        <i id="star-4" class="far fa-star"></i>
-                                        <i id="star-5" class="far fa-star"></i>
-                                    </div>
-                                    <p id="p-mudar-avaliacao" style={{($avaliacaoExistente !== null) ? "" : "display:none"}}>Clique <span id="btn-mudar-avaliacao">aqui</span> para mudar a sua avaliação!</p>
-                                @endif
-                            @else
-                                <p>Faça <a href="{{url('/login')}}">login</a> para avaliar o doador.</p>
-                                <p>Ainda não tem uma conta? <a href="{{url('/register')}}">Cadastre-se</a></p>
-                            @endauth
-                            </div>
-                        </div>
-                    </div>    
-                </div>
-            </div>
+
+            <p class="text-justify">{{$anuncio->descricao}}</p>
         </div>
     </div> 
-</div>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+            @auth
+                @if($avaliacaoExistente !== null)
+                    <div id="ja-avaliado">
+                        <p style="font-size:1.4em">Você avaliou este doador com {{$avaliacaoExistente->nivel}} estrelas!</p>
+                    </div>
+                @endif
+                @if(Auth::id() != $anuncio->usuario_id)
+                    <div id="avaliacao" style={{($avaliacaoExistente !== null) ? "display:none" : ""}}>
+                        <p>Avalie este doador!</p>
+                        <i id="star-1" class="far fa-star"></i>
+                        <i id="star-2" class="far fa-star"></i>
+                        <i id="star-3" class="far fa-star"></i>
+                        <i id="star-4" class="far fa-star"></i>
+                        <i id="star-5" class="far fa-star"></i>
+                    </div>
+                    <p id="p-mudar-avaliacao" style={{($avaliacaoExistente !== null) ? "" : "display:none"}}>Clique <span id="btn-mudar-avaliacao">aqui</span> para mudar a sua avaliação!</p>
+                @endif
+            @else
+                <p>Faça <a href="{{url('/login')}}">login</a> para avaliar o doador.</p>
+                <p>Ainda não tem uma conta? <a href="{{url('/register')}}">Cadastre-se</a></p>
+            @endauth
+        </div>
+    </div> 
+</div>   
 @endsection
 
 @section('js')
@@ -215,45 +205,6 @@
         });
 
         <?php } ?>
-
-
-        var ctx = document.getElementById('grafico-avaliacoes').getContext('2d');
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'horizontalBar',
-            // The data for our dataset
-            data: {
-                labels: ["1 Estrela", "2 Estrelas", "3 Estrelas", "4 Estrelas", "5 Estrelas"],
-                datasets: [{
-                    label: "Avaliações",
-                    backgroundColor: 'gold',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: [
-                    <?php echo $qtdAvaliacoes['1-star']; ?>,
-                    <?php echo $qtdAvaliacoes['2-star']; ?>,
-                    <?php echo $qtdAvaliacoes['3-star']; ?>,
-                    <?php echo $qtdAvaliacoes['4-star']; ?>,
-                    <?php echo $qtdAvaliacoes['5-star']; ?>
-                    ],
-                }]
-            },
-
-            
-
-            // Configuration options go here
-            options: {
-                legend: {
-                display: false
-                },
-                tooltips: {
-                    callbacks: {
-                       label: function(tooltipItem) {
-                              return tooltipItem.yLabel;
-                       }
-                    }
-                }
-            }
-        });
 
     });
 </script>

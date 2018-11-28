@@ -45,7 +45,7 @@
 
   <body id="page-top">
 
-    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+    <nav class="navbar-personalizada navbar navbar-expand navbar-dark fixed-top">
 
       <a class="navbar-brand mr-1" href="{{ url('/') }}">Donate</a>
 
@@ -113,7 +113,7 @@
 
       <!-- Sidebar -->
       @auth
-        <ul class="sidebar navbar-nav toggled">
+        <ul class="sidebar navbar-nav toggled fixed-top">
           <!-- <li class="nav-item">
             <a class="nav-link" href="index.html">
               <i class="fas fa-fw fa-tachometer-alt"></i>
@@ -173,7 +173,7 @@
       @endauth
 
       <div id="content-wrapper">
-
+        
         <div class="container-fluid">
 
           @yield('content')
