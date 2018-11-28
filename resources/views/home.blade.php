@@ -17,11 +17,16 @@
         </div>
     @endif
 
-    <div class="row text-center">
+    <!-- <div class="row text-center">
         <div id="frases-div" class="col-md-12">
             <div class="frases"><p>Donate</p></div>
         </div>
-    </div>
+    </div> -->
+
+    <!-- <blockquote class="blockquote text-center my-5">
+      <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+      <footer class="blockquote-footer">Alguém famoso na <cite title="Título da fonte">Título da fonte</cite></footer>
+    </blockquote> -->
 
 
     <div class="row justify-content-center my-2">
@@ -97,41 +102,41 @@
 @section('js')
 <script type="text/javascript">
 
-    function typeWriter(frases) {
-        const textoArray = frases.innerHTML.split('');
-        frases.innerHTML = '';
-        for(let i = 0; i < textoArray.length; i++) {
-          setTimeout(() => frases.innerHTML += textoArray[i], 110 * i);
-        }
-    }
+    // function typeWriter(frases) {
+    //     const textoArray = frases.innerHTML.split('');
+    //     frases.innerHTML = '';
+    //     for(let i = 0; i < textoArray.length; i++) {
+    //       setTimeout(() => frases.innerHTML += textoArray[i], 110 * i);
+    //     }
+    // }
 
-    const elemento = document.querySelector('p');
-    typeWriter(elemento);
+    // const elemento = document.querySelector('p');
+    // typeWriter(elemento);
 
     $(document).ready(function(){
 
-        var frases = [
-            'Incentive',
-            'Inspire',
-            'Donate'
-        ];
+        // var frases = [
+        //     'Incentive',
+        //     'Inspire',
+        //     'Donate'
+        // ];
 
-        var i = 0;
-        setInterval(function(){
-            $(".frases").fadeIn();
-            //$(".frases").fadeOut(5000, function(){
-                $(".frases").html("<p>"+frases[i]+"</p>");
-                i++;
-                const elemento = document.querySelector('p');
-                typeWriter(elemento);
-                if(i == frases.length){
-                    i = 0;
-                }
-                // setTimeout(function(){
-                //     $(".frases").fadeOut()
-                // },5000)
-            //});
-        }, 5000);
+        // var i = 0;
+        // setInterval(function(){
+        //     $(".frases").fadeIn();
+        //     //$(".frases").fadeOut(5000, function(){
+        //         $(".frases").html("<p>"+frases[i]+"</p>");
+        //         i++;
+        //         const elemento = document.querySelector('p');
+        //         typeWriter(elemento);
+        //         if(i == frases.length){
+        //             i = 0;
+        //         }
+        //         // setTimeout(function(){
+        //         //     $(".frases").fadeOut()
+        //         // },5000)
+        //     //});
+        // }, 5000);
 
         $(".categoria").mouseenter(function(){
             $(this).find("span").css({"transform":"rotate(10deg)","transition":".2s"})
