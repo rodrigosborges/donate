@@ -114,10 +114,18 @@ class AppController extends Controller{
 	public function anuncioInsert(Request $request){
 		DB::beginTransaction();
 		try{
-			file_put_contents("results.txt",json_encode($request->all()));
+			$validacao = Validator::make($request->all(), [
+				'descricao' 	=> 'required',
+				'titulo' 		=> 'required|max:50',
+				'bairro_id' 	=> 'required',
+				'categoria_id' 	=> 'required',
+				'usuario_id' 	=> 'required',
+			]);
+			if($validacao->fails())
+				return json_encode([false, $validacao->errors()->first()]);
 			$usuario = Usuario::find($request->usuario_id);
 			if($usuario->remember_token != $request->token)
-				return json_encode([false, ["Cadastro não permitido"]]);
+				return json_encode([false, "Cadastro não permitido!"]);
 
 			if($usuario->nivel == 1)
 				$request['aprovado'] = 1;
@@ -129,20 +137,29 @@ class AppController extends Controller{
 			}
 
 			DB::commit();
-			return json_encode([true, ["Anúncio cadastrado"]]);
+			return json_encode([true, "Anúncio cadastrado!"]);
 		}catch(Exception $e){
 			DB::rollback();
-			return json_encode([false,$e->getMessage()]);
+			return json_encode([false,"Erro no servidor!"]);
 		}
 	}
 
 	public function anuncioUpdate(Request $request){
 		DB::beginTransaction();
 		try{
+			$validacao = Validator::make($request->all(), [
+				'descricao' 	=> 'required',
+				'titulo' 		=> 'required|max:50',
+				'bairro_id' 	=> 'required',
+				'categoria_id' 	=> 'required',
+				'usuario_id' 	=> 'required',
+			]);
+			if($validacao->fails())
+				return json_encode([false, $validacao->errors()->first()]);
 			$usuario = Usuario::find($request->usuario_id);
 			$anuncio = Doacao::find($request->id);
 			if($usuario->remember_token != $request->token || $request->usuario_id != $anuncio->usuario_id)
-			return json_encode([false, ["Edição não permitida"]]);
+			return json_encode([false, "Edição não permitida!"]);
 			
 			if($usuario->nivel == 1)
 				$request['aprovado'] = 1;
@@ -166,16 +183,24 @@ class AppController extends Controller{
 			}
 
 			DB::commit();
-			return json_encode([true, ["Anúncio atualizado"]]);
+			return json_encode([true, "Anúncio atualizado!"]);
 		}catch(Exception $e){
 			DB::rollback();
-			return json_encode([false,$e->getMessage()]);
+			return json_encode([false,"Erro no servidor!"]);
 		}
 	}
 
 	public function usuarioInsert(Request $request){
 		DB::beginTransaction();
 		try{
+			$request['password_confirmation'] = $request->passwordConfirm;
+			$validacao = Validator::make($request->all(), [
+				'nome' 				=> 'required',
+				'email' 			=> 'required|unique:usuarios,email',
+				'password' 			=> 'required|confirmed|min:6',
+			]);
+			if($validacao->fails())
+				return json_encode([false, $validacao->errors()->first()]);
 			Usuario::create([			
 				'nome' 		=> $request->nome,
 				'email' 	=> $request->email,
@@ -183,16 +208,23 @@ class AppController extends Controller{
 				'nivel'		=> 2
 			]);
 			DB::commit();
-			return json_encode(true);
+			return json_encode([true, "Usuário cadastrado com sucesso!"]);
 		}catch(Exception $e){
 			DB::rollback();
-			return json_encode(false);
+			return json_encode([false, "Erro no servidor!"]);
 		}
 	}
 
 	public function usuarioUpdate(Request $request){
 		DB::beginTransaction();
 		try{
+			$validacao = Validator::make($request->password == "" ? $request->except('password') : $request->all(), [
+				'nome' 				=> 'required',
+				'email' 			=> 'required|unique:usuarios,email,'.$request->id,
+				'password' 			=> 'min:6',
+			]);
+			if($validacao->fails())
+				return json_encode([false, $validacao->errors()->first()]);
 			$usuario = Usuario::find($request->id);
 			if($usuario->remember_token != $request->token)
 				return false;
@@ -204,10 +236,10 @@ class AppController extends Controller{
 				$cadastro['password'] = Hash::make($request->password);
 			$usuario->update($cadastro);
 			DB::commit();
-			return json_encode(true);
+			return json_encode([true, "Usuário atualizado com sucesso!"]);
 		}catch(Exception $e){
 			DB::rollback();
-			return json_encode(false);
+			return json_encode([false, "Erro no servidor!"]);
 		}
 	}
 	public function conversas(Request $request){
@@ -233,6 +265,7 @@ class AppController extends Controller{
 			->join('usuarios as remetente', 'mensagens.remetente_id','=','remetente.id')
 			->join('usuarios as destinatario', 'mensagens.destinatario_id','=','destinatario.id')
 			->select('remetente.nome as remetente','destinatario.nome as destinatario','mensagens.texto', 'mensagens.created_at', 'remetente.id as remetente_id')
+			->orderBy('mensagens.created_at','desc')
 			->paginate(10);
 
     	return json_encode($mensagens);
