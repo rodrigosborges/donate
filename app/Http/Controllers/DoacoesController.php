@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Requests\DoacoesRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Controller;
 use App\Helpers\DoacoesHelper;
 use App\Helpers\UsuariosHelper;
@@ -163,6 +164,11 @@ class DoacoesController extends Controller
 	public function insert(DoacoesRequest $request){
 		DB::beginTransaction();
 		try{
+
+			if(!$request->hasFile("imagem")){
+				return back()->with("status","O anúncio deve conter pelo menos 1 imagem!")->withInput(Input::all());
+			}
+
 			$anuncio = new Doacao();
 
 			$request['usuario_id'] = Auth::user()->id;
@@ -246,44 +252,45 @@ class DoacoesController extends Controller
 			$anuncios = Doacao::where('categoria_id', $categoria)->where('aprovado', 1)->where('doado', 0)->paginate(10);
 		}
 
+		$cidades = Cidade::all();
+
 		if(is_numeric($categoria)){
 			$nomeCategoria = Categoria::find($categoria)->nome;
 			
-			return view('/doacoes/anuncios', compact("anuncios", "nomeCategoria"));
+			return view('/doacoes/anuncios', compact("anuncios", "nomeCategoria", "cidades"));
 		}
 
-		$cidades = Cidade::all();
 
 		return view('/doacoes/anuncios', compact("anuncios", "cidades"));
 	}
 
 	public function pesquisa(Request $request){
 
+		$cidades = Cidade::all();
+
 		$termos = $request['termos'];
 
-		$anuncios = Doacao::where('aprovado', 1)
-			->where('doado', 0)
-			->when($termos, function ($query, $termos){	
-	            return $query->where('titulo', 'like', '%'.$termos.'%')
-	            ->orWhere('descricao', 'like', '%'.$termos.'%');
-	        });
+		$anuncios = Doacao::join('bairros','bairros.id','=','doacoes.bairro_id')
+			->join('cidades','cidades.id','=','bairros.cidade_id')
+			->join('usuarios','usuarios.id','=','doacoes.usuario_id')
+			->join('categorias','categorias.id','=','doacoes.categoria_id')
+			->where('doado',0)->where('aprovado',1);
 
 	    if(isset($request['cidade_id']) && $request['cidade_id'] != "todas"){
-
-	    	//$bairros = Bairro::where("cidade_id", $request['cidade_id'])->get();
-			
-			$anuncios = $anuncios->join("bairros", "doacoes.bairro_id", "=", "bairros.id")
-			->join("cidades", "bairros.cidade_id", "=", "cidades.id")
-			->where("cidades.id", $request["cidade_id"])
-			->select("doacoes.*");
-
-			$cidade_id = $request['cidade_id'];
-
+	    	$anuncios = $anuncios->where('cidade_id',$request['cidade_id']);
 		}
 
-		$anuncios = $anuncios->paginate(10);
+		if(isset($request['cidade_id'])){
+			$cidade_id = $request['cidade_id'];
+		}
 
-		$cidades = Cidade::all();
+
+		$anuncios = $anuncios->where(function ($query) use($termos){
+			return $query->where('titulo', 'like', '%'.$termos.'%')
+			->orWhere('descricao', 'like', '%'.$termos.'%');
+		});
+
+		$anuncios = $anuncios->paginate(10);
 
 		return view('/doacoes/anuncios', compact("anuncios", "termos", "cidades", "cidade_id"));
 	}
