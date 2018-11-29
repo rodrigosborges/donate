@@ -26,7 +26,7 @@
             </div>
         	@if(count($anuncios) == 0)
         		<div class="col-md-12 text-center">
-        			@if(isset($termos))
+        			@if(isset($termos) || isset($cidade_id))
         				<span style="font-size: 1.7em">Sua pesquisa não retornou resultados.<br><i class="far fa-frown"></i></span>
         			@elseif(isset($nomeCategoria))
         				<span style="font-size:1.7em">Nenhum anúncio cadastrado na categoria <i><span style="color:red">{{$nomeCategoria}}</span></i>.<br><i class="far fa-frown"></i></span>

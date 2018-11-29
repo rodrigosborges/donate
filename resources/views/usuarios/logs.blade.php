@@ -17,17 +17,21 @@
             </div>
             <table class="table table-striped">
                 <thead>
-                    <th>ID</th>
-                    <th>Mensagem</th>
-                    <th>Usuario</th>
-                    <th>Data</th>
+                    <tr>
+                        <th>ID</th>
+                        <th>Mensagem</th>
+                        <th>Usuario</th>
+                        <th>Data</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach($logs as $log)
+                    <tr>
                         <td>{{$log->id}}</td>
                         <td>{{$log->mensagem}}</td>
                         <td><a href="{{url('/usuarios/perfil/'.$log->usuario->id)}}">{{$log->usuario->nome}}</a></td>
                         <td>{{$log->created_at}}</td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -35,11 +39,11 @@
     </div>
 
     <div class="row">
-            <div class="col-md-12 link-paginacao">
-                @if(count($logs) != 0)
-                    {{$logs->appends(request()->except('page'))->links()}}
-                @endif
-            </div>
+        <div class="col-md-12 link-paginacao">
+            @if(count($logs) != 0)
+                {{$logs->appends(request()->except('page'))->links()}}
+            @endif
         </div>
+    </div>
 
 @endsection

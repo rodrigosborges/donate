@@ -50,10 +50,10 @@
                 <label for="categoria" class="col-md-4 col-form-label text-md-right">{{ __('Categoria') }}</label>
 
                 <div class="col-md-6">
-                    <select id="categoria" rows="8" class="form-control{{ $errors->has('categoria') ? ' is-invalid' : '' }}" name="categoria_id" value="{{ old('categoria') }}" required>
+                    <select id="categoria" rows="8" class="form-control{{ $errors->has('categoria_id') ? ' is-invalid' : '' }}" name="categoria_id" value="{{ old('categoria_id') }}" required>
                         <option hidden >Selecione</option>
                         @foreach($categorias as $categoria)
-                            <option {{(isset($anuncio) && $anuncio->categoria->id == $categoria->id) ? 'selected' : ''}} value="{{$categoria->id}}">{{$categoria->nome}}</option>
+                            <option {{(isset($anuncio) && $anuncio->categoria->id == $categoria->id) ? 'selected' : (old('categoria_id') !== null && old('categoria_id') == $categoria->id ? 'selected' : '')}} value="{{$categoria->id}}">{{$categoria->nome}}</option>
                         @endforeach
                     </select>
 
@@ -69,10 +69,10 @@
                 <label for="bairro" class="col-md-4 col-form-label text-md-right">{{ __('Cidade') }}</label>
 
                 <div class="col-md-6">
-                    <select id="cidade" rows="8" class="form-control{{ $errors->has('cidade') ? ' is-invalid' : '' }}" name="cidade_id" value="{{ old('bairro') }}" required>
+                    <select id="cidade" rows="8" class="form-control{{ $errors->has('cidade_id') ? ' is-invalid' : '' }}" name="cidade_id" value="{{ old('cidade_id') }}" required>
                         <option hidden >Selecione</option>
                         @foreach($cidades as $cidade)
-                            <option {{(isset($anuncio) && $anuncio->bairro->cidade->id == $cidade->id) ? 'selected' : ''}} value="{{$cidade->id}}">{{$cidade->nome}}</option>
+                            <option {{(isset($anuncio) && $anuncio->bairro->cidade->id == $cidade->id) ? 'selected' : (old('cidade_id') !== null && old('cidade_id') == $cidade->id ? 'selected' : '')}} value="{{$cidade->id}}">{{$cidade->nome}}</option>
                         @endforeach
                     </select>
 
@@ -88,11 +88,11 @@
                 <label for="bairro" class="col-md-4 col-form-label text-md-right">{{ __('Bairro') }}</label>
 
                 <div class="col-md-6">
-                    <select id="bairro" rows="8" class="form-control{{ $errors->has('bairro') ? ' is-invalid' : '' }}" name="bairro_id" value="{{ old('bairro') }}" required>
+                    <select id="bairro" rows="8" class="form-control{{ $errors->has('bairro_id') ? ' is-invalid' : '' }}" name="bairro_id" value="{{ old('bairro_id') }}" required>
                         <option hidden >Selecione</option>
                         @if(isset($anuncio))
                             @foreach($bairros as $bairro)
-                                <option {{$bairro->id == $anuncio->bairro->id ? 'selected' : ''}} value="{{$bairro->id}}">{{$bairro->nome}}</option>
+                                <option {{$bairro->id == $anuncio->bairro->id ? 'selected' : (old('bairro_id') !== null && old('bairro_id') == $bairro->id ? 'selected' : '')}} value="{{$bairro->id}}">{{$bairro->nome}}</option>
                             @endforeach
                         @endif
                     </select>
@@ -181,7 +181,38 @@
     </div>
 </div>
 @endsection
+
 @section('js')
+
+@if(old('bairro_id') !== null)
+    <script type="text/javascript">
+        var cidade = $("#cidade").val();
+
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+
+        var request = $.ajax({
+          url: "{{url('doacoes/buscarBairros')}}",
+          method: "POST",
+          data: {cidade_id : cidade},
+          dataType: "json"
+        });
+
+        request.done(function(msg) {
+          $("#bairro").html("");
+          $.each(msg, function(i, bairro){
+            $("#bairro").append("<option value='"+bairro['id']+"'>"+bairro['nome']+"</option>");
+            if(bairro['id'] == <?php echo old('bairro_id'); ?>){
+                $("#bairro option").last().attr('selected', 'true');    
+            }
+          })  
+        });
+    </script>
+@endif
+
 <script type="text/javascript">
     $(document).ready(function(){
         $(".btn-del-image").on( "click", function() {
@@ -191,8 +222,8 @@
 
     });
 
-    $("#cidade").change(function(){
 
+    $("#cidade").change(function(){
 
         var cidade = $(this).val();
 
