@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 	Route::get('/doacoes/editar/{id}', 'DoacoesController@editar');
 	Route::post('/doacoes/update', 'DoacoesController@update');
     Route::post('/doacoes/delete', 'DoacoesController@delete');
+    Route::post('/doacoes/restore', 'DoacoesController@restore');
     Route::get('/doacoes/aguardando-aprovacao', 'DoacoesController@aguardandoAprovacao');
     Route::post('/doacoes/mudarStatus', 'DoacoesController@mudarStatus');
 	//##################

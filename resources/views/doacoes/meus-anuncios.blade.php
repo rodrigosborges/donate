@@ -37,7 +37,17 @@
                 }
                 ?>
                 <br>
-                <a href="{{url('doacoes/anuncio/'.$anuncio->id)}}" class="btn btn-danger">Ver mais</a>
+                @if($anuncio->trashed())
+                    <span style="background-color: #F08080; padding: 0.7%; position: absolute;">Desativado</span>
+
+                    <form method="POST" action="{{url('doacoes/restore')}}">
+                        @csrf
+                        <input hidden type="text" name="anuncio_id" value="{{$anuncio->id}}">
+                        <button type="submit" class="btn btn-danger">Reativar</button>
+                    </form>
+                @else
+                    <a href="{{url('doacoes/anuncio/'.$anuncio->id)}}" class="btn btn-danger">Ver mais</a>
+                @endif
             </div>
         @endforeach
     </div>

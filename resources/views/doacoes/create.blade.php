@@ -157,21 +157,20 @@
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Excluir Anúncio</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Desativar Anúncio</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <p>Tem certeza de que deseja excluir este anúncio?</p>
-                <p>OBS: Não é possível desfazer esta ação.</p>
+                <p>Tem certeza de que deseja desativar este anúncio?</p>
               </div>
               <div class="modal-footer">
                 <form method="POST" action="{{url('doacoes/delete')}}">
                     @csrf
                     <input hidden type="text" value="{{isset($anuncio) ? $anuncio->id : ''}}" name="anuncio_id">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger">Excluir</button>
+                    <button type="submit" class="btn btn-danger">Desativar</button>
                 </form>
               </div>
             </div>

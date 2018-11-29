@@ -24,8 +24,8 @@ class DoacoesRequest extends FormRequest
     public function rules()
     {
         return [
-            'titulo' => 'required|max:40|min:10',
-            'descricao' => 'required|max:1000|min:50',
+            'titulo' => 'required|max:50',
+            'descricao' => 'required',
             'imagem' => 'min:1|max:6'
         ];
     }

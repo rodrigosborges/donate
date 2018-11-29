@@ -53,7 +53,7 @@ class DoacoesController extends Controller
 
 	public function meusAnuncios(){
 
-		$anuncios = Doacao::where('usuario_id', Auth::user()->id)->get();
+		$anuncios = Doacao::where('usuario_id', Auth::user()->id)->withTrashed()->get();
 
 	    return view('doacoes.meus-anuncios', compact('anuncios'));
 	}
@@ -72,6 +72,10 @@ class DoacoesController extends Controller
 	public function anuncio($id){
 
 		$anuncio = Doacao::find($id);
+
+		if(empty($anuncio)){
+			return back()->with('status', 'Este anúncio não está disponível!');
+		}
 
 		$avaliacoes = Avaliacao::all();
 
@@ -92,6 +96,10 @@ class DoacoesController extends Controller
 
 		$anuncio = Doacao::find($id);
 
+		if(empty($anuncio)){
+			return back()->with('status', 'Este anúncio não está disponível!');
+		}
+
 		if(Auth::user()->id != $anuncio->usuario_id && Auth::user()->nivel != 1){
 			return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
 		}
@@ -108,6 +116,10 @@ class DoacoesController extends Controller
 		DB::beginTransaction();
 		try{
 			$doacao = Doacao::find($request->id);
+
+			if(empty($doacao)){
+				return back()->with('status', 'Este anúncio não está disponível!');
+			}
 
 			if(Auth::user()->id != $doacao->usuario_id && Auth::user()->nivel != 1){
 				return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
@@ -201,6 +213,10 @@ class DoacoesController extends Controller
 
 			$anuncio = Doacao::find($request["anuncio_id"]);
 
+			if(empty($anuncio)){
+				return back()->with('status', 'Este anúncio não está disponível!');
+			}
+
 			if(Auth::user()->id != $anuncio->usuario_id && Auth::user()->nivel != 1){
 				return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
 			}	
@@ -208,7 +224,32 @@ class DoacoesController extends Controller
 			$anuncio->delete();
 
 			DB::commit();
-			return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio excluído!');
+			return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio desativado!');
+
+		}catch(Exception $e){
+			DB::rollback();
+			return back()->with("status", $e->getMessage());
+		}
+	}
+
+	public function restore(Request $request){
+		DB::beginTransaction();
+		try{
+
+			$anuncio = Doacao::where("id", $request["anuncio_id"])->withTrashed()->first();
+
+			if(empty($anuncio)){
+				return back()->with('status', 'Este anúncio não está disponível!');
+			}
+
+			if(Auth::user()->id != $anuncio->usuario_id && Auth::user()->nivel != 1){
+				return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
+			}	
+
+			$anuncio->restore();
+
+			DB::commit();
+			return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio reativado!');
 
 		}catch(Exception $e){
 			DB::rollback();
