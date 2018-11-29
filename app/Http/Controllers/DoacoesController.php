@@ -108,6 +108,10 @@ class DoacoesController extends Controller
 		try{
 			$doacao = Doacao::find($request->id);
 
+			if(Auth::user()->id != $doacao->usuario_id && Auth::user()->nivel != 1){
+				return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
+			}
+
 			if(isset($request->imagens_deletadas)){
 
 				if(count($doacao->getImagens()) == count($request->imagens_deletadas)){
@@ -185,11 +189,32 @@ class DoacoesController extends Controller
 		}
 	}
 
+	public function delete(Request $request){
+		DB::beginTransaction();
+		try{
+
+			$anuncio = Doacao::find($request["anuncio_id"]);
+
+			if(Auth::user()->id != $anuncio->usuario_id && Auth::user()->nivel != 1){
+				return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
+			}	
+
+			$anuncio->delete();
+
+			DB::commit();
+			return redirect('/doacoes/meus-anuncios')->with('status', 'Anúncio excluído!');
+
+		}catch(Exception $e){
+			DB::rollback();
+			return back()->with("status", $e->getMessage());
+		}
+	}
+
 	public function mudarStatus(Request $request){
 
 		$anuncio = Doacao::find($request->id);
 
-		if(Auth::user()->nivel != 1){
+		if(Auth::user()->nivel != 1 || Auth::user()->id != $anuncio->usuario_id){
 			return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
 		}
 
@@ -227,7 +252,9 @@ class DoacoesController extends Controller
 			return view('/doacoes/anuncios', compact("anuncios", "nomeCategoria"));
 		}
 
-		return view('/doacoes/anuncios', compact("anuncios"));
+		$cidades = Cidade::all();
+
+		return view('/doacoes/anuncios', compact("anuncios", "cidades"));
 	}
 
 	public function pesquisa(Request $request){
@@ -239,10 +266,26 @@ class DoacoesController extends Controller
 			->when($termos, function ($query, $termos){	
 	            return $query->where('titulo', 'like', '%'.$termos.'%')
 	            ->orWhere('descricao', 'like', '%'.$termos.'%');
-	        })->paginate(10);
+	        });
 
+	    if(isset($request['cidade_id']) && $request['cidade_id'] != "todas"){
 
-		return view('/doacoes/anuncios', compact("anuncios", "termos"));
+	    	//$bairros = Bairro::where("cidade_id", $request['cidade_id'])->get();
+			
+			$anuncios = $anuncios->join("bairros", "doacoes.bairro_id", "=", "bairros.id")
+			->join("cidades", "bairros.cidade_id", "=", "cidades.id")
+			->where("cidades.id", $request["cidade_id"])
+			->select("doacoes.*");
+
+			$cidade_id = $request['cidade_id'];
+
+		}
+
+		$anuncios = $anuncios->paginate(10);
+
+		$cidades = Cidade::all();
+
+		return view('/doacoes/anuncios', compact("anuncios", "termos", "cidades", "cidade_id"));
 	}
 
 	// public function edit(Request $request, $id)

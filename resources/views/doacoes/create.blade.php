@@ -142,12 +142,42 @@
 
             <div class="form-group row mb-0">
                 <div class="col-md-6 offset-md-4">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-danger">
                         {{isset($anuncio) ? __('Atualizar') : __('Registrar')}}
                     </button>
+                    @if(isset($anuncio))
+                        <a class="ml-4" data-toggle="modal" data-target="#excluirAnuncio" href="#excluirAnuncio">Excluir Anúncio</a>
+                    @endif
                 </div>
             </div>
         </form>
+
+        <!-- Modal -->
+        <div class="modal fade" id="excluirAnuncio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Excluir Anúncio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Tem certeza de que deseja excluir este anúncio?</p>
+                <p>OBS: Não é possível desfazer esta ação.</p>
+              </div>
+              <div class="modal-footer">
+                <form method="POST" action="{{url('doacoes/delete')}}">
+                    @csrf
+                    <input hidden type="text" value="{{isset($anuncio) ? $anuncio->id : ''}}" name="anuncio_id">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
     </div>
 </div>
 @endsection

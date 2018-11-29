@@ -77,11 +77,11 @@
           </a>
         </li> -->
         <li class="nav-item dropdown no-arrow">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link" href="{{url('/usuarios/perfil/'.Auth::id())}}">
             <i class="fas fa-user-circle fa-fw"></i>
-            <span>{{Auth::user()->nome}}</span>
+            <span>{{explode(" ", Auth::user()->nome)[0]}}</span>
           </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <!-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
   {{ __('Logout') }}</a>
 
@@ -89,7 +89,7 @@
               @csrf
             </form>
 
-          </div>
+          </div> -->
         </li>
       </ul>
       @else
@@ -144,15 +144,31 @@
               <span>Mensagens</span>
             </a>
           </li>
-  
-            @if(Auth::user()->nivel == 1)
-              <li class="nav-item">
-                <a class="nav-link" href="{{url('/doacoes/aguardando-aprovacao')}}">
-                  <i class="far fa-clock"></i>
-                  <span>Aguardando Aprovação</span>
-                </a>
-              </li>
-            @endif
+          
+          @if(Auth::user()->nivel == 1)
+            <li class="nav-item">
+              <a class="nav-link" href="{{url('/doacoes/aguardando-aprovacao')}}">
+                <i class="far fa-clock"></i>
+                <span>Aguardando Aprovação</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url('/usuarios/logs')}}">
+                <i class="fas fa-file"></i>
+                <span>Logs</span>
+              </a>
+            </li>
+          @endif
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Sair</span>
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+              </form>
+          </li>
           <!-- <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-fw fa-folder"></i>
@@ -174,7 +190,11 @@
 
       <div id="content-wrapper">
         
-        <div class="container-fluid">
+        @auth
+          <div class="container-fluid container-fluid-personalizado">
+        @else
+          <div class="container-fluid">
+        @endauth
 
           @yield('content')
 

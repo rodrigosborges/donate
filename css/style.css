@@ -14,9 +14,12 @@
 	color: white;
 }
 
-.container-fluid{
+.container-fluid-personalizado{
 	float: right!important;
 	width: 94%!important;
+}
+
+.container-fluid{
 	padding: 4% 4% 0 4%!important;
 }
 
@@ -80,6 +83,10 @@ html {
 
 .espacamento-bloco{
 	margin: 0 0 3% 0!important;
+}
+
+.break-words{
+	word-wrap: break-word;
 }
 
 .btn-red{
@@ -356,8 +363,12 @@ html {
 		margin: 15% 0;
 	}
 
-	.container-fluid{
+	.container-fluid-personalizado{
 		width: 100%!important;
+		padding: 8% 4% 0 4%!important;
+	}
+
+	.container-fluid{
 		padding: 8% 4% 0 4%!important;
 	}
 

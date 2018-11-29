@@ -82,23 +82,22 @@
                                             <input class="btn btn-danger class="form-control" type="submit" value="Enviar">
                                     </form>
                                 </div>
-                            @else
-                                @if($anuncio->aprovado == 1)
-                                    <div class="row">
-                                        <div class="col-md-6 my-2">
-                                            <form method="POST" action="{{url('doacoes/mudarStatus')}}">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$anuncio->id}}">
-                                                <input type="hidden" name="tipo" value="doado">
-                                                <input type="hidden" name="valor" value="{{($anuncio->doado == 0) ? 1 : 0}}">
-                                                <input class="btn btn-danger" type="submit" value="{{($anuncio->doado == 0) ? 'Marcar como doado' : 'Marcar como disponível'}}"/>
-                                            </form>
-                                        </div>
-                                        <div class="col-md-6 my-2">
-                                            <a class="btn btn-primary" href="{{url('doacoes/editar/'.$anuncio->id)}}">Editar</a>
-                                        </div>
+                            @endif
+                            @if($anuncio->aprovado == 1 && ($anuncio->usuario_id == Auth::user()->id || Auth::user()->nivel == 1))
+                                <div class="row">
+                                    <div class="col-md-6 my-2">
+                                        <form method="POST" action="{{url('doacoes/mudarStatus')}}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{$anuncio->id}}">
+                                            <input type="hidden" name="tipo" value="doado">
+                                            <input type="hidden" name="valor" value="{{($anuncio->doado == 0) ? 1 : 0}}">
+                                            <input class="btn btn-danger" type="submit" value="{{($anuncio->doado == 0) ? 'Marcar como doado' : 'Marcar como disponível'}}"/>
+                                        </form>
                                     </div>
-                                @endif
+                                    <div class="col-md-6 my-2">
+                                        <a class="btn btn-danger" href="{{url('doacoes/editar/'.$anuncio->id)}}">Editar</a>
+                                    </div>
+                                </div>
                             @endif
                         @else
                             <p>Faça <a href="{{url('/login')}}">login</a> para entrar em contato com o doador.</p>
@@ -112,17 +111,18 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="py-4">
+            <div class="my-4">
                 <h2 class="">Descrição</h2>
                 <hr class="divisor">
             </div>
-
-            <p class="text-justify">{{$anuncio->descricao}}</p>
+            <p class="text-justify break-words">{{$anuncio->descricao}}</p>
         </div>
     </div> 
+
     <hr>
+
     <div class="row justify-content-center">
         <div class="col-md-12 text-center">
             @auth

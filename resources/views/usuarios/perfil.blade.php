@@ -29,10 +29,12 @@
             <hr>
 
         </div>
+            @if(Auth::user()->id == $usuario->id || Auth::user()->nivel == 1)
             <div class="col-md-12 espacamento-bloco">
                 <a class="ml-4 btn btn-danger" href="{{url('usuarios/editar/'.$usuario->id)}}">Editar informações</a>
                 <a class="ml-4 btn btn-danger" href="{{url('usuarios/alterar-senha/'.$usuario->id)}}">Alterar senha</a>
             </div>
+            @endif
     </div>
 
     <div class="row justify-content-center">

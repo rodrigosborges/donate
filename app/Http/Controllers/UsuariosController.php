@@ -12,6 +12,7 @@ use App\Helpers\UsuariosHelper;
 use App\Usuario;
 use App\Doacao;
 use App\Avaliacao;
+use App\Log;
 
 use DB;
 
@@ -35,7 +36,7 @@ class UsuariosController extends Controller{
 
 		$usuario = Usuario::find($id);
 
-		if($usuario->id != Auth::user()->id && Auth::user()->id != 1){
+		if($usuario->id != Auth::user()->id && Auth::user()->nivel != 1){
 			return redirect('/')->with('warning', 'Desculpe, você não tem permissão para realizar esta ação!');
 		}
 
@@ -48,7 +49,7 @@ class UsuariosController extends Controller{
 		try{
 			$usuario = Usuario::find($request['usuario_id']);
 
-			if($usuario->id != Auth::user()->id && Auth::user()->id != 1){
+			if($usuario->id != Auth::user()->id && Auth::user()->nivel != 1){
 				return redirect('/')->with('warning', 'Desculpe, você não tem permissão para realizar esta ação!');
 			}
 
@@ -69,7 +70,7 @@ class UsuariosController extends Controller{
 
 	public function alterarSenha($id){
 
-		if(Auth::user()->id != $id){
+		if(Auth::user()->id != $id && Auth::user()->nivel != 1){
 			return redirect('/')->with('warning', 'Desculpe, você não tem permissão para executar esta ação!');
 		}
 
@@ -81,7 +82,7 @@ class UsuariosController extends Controller{
 	public function updateSenha(Request $request){
 		DB::beginTransaction();
 		try{
-			if(Auth::user()->id != $request['usuario_id']){
+			if(Auth::user()->id != $request['usuario_id'] && Auth::user()->nivel != 1){
 				return redirect('/')->with('warning', 'Desculpe, você não tem permissão para executar esta ação!');
 			}
 
@@ -106,6 +107,12 @@ class UsuariosController extends Controller{
 			return back()->with("status", $e->getMessage());
 		}
 
+	}
+
+	public function logs(){
+		$logs = Log::orderBy('created_at', 'DESC')->paginate(10);
+
+		return view('usuarios.logs', compact("logs"));
 	}
 	
 }

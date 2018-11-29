@@ -7,7 +7,20 @@
 @endif
     <div class="row justify-content-center">
     	<div class="col-md-12">
-			 <div class="px-4 py-4">
+            <div class="px-4 py-4">
+                <form id="filtro_cidade" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" method="GET" action="{{url('doacoes/pesquisa/')}}">
+                    <div class="input-group">
+                        <input hidden type="text" name="termos" value="{{isset($termos) ? $termos : ''}}">
+                        <label class="mr-sm-2" for="cidade_id">Filtrar por cidade:</label>
+                        <select id="cidade" name="cidade_id" class="form-control">
+                            <option selected value="todas">Todas</option>
+                            @foreach($cidades as $cidade)
+                                <option {{(isset($cidade_id) && $cidade_id == $cidade->id) ? 'selected' : ''}} value="{{$cidade->id}}">{{$cidade->nome}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </form>
+                <hr>
                 <h2 class="">{{isset($termos) ? 'Resultados da pesquisa por: '.$termos : "Anúncios"}} {{isset($nomeCategoria) ? ' | Categoria: '.$nomeCategoria : ''}}</h2>
                 <hr class="divisor">
             </div>
@@ -54,4 +67,14 @@
 	    	</div>
 		</div>
 	</div>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(document).on('change', '#cidade', function(){
+                $("#filtro_cidade").submit();
+            });
+        })
+    </script>
 @endsection

@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
 	Route::get('/doacoes/meus-anuncios', 'DoacoesController@meusAnuncios');
 	Route::get('/doacoes/editar/{id}', 'DoacoesController@editar');
 	Route::post('/doacoes/update', 'DoacoesController@update');
+    Route::post('/doacoes/delete', 'DoacoesController@delete');
     Route::get('/doacoes/aguardando-aprovacao', 'DoacoesController@aguardandoAprovacao');
     Route::post('/doacoes/mudarStatus', 'DoacoesController@mudarStatus');
 	//##################
@@ -47,9 +48,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/usuarios/update', 'UsuariosController@update');
     Route::get('/usuarios/alterar-senha/{id}', 'UsuariosController@alterarSenha');
     Route::post('/usuarios/updateSenha', 'UsuariosController@updateSenha');
+    Route::get('/usuarios/logs', 'UsuariosController@logs');
     Route::get('/usuarios/mensagens', 'MensagensController@index');
     Route::get('/usuarios/mensagens/buscarMensagens', 'MensagensController@buscarMensagens');
     Route::post('/usuarios/mensagens/enviar', 'MensagensController@enviar');
+
     //###################
 
     //#### AVALIAÇÕES ####
