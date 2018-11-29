@@ -30,5 +30,6 @@ class VerifyCsrfToken extends Middleware
         '/app/mensagens',
         '/app/enviarMensagem',
         '/app/deleteRestoreAnuncio',
+        '/app/alterarStatus',
     ];
 }
