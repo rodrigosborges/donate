@@ -59,11 +59,11 @@ class AppController extends Controller{
 				if($usuario->avaliacoes()->count() == 0)
 					$anuncios[$key]->avaliacao = "Não avaliado";
 				else
-					$anuncios[$key]->avaliacao = round($usuario->avaliacoes()->avg('nivel'),2)+" de 5";
+					$anuncios[$key]->avaliacao = round($usuario->avaliacoes()->avg('nivel'),2)." de 5";
 			}
 			return json_encode($anuncios);
 		}catch(Exception $e){
-			return $e->getMessage();
+			return json_encode($e->getMessage());
 		}
 	}
 

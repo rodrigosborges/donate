@@ -54,7 +54,7 @@ $(document).ready(function(){
         
         var request = $.ajax({
           method: "GET",
-          url: '/donate/usuarios/mensagens/buscarMensagens',
+          url: '/usuarios/mensagens/buscarMensagens',
           data: {destinatario_id : id},
           dataType: "json"
           });
