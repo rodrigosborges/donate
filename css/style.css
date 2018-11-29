@@ -182,17 +182,17 @@ html {
     padding: 2%;
 }
 
-.anuncio-grande .btn{
+/*.anuncio-grande .btn{
     position: absolute;
     right: 10px;
     bottom: 0px;
-}
+}*/
 
-.anuncio-grande .dados{
+/*.anuncio-grande .dados{
 	position: absolute;
 	bottom: 0;
     left: 10px;
-}
+}*/
 
 .anuncio-grande .descricao{
 	overflow: hidden;

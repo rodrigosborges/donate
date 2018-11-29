@@ -180,7 +180,7 @@
             
             var request = $.ajax({
               method: "GET",
-              url: '/donate/avaliacoes/avaliar',
+              url: '/avaliacoes/avaliar',
               data: { nivel: level, avaliador_id: <?php echo Auth::id(); ?>, avaliado_id: <?php echo $anuncio->usuario_id; ?>},
               dataType: "json"
               });

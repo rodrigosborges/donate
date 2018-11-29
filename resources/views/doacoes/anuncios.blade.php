@@ -39,7 +39,7 @@
         				<div class="col-sm-4">
                 			<img src={{asset("/storage/app/anuncio_".$anuncio->id."/DonateImage_0.png") }}/>
                 		</div>
-                		<div class="col-sm-8">
+                		<div class="col-sm-8 mt-4">
                             <h2>{{$anuncio->titulo}}</h2>
                             <div class="descricao">
                             	<p class="descricao text-justify">{{$anuncio->descricao}}</p>
@@ -49,6 +49,7 @@
 	                            {{$anuncio->bairro->cidade->nome}}</span><br>
 	                            <span><i class="fa fa-clock"></i> {{$anuncio->created_at}}</span>
 	                        </div>
+                            <br>
                         	<a href="{{url('doacoes/anuncio/'.$anuncio->id)}}" class="btn btn-danger">Ver mais</a>
                     	</div>
                     </div>
