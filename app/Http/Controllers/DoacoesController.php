@@ -73,9 +73,9 @@ class DoacoesController extends Controller
 
 		$anuncio = Doacao::find($id);
 
-		if(empty($anuncio)){
-			return back()->with('status', 'Este anúncio não está disponível!');
-		}
+		// if(empty($anuncio)){
+		// 	return back()->with('status', 'Este anúncio não está disponível!');
+		// }
 
 		$avaliacoes = Avaliacao::all();
 
@@ -85,9 +85,9 @@ class DoacoesController extends Controller
 
 		$avaliacaoMedia = UsuariosHelper::calcularAvaliacaoMedia($avaliacoes);
 
-		if($anuncio->aprovado == 0 && Auth::user()->nivel != 1){
-			return redirect('/')->with('warning', 'Este anúncio não está disponível!');
-		}
+		// if($anuncio->aprovado == 0 && Auth::user()->nivel != 1){
+		// 	return redirect('/')->with('warning', 'Este anúncio não está disponível!');
+		// }
 
 		return view('doacoes.anuncio', compact("anuncio", "avaliacaoMedia", "avaliacaoExistente"));
 	}
@@ -96,9 +96,9 @@ class DoacoesController extends Controller
 
 		$anuncio = Doacao::find($id);
 
-		if(empty($anuncio)){
-			return back()->with('status', 'Este anúncio não está disponível!');
-		}
+		// if(empty($anuncio)){
+		// 	return back()->with('status', 'Este anúncio não está disponível!');
+		// }
 
 		if(Auth::user()->id != $anuncio->usuario_id && Auth::user()->nivel != 1){
 			return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
@@ -117,9 +117,9 @@ class DoacoesController extends Controller
 		try{
 			$doacao = Doacao::find($request->id);
 
-			if(empty($doacao)){
-				return back()->with('status', 'Este anúncio não está disponível!');
-			}
+			// if(empty($doacao)){
+			// 	return back()->with('status', 'Este anúncio não está disponível!');
+			// }
 
 			if(Auth::user()->id != $doacao->usuario_id && Auth::user()->nivel != 1){
 				return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
@@ -213,9 +213,9 @@ class DoacoesController extends Controller
 
 			$anuncio = Doacao::find($request["anuncio_id"]);
 
-			if(empty($anuncio)){
-				return back()->with('status', 'Este anúncio não está disponível!');
-			}
+			// if(empty($anuncio)){
+			// 	return back()->with('status', 'Este anúncio não está disponível!');
+			// }
 
 			if(Auth::user()->id != $anuncio->usuario_id && Auth::user()->nivel != 1){
 				return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
@@ -238,9 +238,9 @@ class DoacoesController extends Controller
 
 			$anuncio = Doacao::where("id", $request["anuncio_id"])->withTrashed()->first();
 
-			if(empty($anuncio)){
-				return back()->with('status', 'Este anúncio não está disponível!');
-			}
+			// if(empty($anuncio)){
+			// 	return back()->with('status', 'Este anúncio não está disponível!');
+			// }
 
 			if(Auth::user()->id != $anuncio->usuario_id && Auth::user()->nivel != 1){
 				return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
@@ -261,7 +261,7 @@ class DoacoesController extends Controller
 
 		$anuncio = Doacao::find($request->id);
 
-		if(Auth::user()->nivel != 1 || Auth::user()->id != $anuncio->usuario_id){
+		if(Auth::user()->nivel != 1 && Auth::user()->id != $anuncio->usuario_id){
 			return redirect('/')->with('warning', 'Desculpe, você não possuí permissão para executar esta ação!');
 		}
 
@@ -324,6 +324,7 @@ class DoacoesController extends Controller
 		if(isset($request['cidade_id'])){
 			$cidade_id = $request['cidade_id'];
 		}
+		$anuncios = $anuncios->select('doacoes.*');
 
 
 		$anuncios = $anuncios->where(function ($query) use($termos){
